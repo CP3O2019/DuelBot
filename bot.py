@@ -3,6 +3,7 @@ import os
 from discord.ext import commands
 import math
 
+import config
 import asyncio
 
 import random
@@ -397,4 +398,4 @@ class Duel:
     def __init__(self, user):
         self.user_1 = user
 
-bot.run('Njg0NTkyMTQ4Mjg0NTcxNjcw.Xl8WPA.aVt9QK-mAAOr9V7J4KcrZv9G8fo')
+bot.run(config.DISCORD_SECRET)
