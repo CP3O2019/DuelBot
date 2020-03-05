@@ -64,26 +64,26 @@ async def startCancelCountdown(message):
         duel = None
         await message.send("Nobody accepted the duel.")
 
-async def checkDuelTimeout(message):
+async def checkDuelTimeout(message, turn):
+
+    await asyncio.sleep(30.0)
 
     global duel
 
-    turn = duel.turn
+    if turn.turnCount == duel.turnCount:
 
-    notTurn = None
+        notTurn = None
 
-    # gets the player who's turn it is not
-    if duel.turn == duel.user_1:
-        notTurn = duel.user_2
-    else:
-        notTurn = duel.user_1
+        # gets the player who's turn it is not
+        if duel.turn == duel.user_1:
+            notTurn = duel.user_2
+        else:
+            notTurn = duel.user_1
 
-    await asyncio(30.0)
-
-    # if the turn hasn't changed in 30 seconds
-    if duel.turn == turn:
-        duel = None
-        await message.send(f"{notTurn.user.nick} took too long for their turn. {turn.user.nick} wins the duel.")
+        # if the turn hasn't changed in 30 seconds
+        if duel.turn == turn:
+            duel = None
+            await message.send(f"{notTurn.user.nick} took too long for their turn. {turn.user.nick} wins the duel.")
 
 async def createDuel(message):
 
@@ -182,7 +182,7 @@ def makeImage(hitpoints):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype(r'./library/fonts/HelveticaNeue.ttc', 16)      
     draw.text((80, 10),f"{hitpoints}/99",(0,0,0),font=font)
-    img.save('hpbar.png')
+    img.save('./hpbar.png')
 
 async def iceBarrage(message, weapon, rolls, max):
     sendingUser = None
@@ -228,7 +228,7 @@ async def iceBarrage(message, weapon, rolls, max):
     sending = ""
 
     if len(hitArray) == 1:
-        sending += f'{message.author.nick} used **{weapon}** and hits a **{hitArray[0]}** on {receivingUser.user.nick}.'
+        sending += f'{message.author.nick} uses **{weapon}** and hits a **{hitArray[0]}** on {receivingUser.user.nick}.'
 
     if leftoverHitpoints <= 0:
         await message.send(f'{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!')
@@ -238,11 +238,11 @@ async def iceBarrage(message, weapon, rolls, max):
     if rand == 0:
         sending += f' {receivingUser.user.nick} is **frozen** and loses their turn.'
         await message.send(sending)
-        await message.send(file=discord.File('hpbar.png'))
+        await message.send(file=discord.File('./hpbar.png'))
         return
 
     await message.send(sending)
-    await message.send(file=discord.File('hpbar.png'))
+    await message.send(file=discord.File('./hpbar.png'))
 
 
     if duel.turn == duel.user_1:
@@ -250,7 +250,7 @@ async def iceBarrage(message, weapon, rolls, max):
     else:
         duel.turn = duel.user_1
 
-    os.remove('hpbar.png')
+    os.remove('./hpbar.png')
 
 async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
 
@@ -291,12 +291,12 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     poisonRoll = randint(0,3)
 
     if poison == True and receivingUser.poisoned == False:
-        if poisonRoll == 0:
+        if poisonRoll == 0: # checks roll to see if the user is now poisoned. If yes, apply damage.
             receivingUser.poisoned = True
-    elif receivingUser.poisoned == True:
-        if poisonRoll == 0:
             receivingUser.hitpoints -= 6
-            print("calculated poison damage")
+    elif receivingUser.poisoned == True:
+        if poisonRoll == 0: # if the user is already poisoned and the poison roll succeeded, apply damage.
+            receivingUser.hitpoints -= 6
 
     # calculate damage dealt
     leftoverHitpoints = receivingUser.hitpoints - sum(hitArray)
@@ -345,12 +345,12 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
 
     # healing message
     if healpercent > 0:
-        sending = f'{message.author.nick} uses their **{weapon}** and hits **{hitArray[0]}**, healing for **{healAmount}**. {sending.user.nick} now has **{sendingUser.hitpoints}** HP.'
+        sending = f'{message.author.nick} uses their **{weapon}** and hits **{hitArray[0]}**, healing for **{healAmount}**. {sendingUser.user.nick} now has **{sendingUser.hitpoints}** HP.'
 
     # winning message
     if leftoverHitpoints <= 0:
         await message.send(f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!')
-        await message.send(file=discord.File('hpbar.png'))
+        await message.send(file=discord.File('./hpbar.png'))
 
         duel = None
         return
@@ -360,7 +360,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
         sending += f' {message.author.nick} has {sendingUser.special}% special attack energy left.'
 
     # send message and add image below
-    await message.send(content=sending, file=discord.File('hpbar.png'))
+    await message.send(content=sending, file=discord.File('./hpbar.png'))
     # await message.send(file=discord.File('./desktop/duelbot/hpbar.png'))
 
     # switch the turn
@@ -372,9 +372,9 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
         duel.turn = duel.user_1
 
     # remove image from local file
-    os.remove('hpbar.png')
-
-    await checkDuelTimeout(message)
+    os.remove('./hpbar.png')
+    duel.turnCount += 1
+    await checkDuelTimeout(message, duel.turn)
 
 class DuelUser:
     hitpoints = 99
@@ -392,6 +392,7 @@ class Duel:
     user_1 = None
     user_2 = None
     turn = None
+    turnCount = 0
 
     def __init__(self, user):
         self.user_1 = user
