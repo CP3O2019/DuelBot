@@ -360,7 +360,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
         sending += f' {message.author.nick} has {sendingUser.special}% special attack energy left.'
 
     # send message and add image below
-    await message.send(content=sending, file=discord.File('hpbar.png')
+    await message.send(content=sending, file=discord.File('hpbar.png'))
     # await message.send(file=discord.File('./desktop/duelbot/hpbar.png'))
 
     # switch the turn
