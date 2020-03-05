@@ -1,4 +1,3 @@
 git+https://github.com/Rapptz/discord.py
 PyNaCl==1.3.0
 dnspython==1.16.0
-assync-timeout==3.0.1
