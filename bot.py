@@ -415,17 +415,19 @@ async def updateDB(winner, loser):
 
     commands = (
     f"""
-    INSERT INTO duel_users (id, wins, losses) 
+    INSERT INTO duel_users (user_id, wins, losses) 
     VALUES 
     ({winner.id}, 1, 0) 
-    ON DUPLICATE KEY UPDATE wins = wins + 1
+    ON CONFLICT (user_id) DO UPDATE 
+    SET wins = wins + 1 
     """,
 
     f"""
-    INSERT INTO duel_users (id, wins, losses) 
+    INSERT INTO duel_users (user_id, wins, losses) 
     VALUES 
     ({loser.id}, 0, 1) 
-    ON DUPLICATE KEY UPDATE losses = losses + 1
+    ON CONFLICT (user_id) DO UPDATE 
+    SET losses = losses + 1 
     """
     )
 
