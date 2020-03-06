@@ -1,5 +1,19 @@
+# settings.py
+from dotenv import load_dotenv
+load_dotenv()
+
+# OR, the same with increased verbosity
+load_dotenv(verbose=True)
+
+# OR, explicitly providing path to '.env'
+from pathlib import Path  # python3 only
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
+
 import discord
 import os
+DISCORD_KEY = os.getenv("DISCORD_KEY")
+
 from discord.ext import commands
 import math
 
@@ -398,4 +412,4 @@ class Duel:
     def __init__(self, user):
         self.user_1 = user
 
-bot.run(config.DISCORD_SECRET)
+bot.run(DISCORD_KEY)
