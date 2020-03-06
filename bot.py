@@ -25,12 +25,9 @@ def createTables():
 
     sql = "CREATE TABLE IF NOT EXISTS duel_users (user_id BIGINT PRIMARY KEY, wins integer NOT NULL, losses integer NOT NULL)"
     conn = None
-
-
     try:
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
-        cur.execute("DROP TABLE duel_users")
         cur.execute(sql)
         cur.close()
         conn.commit()
@@ -156,6 +153,37 @@ async def createDuel(message):
     await lastMessage.delete()
     await message.send(f"Beginning duel between {duel.user_1.user.nick} and {duel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
     
+@bot.command()
+async def kd(message):
+
+    sql = """SELECT 
+              wins wins,
+              losses losses
+
+              FROM duel_users
+              WHERE user_id = ?"""
+
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+
+        cur.execute(sql, (message.author.id))
+
+        rows = cur.fetchall()
+
+        for row in rows:
+            print(row)
+
+        cur.close()
+        conn.commit()
+
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("SOME ERROR", error)
+    finally:
+        if conn is not None:
+            conn.close()
+
 # weapon commands
 @bot.command()
 async def dds(message):
