@@ -156,12 +156,14 @@ async def createDuel(message):
 @bot.command()
 async def kd(message):
 
-    sql = """SELECT 
-              wins wins,
-              losses losses
+    sql = """
+    SELECT 
+    wins wins,
+    losses losses
 
-              FROM duel_users
-              WHERE user_id = ?"""
+    FROM duel_users
+    WHERE user_id = ?
+    """
 
     try:
         conn = psycopg2.connect(DATABASE_URL)
