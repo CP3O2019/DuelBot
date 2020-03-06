@@ -98,7 +98,7 @@ async def checkDuelTimeout(message, turnCount):
 
     if duel == None:
         return
-        
+
     if turnCount == duel.turnCount:
 
         notTurn = None
@@ -409,13 +409,13 @@ async def updateDB(winner, loser):
 
     commands = (
     f"""
-    INSERT INTO users (user, wins, losses) 
+    INSERT INTO users (user_id, wins, losses) 
     VALUES ({winner.id}, 1, 0) 
     ON DUPLICATE KEY UPDATE wins = wins + 1
     """,
 
     f"""
-    INSERT INTO users (user, wins, losses) 
+    INSERT INTO users (user_id, wins, losses) 
     VALUES ({loser.id}, 0, 1) 
     ON DUPLICATE KEY UPDATE losses = losses + 1
     """
