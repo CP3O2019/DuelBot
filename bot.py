@@ -48,6 +48,8 @@ def createTables():
         easter_egg integer NOT NULL
         )
     """
+    )
+    
     conn = None
     try:
         conn = psycopg2.connect(DATABASE_URL)
