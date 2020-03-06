@@ -181,7 +181,7 @@ def makeImage(hitpoints):
     img = Image.new('RGB', (198, 40), color = 'red')
     img.paste((0, 255, 26),(0, 0, 2 * hitpoints, 40))
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype(r'./library/fonts/HelveticaNeue.ttc', 16)      
+    font = ImageFont.truetype(r'./HelveticaNeue.ttc', 16)      
     draw.text((80, 10),f"{hitpoints}/99",(0,0,0),font=font)
     img.save('./hpbar.png')
 
