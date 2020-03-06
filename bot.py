@@ -249,7 +249,7 @@ async def kd(message):
     wins wins,
     losses losses
 
-    FROM duel_rares
+    FROM duel_users
     WHERE user_id = {message.author.id}"""
 
     try:
