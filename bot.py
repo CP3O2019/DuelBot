@@ -23,7 +23,7 @@ lastMessage = None
 
 def createTables():
 
-    sql = "CREATE TABLE IF NOT EXISTS users (user_id integer PRIMARY KEY, wins integer NOT NULL, losses integer NOT NULL)"
+    sql = "CREATE TABLE IF NOT EXISTS duel_users (user_id integer PRIMARY KEY, wins integer NOT NULL, losses integer NOT NULL)"
     conn = None
 
 
@@ -415,17 +415,17 @@ async def updateDB(winner, loser):
 
     commands = (
     f"""
-    INSERT INTO devices(id, wins, losses) 
+    INSERT INTO duel_users (id, wins, losses) 
     VALUES 
     ({winner.id}, 1, 0) 
-        ON DUPLICATE KEY UPDATE wins = wins + 1
+    ON DUPLICATE KEY UPDATE wins = wins + 1
     """,
 
     f"""
-    INSERT INTO devices(id, wins, losses) 
+    INSERT INTO duel_users (id, wins, losses) 
     VALUES 
     ({loser.id}, 0, 1) 
-        ON DUPLICATE KEY UPDATE losses = losses + 1
+    ON DUPLICATE KEY UPDATE losses = losses + 1
     """
     )
 
