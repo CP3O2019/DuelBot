@@ -1,5 +1,6 @@
 import discord
 import os
+import psycopg2
 
 from discord.ext import commands
 import math
@@ -14,9 +15,41 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
+DATABASE_URL = os.environ['DATABASE_URL']
+
 bot = discord.ext.commands.Bot(command_prefix = '.')
 duel = None
 lastMessage = None
+
+def createTables():
+    commands = (
+        """
+        CREATE TABLE users (
+            user_id NOT NULL UNIQUE,
+            wins INTEGER NOT NULL,
+            losses INTEGER NOT NULL
+        )
+        """
+    )
+
+    conn = None
+
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+
+        for command in commands:
+            cur.execute(command)
+        cur.close()
+        cur.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+if __name__ == '__main__':
+    createTables()
 
 # called when the bot loads up
 @bot.event
@@ -65,13 +98,13 @@ async def startCancelCountdown(message):
         duel = None
         await message.send("Nobody accepted the duel.")
 
-async def checkDuelTimeout(message, turn):
+async def checkDuelTimeout(message, turnCount):
 
     await asyncio.sleep(30.0)
 
     global duel
 
-    if turn.turnCount == duel.turnCount:
+    if turnCount == duel.turnCount:
 
         notTurn = None
 
@@ -232,7 +265,7 @@ async def iceBarrage(message, weapon, rolls, max):
         sending += f'{message.author.nick} uses **{weapon}** and hits a **{hitArray[0]}** on {receivingUser.user.nick}.'
 
     if leftoverHitpoints <= 0:
-        await message.send(f'{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!')
+        await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
         duel = None
         return
     
@@ -350,9 +383,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
 
     # winning message
     if leftoverHitpoints <= 0:
-        await message.send(f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!')
-        await message.send(file=discord.File('./hpbar.png'))
-
+        await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
         duel = None
         return
 
@@ -375,7 +406,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     # remove image from local file
     os.remove('./hpbar.png')
     duel.turnCount += 1
-    await checkDuelTimeout(message, duel.turn)
+    await checkDuelTimeout(message, duel.turnCount)
 
 class DuelUser:
     hitpoints = 99
