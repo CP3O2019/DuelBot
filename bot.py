@@ -23,12 +23,14 @@ lastMessage = None
 
 def createTables():
 
-    sql = "CREATE TABLE IF NOT EXISTS users (user_id integer NOT NULL UNIQUE PRIMARY KEY, wins integer NOT NULL, losses integer NOT NULL)"
+    sql = "CREATE TABLE IF NOT EXISTS users (user_id integer PRIMARY KEY, wins integer NOT NULL, losses integer NOT NULL)"
     conn = None
+
 
     try:
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
+        cur.execute("DROP TABLE users")
         cur.execute(sql)
         cur.close()
         conn.commit()
