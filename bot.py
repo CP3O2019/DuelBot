@@ -93,6 +93,7 @@ async def checkDuelTimeout(message, turnCount):
     await asyncio.sleep(30.0)
 
     global duel
+    global turn
 
     if turnCount == duel.turnCount:
 
@@ -401,6 +402,8 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
 
 async def updateDB(winner, loser):
 
+    print("attempting to update db")
+
     commands = (
     f"""
     INSERT INTO users (user, wins, losses) 
@@ -420,11 +423,14 @@ async def updateDB(winner, loser):
         cur = conn.cursor()
 
         for command in commands:
+            print("command executing")
+
             cur.execute(command)
+
         cur.close()
         conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        print("SOME ERROR", error)
     finally:
         if conn is not None:
             conn.close()
