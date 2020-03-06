@@ -23,7 +23,7 @@ lastMessage = None
 
 def createTables():
 
-    commands = (
+    sql =
         """
         CREATE TABLE users (
             user_id NOT NULL UNIQUE,
@@ -31,7 +31,7 @@ def createTables():
             losses INTEGER NOT NULL
         )
         """
-    )
+    
 
     conn = None
 
@@ -42,9 +42,9 @@ def createTables():
         print("4")
         print(len(commands))
         for command in commands:
-            print("trying to execute command...")
-            cur.execute(command)
-            print("command attempt over...")
+        print("trying to execute command...")
+        cur.execute(sql)
+        print("command attempt over...")
 
         print("0")
         cur.close()
