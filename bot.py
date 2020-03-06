@@ -596,6 +596,7 @@ async def updateDB(winner, loser):
 async def rollForRares(message, winner):
 
     item = None
+    itemText = None
 
     tableRoll = randint(0, 1)
 
@@ -604,34 +605,47 @@ async def rollForRares(message, winner):
         raresRoll = randint(0, 99)
         if raresRoll == 0:
             item = "christmas_cracker"
+            itemText = "Christmas cracker"
         elif raresRoll <= 18:
             phatRoll = randint(0, 5)
             if phatRoll == 0:
                 item = "red_partyhat"
+                itemText = "a Red partyhatr"
             elif phatRoll == 1:
                 item = "blue_partyhat"
+                itemText = "a Blue partyhat"
             elif phatRoll == 2:
                 item = "yellow_partyhat"
+                itemText = "a Yellow partyhat"
             elif phatRoll == 3:
                 item = "green_partyhat"
+                itemText = "a Green partyhat"
             elif phatRoll == 4:
                 item = "purple_partyhat"
+                itemText = "a Purple partyhat"
             elif phatRoll == 5:
                 item = "white_partyhat"
+                itemText = "=a White partyhat"
         elif raresRoll <= 39:
             maskRoll = randInt(0, 2)
             if maskRoll == 0:
                 item = "red_hween_mask"
+                itemText = "Christmas cracker"
             elif maskRoll == 1:
                 item = "blue_hween_mask"
+                itemText = "Christmas cracker"
             elif maskRoll == 2:
                 item = "green_hween_mask"
+                itemText = "a Green h'ween mask"
         elif raresRoll <= 49:
             item = "santa_hat"
+            itemText = "a Santa hat"
         elif raresRoll <= 74:
             item = "pumpkin"
+            itemText = "a Pumpkin"
         elif raresRoll <= 99:
             item = "easter_egg"
+            itemText = "an Easter egg"
 
 
     sql = None 
@@ -676,7 +690,7 @@ async def rollForRares(message, winner):
         if conn is not None:
             conn.close()
 
-    await message.send (f"{message.author.nick} received a {item} for winning!")
+    await message.send (f"{message.author.nick} received {itemText} for winning!")
 
 class DuelUser:
     hitpoints = 99
