@@ -93,7 +93,6 @@ async def checkDuelTimeout(message, turnCount):
     await asyncio.sleep(30.0)
 
     global duel
-    global turn
 
     if turnCount == duel.turnCount:
 
@@ -106,9 +105,9 @@ async def checkDuelTimeout(message, turnCount):
             notTurn = duel.user_1
 
         # if the turn hasn't changed in 30 seconds
-        if duel.turn == turn:
+        if duel.turnCount == turnCount:
             duel = None
-            await message.send(f"{notTurn.user.nick} took too long for their turn. {turn.user.nick} wins the duel.")
+            await message.send(f"{notTurn.user.nick} took too long for their turn. {duel.turn.user.nick} wins the duel.")
 
 async def createDuel(message):
 
@@ -257,6 +256,7 @@ async def iceBarrage(message, weapon, rolls, max):
 
     if leftoverHitpoints <= 0:
         await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
+        await updateDB(sendingUser.user, receivingUser.user)
         duel = None
         return
     
@@ -375,7 +375,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     # winning message
     if leftoverHitpoints <= 0:
         await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
-        await updateDB(sendingUser.user.id, receivingUser.user.id )
+        await updateDB(sendingUser.user, receivingUser.user)
         duel = None
         return
 
