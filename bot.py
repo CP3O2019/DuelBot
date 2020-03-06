@@ -169,7 +169,7 @@ async def kd(message):
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
 
-        cur.execute(sql, (message.author.id,))
+        cur.execute(sql, (message.author.id))
 
         rows = cur.fetchall()
 
