@@ -23,14 +23,7 @@ lastMessage = None
 
 def createTables():
 
-    sql =
-        """
-        CREATE TABLE users (
-            user_id NOT NULL UNIQUE,
-            wins INTEGER NOT NULL,
-            losses INTEGER NOT NULL
-        )
-        """
+    sql = "CREATE TABLE IF NOT EXISTS users (user_id NOT NULL UNIQUE, wins INTEGER NOT NULL, losses INTEGER NOT NULL)"
     
 
     conn = None
@@ -40,8 +33,6 @@ def createTables():
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
         print("4")
-        print(len(commands))
-        for command in commands:
         print("trying to execute command...")
         cur.execute(sql)
         print("command attempt over...")
