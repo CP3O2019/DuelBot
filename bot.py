@@ -49,7 +49,7 @@ def createTables():
         )
     """
     )
-    
+
     conn = None
     try:
         conn = psycopg2.connect(DATABASE_URL)
@@ -242,7 +242,6 @@ async def rares(message):
         if conn is not None:
             conn.close()
 
-
 @bot.command()
 async def kd(message):
     sql = f"""
@@ -273,7 +272,7 @@ async def kd(message):
         cur.close()
         conn.commit()
 
-     except (Exception, psycopg2.DatabaseError) as error:
+    except (Exception, psycopg2.DatabaseError) as error:
         print("SOME ERROR", error)
         return
     finally:
