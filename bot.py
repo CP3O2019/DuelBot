@@ -41,7 +41,7 @@ def createTables():
         cur.close()
 
         print("1")
-        cur.commit()
+        conn.commit()
         print("2")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
