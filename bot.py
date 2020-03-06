@@ -418,14 +418,14 @@ async def updateDB(winner, loser):
     INSERT INTO devices(id, wins, losses) 
     VALUES 
     ({winner.id}, 1, 0) 
-    ON DUPLICATE KEY UPDATE wins = wins + 1, losses = losses
+        ON DUPLICATE KEY UPDATE wins = wins + 1
     """,
 
     f"""
     INSERT INTO devices(id, wins, losses) 
     VALUES 
     ({loser.id}, 0, 1) 
-    ON DUPLICATE KEY UPDATE wins = wins, losses = losses + 1
+        ON DUPLICATE KEY UPDATE losses = losses + 1
     """
     )
 
