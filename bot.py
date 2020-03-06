@@ -4,7 +4,6 @@ import os
 from discord.ext import commands
 import math
 
-import config
 import asyncio
 
 import random
