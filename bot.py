@@ -94,6 +94,7 @@ async def checkDuelTimeout(message, turnCount):
 
     global duel
 
+    # if the turn hasn't changed in 30 seconds
     if turnCount == duel.turnCount:
 
         notTurn = None
@@ -104,10 +105,8 @@ async def checkDuelTimeout(message, turnCount):
         else:
             notTurn = duel.user_1
 
-        # if the turn hasn't changed in 30 seconds
-        if duel.turnCount == turnCount:
-            duel = None
-            await message.send(f"{notTurn.user.nick} took too long for their turn. {duel.turn.user.nick} wins the duel.")
+        duel = None
+        await message.send(f"{notTurn.user.nick} took too long for their turn. {duel.turn.user.nick} wins the duel.")
 
 async def createDuel(message):
 
