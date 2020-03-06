@@ -593,7 +593,7 @@ async def rollForRares(message, winner):
         if raresRoll == 0:
             item = "christmas_cracker"
         elif raresRoll <= 18:
-            phatRoll = randint(0, 5):
+            phatRoll = randint(0, 5)
             if phatRoll == 0:
                 item = "red_partyhat"
             elif phatRoll == 1:
@@ -607,7 +607,7 @@ async def rollForRares(message, winner):
             elif phatRoll == 5:
                 item = "white_partyhat"
         elif raresRoll <= 39:
-            maskRoll = randInt(0, 2):
+            maskRoll = randInt(0, 2)
             if maskRoll == 0:
                 item = "red_hween_mask"
             elif maskRoll == 1:
