@@ -367,6 +367,12 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
         await message.send("It's not your turn.")
         return
 
+    # records last attack to prevent using spamming
+    if sendingUser.lastAttack == weapon:
+        await message.send("You cannot use the same type of attack twice in a row.")
+        return
+    else:
+        sendingUser.lastAttack = weapon
 
     hitArray = []
 
@@ -412,6 +418,8 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
         duel.turn = duel.user_1
 
     os.remove('./hpbar.png')
+    duel.turnCount += 1
+    await checkDuelTimeout(message, duel.turnCount)
 
 async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
 
