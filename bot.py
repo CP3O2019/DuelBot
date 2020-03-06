@@ -389,6 +389,16 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     else:
         sendingUser.hitpoints = 99
 
+    # records last attack to prevent using spamming
+
+    if sendingUser.lastAttack == weapon:
+        await message.send("You cannot use the same type of attack twice in a row.")
+        return
+    else:
+        sendingUser.lastAttack = weapon
+
+
+
     # create the image for the remaining hitpoints
     if leftoverHitpoints > 0:
         makeImage(leftoverHitpoints)
@@ -490,6 +500,7 @@ class DuelUser:
     hitpoints = 99
     special = 100
     poisoned = False
+    lastAttack = None
     user = None
 
     def __init__(self, user):
