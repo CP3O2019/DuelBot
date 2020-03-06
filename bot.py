@@ -175,6 +175,13 @@ async def kd(message):
         for row in rows:
             print(row)
 
+            embed = discord.Embed(title=f"K/D for {message.author.nick}", color = discord.Color.green())
+            embed.add_field(name="**Wins**", value=row.wins)
+            embed.add_field(name="**Losses**", value=row.losses)
+
+            await message.send(embed=embed)
+
+
         cur.close()
         conn.commit()
 
