@@ -221,7 +221,7 @@ async def rares(message):
             print(row)
 
             embed = discord.Embed(title=f"{message.author.nick}'s rares'", color = discord.Color.blurple())
-            embed.add_field(name="**Red artyhat**", value=row[0])
+            embed.add_field(name="**Red partyhat**", value=row[0])
             embed.add_field(name="**Blue partyhat**", value=row[1])
             embed.add_field(name="**Yellow partyhat**", value=row[2])
             embed.add_field(name="**Green partyhat**", value=row[3])
@@ -610,7 +610,7 @@ async def rollForRares(message, winner):
             phatRoll = randint(0, 5)
             if phatRoll == 0:
                 item = "red_partyhat"
-                itemText = "a Red partyhatr"
+                itemText = "a Red partyhat"
             elif phatRoll == 1:
                 item = "blue_partyhat"
                 itemText = "a Blue partyhat"
@@ -627,7 +627,7 @@ async def rollForRares(message, winner):
                 item = "white_partyhat"
                 itemText = "=a White partyhat"
         elif raresRoll <= 39:
-            maskRoll = randInt(0, 2)
+            maskRoll = randint(0, 2)
             if maskRoll == 0:
                 item = "red_hween_mask"
                 itemText = "Christmas cracker"
