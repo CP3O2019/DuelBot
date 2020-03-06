@@ -23,12 +23,37 @@ lastMessage = None
 
 def createTables():
 
-    sql = "CREATE TABLE IF NOT EXISTS duel_users (user_id BIGINT PRIMARY KEY, wins integer NOT NULL, losses integer NOT NULL)"
+    commands = ("""
+    CREATE TABLE IF NOT EXISTS duel_users (
+        user_id BIGINT PRIMARY KEY,
+        wins integer NOT NULL,
+        losses integer NOT NULL
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS duel_rares (
+        user_id BIGINT PRIMARY KEY,
+        red_partyhat integer NOT NULL,
+        blue_partyhat integer NOT NULL,
+        yellow_partyhat integer NOT NULL,
+        green_partyhat integer NOT NULL,
+        purple_partyhat integer NOT NULL,
+        white_partyhat integer NOT NULL,
+        christmas_cracker integer NOT NULL,
+        red_hween_mask integer NOT NULL,
+        blue_hween_mask integer NOT NULL,
+        green_hween_mask integer NOT NULL,
+        santa_hat integer NOT NULL,
+        pumpkin integer NOT NULL,
+        easter_egg integer NOT NULL
+        )
+    """
     conn = None
     try:
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
-        cur.execute(sql)
+        for command in commands:
+            cur.execute(command)
         cur.close()
         conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -112,8 +137,11 @@ async def checkDuelTimeout(message, turnCount):
         else:
             notTurn = duel.user_1
 
-        duel = None
         await message.send(f"{notTurn.user.nick} took too long for their turn. {duel.turn.user.nick} wins the duel.")
+        await updateDB(duel.turn.user.id, notTurn.user.id)
+        duel = None
+
+    return
 
 async def createDuel(message):
 
@@ -153,15 +181,74 @@ async def createDuel(message):
     await lastMessage.delete()
     await message.send(f"Beginning duel between {duel.user_1.user.nick} and {duel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
     
+# checks kill/death ratio of user
+@bot.command()
+async def rares(message):
+
+    sql = f"""
+    SELECT 
+        red_partyhat redphat,
+        blue_partyhat bluephat,
+        yellow_partyhat yelphat,
+        green_partyhat greenphat,
+        purple_partyhat purpphat,
+        white_partyhat whitephat,
+        christmas_cracker xmasc,
+        red_hween_mask redhw,
+        blue_hween_mask bluehw,
+        green_hween_mask greenhw,
+        santa_hat santah,
+        pumpkin pump,
+        easter_egg egg
+
+    FROM duel_users
+    WHERE user_id = {message.author.id}"""
+
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        rows = cur.fetchall()
+
+        for row in rows:
+            print(row)
+
+            embed = discord.Embed(title=f"{message.author.nick}'s rares'", color = discord.Color.blurple())
+            embed.add_field(name="**Red artyhat**", value=row[0])
+            embed.add_field(name="**Blue partyhat**", value=row[1])
+            embed.add_field(name="**Yellow partyhat**", value=row[2])
+            embed.add_field(name="**Green partyhat**", value=row[3])
+            embed.add_field(name="**Purple partyhat**", value=row[4])
+            embed.add_field(name="**White partyhat**", value=row[5])
+            embed.add_field(name="**Red halloween mask**", value=row[6])
+            embed.add_field(name="**Blue halloween mask**", value=row[7])
+            embed.add_field(name="**Green halloween mask**", value=row[8])
+            embed.add_field(name="**Santa hat**", value=row[9])
+            embed.add_field(name="**Pumpkin**", value=row[10])
+            embed.add_field(name="**Easter egg**", value=row[11])
+
+            await message.send(embed=embed)
+
+        cur.close()
+        conn.commit()
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("SOME ERROR", error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
 @bot.command()
 async def kd(message):
-
     sql = f"""
     SELECT 
     wins wins,
     losses losses
 
-    FROM duel_users
+    FROM duel_rares
     WHERE user_id = {message.author.id}"""
 
     try:
@@ -181,13 +268,12 @@ async def kd(message):
 
             await message.send(embed=embed)
 
-
         cur.close()
         conn.commit()
 
-
-    except (Exception, psycopg2.DatabaseError) as error:
+     except (Exception, psycopg2.DatabaseError) as error:
         print("SOME ERROR", error)
+        return
     finally:
         if conn is not None:
             conn.close()
@@ -204,6 +290,10 @@ async def whip(message):
 @bot.command()
 async def ags(message):
     await useAttack(message, "Armadyl godsword", 50, 1, 46, 0, False)
+
+@bot.command()
+async def zgs(message):
+    await freezeAttack(message, "Zamorak godsword", 50, 1, 36, 50)
 
 @bot.command()
 async def dlong(message):
@@ -227,7 +317,7 @@ async def gmaul(message):
 
 @bot.command()
 async def ice(message):
-    await iceBarrage(message, "Ice barrage", 1, 30)
+    await freezeAttack(message, "Ice barrage", 0, 1, 30, 25)
 
 @bot.command()
 async def sgs(message):
@@ -253,7 +343,7 @@ def makeImage(hitpoints):
     draw.text((80, 10),f"{hitpoints}/99",(0,0,0),font=font)
     img.save('./hpbar.png')
 
-async def iceBarrage(message, weapon, rolls, max):
+async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
     sendingUser = None
     receivingUser = None
     global duel
@@ -292,7 +382,7 @@ async def iceBarrage(message, weapon, rolls, max):
     else:
         makeImage(0)
 
-    rand = randint(0, 3)
+    rand = randint(0, (100/freezeChance)-1)
 
     sending = ""
 
@@ -345,6 +435,13 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
         await message.send("It's not your turn.")
         return
 
+    # records last attack to prevent using spamming
+    if sendingUser.lastAttack == weapon:
+        await message.send("You cannot use the same type of attack twice in a row.")
+        return
+    else:
+        sendingUser.lastAttack = weapon
+
     # if the user does not have enough special attack
     if sendingUser.special < special:
         await message.send(f"Using the {weapon} requires {special}% special attack energy.")
@@ -389,16 +486,6 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     else:
         sendingUser.hitpoints = 99
 
-    # records last attack to prevent using spamming
-
-    if sendingUser.lastAttack == weapon:
-        await message.send("You cannot use the same type of attack twice in a row.")
-        return
-    else:
-        sendingUser.lastAttack = weapon
-
-
-
     # create the image for the remaining hitpoints
     if leftoverHitpoints > 0:
         makeImage(leftoverHitpoints)
@@ -431,6 +518,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     if leftoverHitpoints <= 0:
         await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
         await updateDB(sendingUser.user, receivingUser.user)
+        await rollForRares(message, sendingUser.user)
         duel = None
         return
 
@@ -456,8 +544,6 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     await checkDuelTimeout(message, duel.turnCount)
 
 async def updateDB(winner, loser):
-
-    print("attempting to update db", winner.id)
 
     commands = (
     f"""
@@ -494,7 +580,89 @@ async def updateDB(winner, loser):
         if conn is not None:
             conn.close()
 
+async def rollForRares(message, winner):
 
+    item = None
+
+    tableRoll = rantint(0, 4)
+
+    # winner hits the rares table
+    if tableRoll == 0:
+        raresRoll = randint(0, 99)
+        if raresRoll == 0:
+            item = "christmas_cracker"
+        elif raresRoll <= 18:
+            phatRoll = randint(0, 5):
+            if phatRoll == 0:
+                item = "red_partyhat"
+            elif phatRoll == 1:
+                item = "blue_partyhat"
+            elif phatRoll == 2:
+                item = "yellow_partyhat"
+            elif phatRoll == 3:
+                item = "green_partyhat"
+            elif phatRoll == 4:
+                item = "purple_partyhat"
+            elif phatRoll == 5:
+                item = "white_partyhat"
+        elif raresRoll <= 39:
+            maskRoll = randInt(0, 2):
+            if maskRoll == 0:
+                item = "red_hween_mask"
+            elif maskRoll == 1:
+                item = "blue_hween_mask"
+            elif maskRoll == 2:
+                item = "green_hween_mask"
+        elif raresRoll <= 49:
+            item = "santa_hat"
+        elif raresRoll <= 74:
+            item = "pumpkin"
+        elif raresRoll <= 99:
+            item = "easter_egg"
+
+
+    sql = None 
+
+    if tableRoll == 0:    
+        print(f"{message.author.nick} hit the rares table")
+        sql = f"""
+        INSERT INTO duel_rares (
+        user_id,
+        red_partyhat,
+        blue_partyhat,
+        yellow_partyhat,
+        green_partyhat,
+        purple_partyhat,
+        white_partyhat,
+        red_hween_mask,
+        blue_hween_mask,
+        green_hween_mask,
+        santa_hat,
+        pumpkin,
+        easter_egg) 
+        VALUES 
+        ({winner.id}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) 
+        ON CONFLICT (user_id) DO UPDATE 
+        SET {item} = duel_rares.{item} + 1 
+        """
+    else:
+        print(f"{message.author.nick} did not hit the rares table")
+        return
+
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        cur.execute(sql)
+        cur.close()
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("SOME ERROR", error)
+        return
+    finally:
+        if conn is not None:
+            conn.close()
+
+    await message.send (f"{message.author.nick} received a {item} for winning!")
 
 class DuelUser:
     hitpoints = 99
