@@ -189,19 +189,19 @@ async def rares(message):
 
     sql = f"""
     SELECT 
-        red_partyhat redphat,
-        blue_partyhat bluephat,
-        yellow_partyhat yelphat,
-        green_partyhat greenphat,
-        purple_partyhat purpphat,
-        white_partyhat whitephat,
-        christmas_cracker xmasc,
-        red_hween_mask redhw,
-        blue_hween_mask bluehw,
-        green_hween_mask greenhw,
-        santa_hat santah,
-        pumpkin pump,
-        easter_egg egg
+        red_partyhat red_partyhat,
+        blue_partyhat blue_partyhat,
+        yellow_partyhat yellow_partyhat,
+        green_partyhat green_partyhat,
+        purple_partyhat purple_partyhat,
+        white_partyhat white_partyhat,
+        christmas_cracker christmas_cracker,
+        red_hween_mask red_hween_mask,
+        blue_hween_mask blue_hween_mask,
+        green_hween_mask green_hween_mask,
+        santa_hat santa_hat,
+        pumpkin pumpkin,
+        easter_egg easter_egg
 
     FROM duel_users
     WHERE user_id = {message.author.id}"""
@@ -224,12 +224,13 @@ async def rares(message):
             embed.add_field(name="**Green partyhat**", value=row[3])
             embed.add_field(name="**Purple partyhat**", value=row[4])
             embed.add_field(name="**White partyhat**", value=row[5])
-            embed.add_field(name="**Red halloween mask**", value=row[6])
-            embed.add_field(name="**Blue halloween mask**", value=row[7])
-            embed.add_field(name="**Green halloween mask**", value=row[8])
-            embed.add_field(name="**Santa hat**", value=row[9])
-            embed.add_field(name="**Pumpkin**", value=row[10])
-            embed.add_field(name="**Easter egg**", value=row[11])
+            embed.add_field(name="**Christmas cracker**", value=row[6])
+            embed.add_field(name="**Red halloween mask**", value=row[7])
+            embed.add_field(name="**Blue halloween mask**", value=row[8])
+            embed.add_field(name="**Green halloween mask**", value=row[9])
+            embed.add_field(name="**Santa hat**", value=row[10])
+            embed.add_field(name="**Pumpkin**", value=row[11])
+            embed.add_field(name="**Easter egg**", value=row[12])
 
             await message.send(embed=embed)
 
@@ -643,6 +644,7 @@ async def rollForRares(message, winner):
         green_partyhat,
         purple_partyhat,
         white_partyhat,
+        christmas_cracker,
         red_hween_mask,
         blue_hween_mask,
         green_hween_mask,
@@ -650,7 +652,7 @@ async def rollForRares(message, winner):
         pumpkin,
         easter_egg) 
         VALUES 
-        ({winner.id}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) 
+        ({winner.id}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) 
         ON CONFLICT (user_id) DO UPDATE 
         SET {item} = duel_rares.{item} + 1 
         """
