@@ -398,4 +398,4 @@ class Duel:
     def __init__(self, user):
         self.user_1 = user
 
-bot.run(process.env.DISCORD_KEY)
+bot.run(ENV['DISCORD_KEY'])
