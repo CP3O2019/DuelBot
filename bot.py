@@ -120,7 +120,7 @@ async def startCancelCountdown(message):
 
 async def checkDuelTimeout(message, turnCount):
 
-    await asyncio.sleep(30.0)
+    await asyncio.sleep(60.0)
 
     global duel
 
@@ -140,7 +140,7 @@ async def checkDuelTimeout(message, turnCount):
             notTurn = duel.user_1
 
         await message.send(f"{notTurn.user.nick} took too long for their turn. {duel.turn.user.nick} wins the duel.")
-        await updateDB(duel.turn.user.id, notTurn.user.id)
+        await updateDB(duel.turn.user, notTurn.user)
         duel = None
 
     return
