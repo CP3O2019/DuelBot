@@ -130,9 +130,9 @@ async def createDuel(message):
         lastMessage = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
         return
 
-    if check(message.author) == False:
-        await message.send("You cannot duel yourself.")
-        return
+    # if check(message.author) == False:
+    #     await message.send("You cannot duel yourself.")
+    #     return
 
     if duel.user_1 != None and duel.user_2 != None:
         await message.send("There are already two people dueling.")
