@@ -39,7 +39,9 @@ def createTables():
         cur = conn.cursor()
 
         for command in commands:
+            print("trying to execute command...")
             cur.execute(command)
+            print("command attempt over...")
         cur.close()
         cur.commit()
     except (Exception, psycopg2.DatabaseError) as error:
