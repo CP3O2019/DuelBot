@@ -22,6 +22,7 @@ duel = None
 lastMessage = None
 
 def createTables():
+
     commands = (
         """
         CREATE TABLE users (
@@ -39,7 +40,7 @@ def createTables():
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
         print("4")
-
+        print(len(commands))
         for command in commands:
             print("trying to execute command...")
             cur.execute(command)
