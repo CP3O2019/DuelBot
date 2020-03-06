@@ -23,7 +23,7 @@ lastMessage = None
 
 def createTables():
 
-    sql = "CREATE TABLE IF NOT EXISTS users (user_id integer NOT NULL UNIQUE, wins integer NOT NULL, losses integer NOT NULL)"
+    sql = "CREATE TABLE IF NOT EXISTS users (user_id integer NOT NULL UNIQUE PRIMARY KEY, wins integer NOT NULL, losses integer NOT NULL)"
     conn = None
 
     try:
