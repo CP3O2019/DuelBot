@@ -24,25 +24,14 @@ lastMessage = None
 def createTables():
 
     sql = "CREATE TABLE IF NOT EXISTS users (user_id integer NOT NULL UNIQUE, wins integer NOT NULL, losses integer NOT NULL)"
-    
-
     conn = None
 
     try:
-        print("3")
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
-        print("4")
-        print("trying to execute command...")
         cur.execute(sql)
-        print("command attempt over...")
-
-        print("0")
         cur.close()
-
-        print("1")
         conn.commit()
-        print("2")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
@@ -385,6 +374,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     # winning message
     if leftoverHitpoints <= 0:
         await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
+        await updateDB(sendingUser.user.id, receivingUser.user.id )
         duel = None
         return
 
@@ -408,6 +398,38 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     os.remove('./hpbar.png')
     duel.turnCount += 1
     await checkDuelTimeout(message, duel.turnCount)
+
+async def updateDB(winner, loser):
+
+    commands = (
+    f"""
+    INSERT INTO users (user, wins, losses) 
+    VALUES ({winner.id}, 1, 0) 
+    ON DUPLICATE KEY UPDATE wins = wins + 1
+    """,
+
+    f"""
+    INSERT INTO users (user, wins, losses) 
+    VALUES ({loser.id}, 0, 1) 
+    ON DUPLICATE KEY UPDATE losses = losses + 1
+    """
+    )
+
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+
+        for command in commands:
+            cur.execute(command)
+        cur.close()
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
 
 class DuelUser:
     hitpoints = 99
