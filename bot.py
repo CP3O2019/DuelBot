@@ -341,7 +341,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     if len(hitArray) == 3:
         sending += f'{message.author.nick} uses their **{weapon}** and hits **{hitArray[0]}-{hitArray[1]}-{hitArray[2]}** on {receivingUser.user.nick}.'
 
-    if poisonRoll == 0:
+    if poisonRoll == 0 and receivingUser.poisoned == True:
         sending += f' {receivingUser.user.nick} is hit for **6** poison damage.'
 
     # healing message
