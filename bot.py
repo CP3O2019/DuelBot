@@ -82,11 +82,15 @@ async def startCancelCountdown(message):
 
     global duel
 
-    if duel.user_2 != None:
+    if duel == None:
         return
+
     if duel.user_2 == None:       
         duel = None
         await message.send("Nobody accepted the duel.")
+
+    elif duel.user_2 != None:
+        return
 
 async def checkDuelTimeout(message, turnCount):
 
@@ -415,9 +419,17 @@ async def updateDB(winner, loser):
     """,
 
     f"""
-    INSERT INTO users (user_id, wins, losses) 
-    VALUES ({loser.id}, 0, 1) 
-    ON DUPLICATE KEY UPDATE losses = losses + 1
+    INSERT INTO users (
+        user_id,
+        wins,
+        losses) 
+    VALUES (
+        {loser.id}, 
+        0,
+        1) 
+    ON DUPLICATE KEY
+    UPDATE
+    losses = losses + 1
     """
     )
 
