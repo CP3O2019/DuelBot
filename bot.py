@@ -95,6 +95,10 @@ async def checkDuelTimeout(message, turnCount):
     global duel
 
     # if the turn hasn't changed in 30 seconds
+
+    if duel == None:
+        return
+        
     if turnCount == duel.turnCount:
 
         notTurn = None
