@@ -118,7 +118,7 @@ async def startCancelCountdown(message):
     elif duel.user_2 != None:
         return
 
-async def checkDuelTimeout(message, turnCount):
+async def checkDuelTimeout(message, savedDuel):
 
     await asyncio.sleep(60.0)
 
@@ -129,7 +129,10 @@ async def checkDuelTimeout(message, turnCount):
     if duel == None:
         return
 
-    if turnCount == duel.turnCount:
+    if duel != savedDuel:
+        return
+
+    if savedDuel.turnCount == duel.turnCount:
 
         notTurn = None
 
@@ -203,7 +206,7 @@ async def rares(message):
         pumpkin pumpkin,
         easter_egg easter_egg
 
-    FROM duel_users
+    FROM duel_rares
     WHERE user_id = {message.author.id}"""
 
     try:
@@ -420,7 +423,7 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
 
     os.remove('./hpbar.png')
     duel.turnCount += 1
-    await checkDuelTimeout(message, duel.turnCount)
+    await checkDuelTimeout(message, duel)
 
 async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
 
@@ -551,7 +554,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     # remove image from local file
     os.remove('./hpbar.png')
     duel.turnCount += 1
-    await checkDuelTimeout(message, duel.turnCount)
+    await checkDuelTimeout(message, duel)
 
 async def updateDB(winner, loser):
 
