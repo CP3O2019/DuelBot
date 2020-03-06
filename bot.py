@@ -35,15 +35,22 @@ def createTables():
     conn = None
 
     try:
+        print("3")
         conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
+        print("4")
 
         for command in commands:
             print("trying to execute command...")
             cur.execute(command)
             print("command attempt over...")
+
+        print("0")
         cur.close()
+
+        print("1")
         cur.commit()
+        print("2")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
