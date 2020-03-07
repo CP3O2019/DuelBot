@@ -82,7 +82,7 @@ async def commands(message):
     "**.whip**: Hits once, max of 25 \n"
     "**.ags**: Hits once, max of 46, uses 50% of special \n"
     "**.sgs**: Hits once, max of 39, uses 50% of special, heals for 50% of damage \n"
-    "**.zgs**: Hits onc, max of 36, uses 50% of special, has a 50% chance to freeze enemy and skip their turn \n"
+    "**.zgs**: Hits once, max of 36, uses 50% of special, has a 50% chance to freeze enemy and skip their turn \n"
     "**.dlong**: Hits once, max of 26, uses 25% special \n"
     "**.dmace**: Hits once, max of 30, uses 25% special \n"
     "**.dwh**: Hits once, max of 46, uses 50% special \n"
@@ -92,8 +92,6 @@ async def commands(message):
     "**.ice**: Hits once, max of 30, has a 25% chance to freeze enemy and skip their turn \n"
     "**.blood**: Hits once, max of 28, heals for 25% of damage \n"
     "**.smoke**: Hits once, max of 27, 25% chance to poison"
-    
-    
     , inline=False)
     await message.send(embed=embed)
 
@@ -124,6 +122,8 @@ async def startCancelCountdown(message):
         return
 
 async def checkDuelTimeout(message, savedDuel):
+
+    print("early turn count", savedDuel.turnCount)
 
     await asyncio.sleep(60.0)
 
@@ -224,8 +224,6 @@ async def rares(message):
         rows = cur.fetchall()
 
         for row in rows:
-            print(row)
-
             embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.blurple())
             embed.add_field(name="**Red partyhat**", value=row[0])
             embed.add_field(name="**Blue partyhat**", value=row[1])
@@ -271,7 +269,6 @@ async def kd(message):
         rows = cur.fetchall()
 
         for row in rows:
-            print(row)
 
             embed = discord.Embed(title=f"K/D for {message.author.nick}", color = discord.Color.green())
             embed.add_field(name="**Wins**", value=row[0])
@@ -374,9 +371,6 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
         return
 
     if sendingUser.user.id != duel.turn.user.id:
-        print(sendingUser.user.nick)
-        print(sendingUser)
-        print(duel.turn)
         await message.send("It's not your turn.")
         return
 
@@ -557,7 +551,6 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
 
     # switch the turn
     if duel.turn == duel.user_1:
-        print('it is now the turn of', duel.user_2.user.nick)
         duel.turn = duel.user_2
     else:
         print('it is now the turn of', duel.user_1.user.nick)
@@ -593,8 +586,6 @@ async def updateDB(winner, loser):
         cur = conn.cursor()
 
         for command in commands:
-            print("command executing")
-
             cur.execute(command)
 
         cur.close()
