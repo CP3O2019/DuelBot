@@ -373,7 +373,7 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
 
     # records last attack to prevent using spamming
     if weapon == "DDS" or weapon == "Abyssal whip":
-        sendinguser.lastAttack = weapon
+        sendingUser.lastAttack = weapon
     elif sendingUser.lastAttack == weapon:
         await message.send("You cannot use that type of attack twice in a row.")
         return
@@ -458,7 +458,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
 
     # records last attack to prevent using spamming
     if weapon == "DDS" or weapon == "Abyssal whip":
-        sendinguser.lastAttack = weapon
+        sendingUser.lastAttack = weapon
     elif sendingUser.lastAttack == weapon:
         await message.send("You cannot use that type of attack twice in a row.")
         return
