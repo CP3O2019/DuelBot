@@ -457,8 +457,10 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
         return
 
     # records last attack to prevent using spamming
-    if sendingUser.lastAttack == weapon:
-        await message.send("You cannot use the same type of attack twice in a row.")
+    if weapon == "DDS" or weapon == "Abyssal whip":
+        sendinguser.lastAttack = weapon
+    elif sendingUser.lastAttack == weapon:
+        await message.send("You cannot use that type of attack twice in a row.")
         return
     else:
         sendingUser.lastAttack = weapon
