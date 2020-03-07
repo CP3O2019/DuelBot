@@ -126,9 +126,9 @@ async def checkDuelTimeout(message, savedDuel):
 
     oldTurn = savedDuel
 
-    try: 
-        await asyncio.sleep(60.0)
-    except asyncio.CancelledError:
+     
+    await asyncio.sleep(60.0)
+    
 
     global duel
 
