@@ -126,6 +126,7 @@ async def checkDuelTimeout(message, savedDuel):
 
     oldTurn = savedDuel
     print("duel uuid", oldTurn.uuid)
+    print("turn", oldTurn.turnCount)
 
     await asyncio.sleep(60.0)
     
@@ -718,7 +719,7 @@ class Duel:
     user_2 = None
     turn = None
     turnCount = 0
-    uuid = uuid.uuid4
+    uuid = uuid.uuid4()
 
     def __init__(self, user):
         self.user_1 = user
