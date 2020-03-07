@@ -298,7 +298,7 @@ async def ags(message):
 
 @bot.command()
 async def zgs(message):
-    await freezeAttack(message, "Zamorak godsword", 50, 1, 36, 50)
+    await freezeAttack(message, "Zamorak godsword", 50, 1, 36, 25)
 
 @bot.command()
 async def dlong(message):
@@ -322,7 +322,7 @@ async def gmaul(message):
 
 @bot.command()
 async def ice(message):
-    await freezeAttack(message, "Ice barrage", 0, 1, 30, 25)
+    await freezeAttack(message, "Ice barrage", 0, 1, 30, 12.5)
 
 @bot.command()
 async def sgs(message):
@@ -393,7 +393,7 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
     else:
         makeImage(0)
 
-    rand = randint(0, (100/freezeChance)-1)
+    rand = randint(0, math.floor((100/freezeChance))-1)
 
     sending = ""
 
