@@ -75,6 +75,9 @@ async def on_ready():
 @bot.command()
 async def commands(message):
     embed = discord.Embed(title="Duel bot commands", color = discord.Color.orange())
+    embed.add_field(name="Commands", value="**.fight**: Begins a duel \n"
+    "**.kd**: View your kill/death ratio \n"
+    "**.reares**: See all of the rares you've won", inline = True)
     embed.add_field(name="Weapons", value="**.dds**: Hits twice, max of **20** each hit, uses 25% special, 25% chance to poison \n"
     "**.whip**: Hits once, max of 25 \n"
     "**.ags**: Hits once, max of 46, uses 50% of special \n"
@@ -89,6 +92,7 @@ async def commands(message):
     "**.ice**: Hits once, max of 30, has a 25% chance to freeze enemy and skip their turn \n"
     "**.blood**: Hits once, max of 28, heals for 25% of damage \n"
     "**.smoke**: Hits once, max of 27, 25% chance to poison"
+    
     
     , inline=True)
     await message.send(embed=embed)
@@ -638,10 +642,10 @@ async def rollForRares(message, winner):
             maskRoll = randint(0, 2)
             if maskRoll == 0:
                 item = "red_hween_mask"
-                itemText = "Red h'ween mask"
+                itemText = "a Red h'ween mask"
             elif maskRoll == 1:
                 item = "blue_hween_mask"
-                itemText = "Blue h'ween mask"
+                itemText = "a Blue h'ween mask"
             elif maskRoll == 2:
                 item = "green_hween_mask"
                 itemText = "a Green h'ween mask"
