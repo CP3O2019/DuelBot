@@ -20,6 +20,7 @@ DATABASE_URL = os.environ['DATABASE_URL']
 bot = discord.ext.commands.Bot(command_prefix = '.')
 duel = None
 lastMessage = None
+backgroundTimer = None
 
 def createTables():
 
@@ -123,7 +124,7 @@ async def startCancelCountdown(message):
 
 async def checkDuelTimeout(message, savedDuel):
 
-    oldTurn = savedDuel.turnCount
+    oldTurn = savedDuel
 
     await asyncio.sleep(60.0)
 
@@ -134,21 +135,20 @@ async def checkDuelTimeout(message, savedDuel):
     if duel == None:
         return
 
-
-    print("saved turn count", oldTurn)
+    print("saved turn count", oldTurn.turnCount)
     print("current turn count", duel.turnCount)
 
-    if oldTurn == duel.turnCount:
+    if oldTurn.turnCount == duel.turnCount:
 
         notTurn = None
 
         # gets the player who's turn it is not
-        if duel.turn == duel.user_1:
+        if oldTurn.turn == duel.user_1:
             notTurn = duel.user_2
         else:
             notTurn = duel.user_1
 
-        await message.send(f"{notTurn.user.nick} took too long for their turn. {duel.turn.user.nick} wins the duel.")
+        await message.send(f"{notTurn.user.nick} took too long for their turn. {oldTurn.turn.user.nick} wins the duel.")
         await updateDB(duel.turn.user, notTurn.user)
         duel = None
 
@@ -158,6 +158,10 @@ async def createDuel(message):
 
     global duel
     global lastMessage
+    global backgroundTimer
+
+    if backgroundTimer != None:
+        backgroundTimer.cancel()
 
     if duel == None:
         # duel = Duel(DuelUser(message.author))
@@ -349,6 +353,13 @@ def makeImage(hitpoints):
     img.save('./hpbar.png')
 
 async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
+
+    global backgroundTimer
+
+
+    if backgroundTimer != None:
+        backgroundTimer.cancel()
+
     sendingUser = None
     receivingUser = None
     global duel
@@ -420,7 +431,6 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
     await message.send(sending)
     await message.send(file=discord.File('./hpbar.png'))
 
-
     if duel.turn == duel.user_1:
         duel.turn = duel.user_2
     else:
@@ -428,9 +438,14 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
 
     os.remove('./hpbar.png')
     duel.turnCount += 1
-    await checkDuelTimeout(message, duel)
+    backgroundTimer = await checkDuelTimeout(message, duel)
 
 async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
+
+    global backgroundTimer
+
+    if backgroundTimer != None:
+        backgroundTimer.cancel()
 
     sendingUser = None
     receivingUser = None
@@ -562,7 +577,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     # remove image from local file
     os.remove('./hpbar.png')
     duel.turnCount += 1
-    await checkDuelTimeout(message, duel)
+    backgroundTimer = await checkDuelTimeout(message, duel)
 
 async def updateDB(winner, loser):
 
