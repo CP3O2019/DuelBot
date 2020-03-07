@@ -77,7 +77,7 @@ async def commands(message):
     embed = discord.Embed(title="Duel bot commands", color = discord.Color.orange())
     embed.add_field(name="Commands", value="**.fight**: Begins a duel \n"
     "**.kd**: View your kill/death ratio \n"
-    "**.reares**: See all of the rares you've won", inline = False)
+    "**.rares**: See all of the rares you've won", inline = False)
     embed.add_field(name="Weapons", value="**.dds**: Hits twice, max of **20** each hit, uses 25% special, 25% chance to poison \n"
     "**.whip**: Hits once, max of 25 \n"
     "**.ags**: Hits once, max of 46, uses 50% of special \n"
