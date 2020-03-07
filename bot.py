@@ -99,14 +99,16 @@ async def commands(message):
 # begin a duel command
 @bot.command()
 async def fight(message):
-    await createDuel(message)
 
-    await startCancelCountdown(message)
+    global duel
+
+    await createDuel(message)
+    await startCancelCountdown(message, duel.uuid)
 
 def check(user):
     return user != duel.user_1.user
 
-async def startCancelCountdown(message):
+async def startCancelCountdown(message, saved_uuid):
 
     await asyncio.sleep(30.0)
 
@@ -115,7 +117,7 @@ async def startCancelCountdown(message):
     if duel == None:
         return
 
-    if duel.user_2 == None:       
+    if duel.user_2 == None and duel.uuid == saved_uuid:       
         duel = None
         await message.send("Nobody accepted the duel.")
 
@@ -125,11 +127,8 @@ async def startCancelCountdown(message):
 async def checkDuelTimeout(message, savedDuel):
 
     oldTurn = savedDuel
-    print("duel uuid", oldTurn.uuid)
-    print("turn", oldTurn.turnCount)
 
     await asyncio.sleep(60.0)
-    
 
     global duel
 
@@ -138,10 +137,7 @@ async def checkDuelTimeout(message, savedDuel):
     if duel == None:
         return
 
-    print("saved turn count", oldTurn.turnCount)
-    print("current turn count", duel.turnCount)
-
-    if oldTurn.turnCount == duel.turnCount:
+    if oldTurn.turnCount == duel.turnCount and oldTurn.uuid == duel.uuid:
 
         notTurn = None
 
