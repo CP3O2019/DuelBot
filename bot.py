@@ -82,14 +82,14 @@ async def commands(message):
     "**.whip**: Hits once, max of 25 \n"
     "**.ags**: Hits once, max of 46, uses 50% of special \n"
     "**.sgs**: Hits once, max of 39, uses 50% of special, heals for 50% of damage \n"
-    "**.zgs**: Hits once, max of 36, uses 50% of special, has a 50% chance to freeze enemy and skip their turn \n"
+    "**.zgs**: Hits once, max of 36, uses 50% of special, has a 25% chance to freeze enemy \n"
     "**.dlong**: Hits once, max of 26, uses 25% special \n"
     "**.dmace**: Hits once, max of 30, uses 25% special \n"
     "**.dwh**: Hits once, max of 46, uses 50% special \n"
     "**.ss**: Hits twice, max of 27 each hit, uses 100% special \n"
     "**.gmaul**: Hits three times, max of 26 each hit, uses 100% special \n"
     "**.bp**: Hits once, max of 27, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
-    "**.ice**: Hits once, max of 30, has a 25% chance to freeze enemy and skip their turn \n"
+    "**.ice**: Hits once, max of 30, has a 12.5% chance to freeze enemy\n"
     "**.blood**: Hits once, max of 28, heals for 25% of damage \n"
     "**.smoke**: Hits once, max of 27, 25% chance to poison"
     , inline=False)
@@ -387,6 +387,9 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
     # calculate damage dealt
     leftoverHitpoints = receivingUser.hitpoints - sum(hitArray)
     receivingUser.hitpoints = leftoverHitpoints
+
+    # calculate special remaining
+    sendingUser.special -= special
 
     if leftoverHitpoints > 0:
         makeImage(leftoverHitpoints)
