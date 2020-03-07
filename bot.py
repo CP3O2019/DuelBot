@@ -105,7 +105,7 @@ def check(user):
 
 async def startCancelCountdown(message):
 
-    await asyncio.sleep(60.0)
+    await asyncio.sleep(30.0)
 
     global duel
 
