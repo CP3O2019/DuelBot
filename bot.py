@@ -624,7 +624,7 @@ async def rollForRares(message, winner):
                 itemText = "a Purple partyhat"
             elif phatRoll == 5:
                 item = "white_partyhat"
-                itemText = "=a White partyhat"
+                itemText = "a White partyhat"
         elif raresRoll <= 39: # hit table for a mask
             maskRoll = randint(0, 2)
             if maskRoll == 0:
