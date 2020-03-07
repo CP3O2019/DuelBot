@@ -79,6 +79,7 @@ async def commands(message):
     "**.whip**: Hits once, max of 25 \n"
     "**.ags**: Hits once, max of 46, uses 50% of special \n"
     "**.sgs**: Hits once, max of 39, uses 50% of special, heals for 50% of damage \n"
+    "**.zgs**: Hits onc, max of 36, uses 50% of special, has a 50% chance to freeze enemy and skip their turn \n"
     "**.dlong**: Hits once, max of 26, uses 25% special \n"
     "**.dmace**: Hits once, max of 30, uses 25% special \n"
     "**.dwh**: Hits once, max of 46, uses 50% special \n"
@@ -104,7 +105,7 @@ def check(user):
 
 async def startCancelCountdown(message):
 
-    await asyncio.sleep(30.0)
+    await asyncio.sleep(60.0)
 
     global duel
 
@@ -120,7 +121,7 @@ async def startCancelCountdown(message):
 
 async def checkDuelTimeout(message, savedDuel):
 
-    await asyncio.sleep(60.0)
+    await asyncio.sleep(30.0)
 
     global duel
 
@@ -220,7 +221,7 @@ async def rares(message):
         for row in rows:
             print(row)
 
-            embed = discord.Embed(title=f"{message.author.nick}'s rares'", color = discord.Color.blurple())
+            embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.blurple())
             embed.add_field(name="**Red partyhat**", value=row[0])
             embed.add_field(name="**Blue partyhat**", value=row[1])
             embed.add_field(name="**Yellow partyhat**", value=row[2])
@@ -431,6 +432,9 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     receivingUser = None
 
     global duel
+
+    if duel == None:
+        return
 
     if message.author.id == duel.user_1.user.id:
         sendingUser = duel.user_1
