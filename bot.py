@@ -1,6 +1,7 @@
 import discord
 import os
 import psycopg2
+import uuid
 
 from discord.ext import commands
 import math
@@ -124,8 +125,6 @@ async def startCancelCountdown(message):
 
 async def checkDuelTimeout(message, savedDuel):
 
-    oldTurn = savedDuel
-
     try: 
         await asyncio.sleep(60.0)
     except asyncio.CancelledError:
@@ -138,10 +137,10 @@ async def checkDuelTimeout(message, savedDuel):
     if duel == None:
         return
 
-    print("saved turn count", oldTurn.turnCount)
-    print("current turn count", duel.turnCount)
+    print("running timeout with turn count", savedDuel.turnCount, duel.turnCount)
+    print("with uuids", savedDuel.uuid, duel.uuid)
 
-    if oldTurn.turnCount == duel.turnCount:
+    if savedDuel.uuid == duel.uuid and savedDuel.turnCount == duel.turnCount:
 
         notTurn = None
 
@@ -734,6 +733,7 @@ class Duel:
     user_2 = None
     turn = None
     turnCount = 0
+    uuid = uuid.uuid4()
 
     def __init__(self, user):
         self.user_1 = user
