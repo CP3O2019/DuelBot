@@ -164,7 +164,7 @@ async def createDuel(message):
 
     if duel == None:
         # duel = Duel(DuelUser(message.author))
-        duel = Duel(DuelUser(message.author))
+        duel = Duel(DuelUser(message.author), uuid.uuid4())
         lastMessage = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
         return
 
@@ -719,9 +719,10 @@ class Duel:
     user_2 = None
     turn = None
     turnCount = 0
-    uuid = uuid.uuid4()
+    uuid = None
 
-    def __init__(self, user):
+    def __init__(self, user, uuid):
         self.user_1 = user
+        self.uuid = uuid
 
 bot.run(os.environ['DISCORD_KEY'])
