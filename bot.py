@@ -1,6 +1,7 @@
 import discord
 import os
 import psycopg2
+import uuid
 
 from discord.ext import commands
 import math
@@ -20,7 +21,6 @@ DATABASE_URL = os.environ['DATABASE_URL']
 bot = discord.ext.commands.Bot(command_prefix = '.')
 duel = None
 lastMessage = None
-backgroundTimer = None
 
 def createTables():
 
@@ -125,8 +125,8 @@ async def startCancelCountdown(message):
 async def checkDuelTimeout(message, savedDuel):
 
     oldTurn = savedDuel
+    print("duel uuid", oldTurn.uuid)
 
-     
     await asyncio.sleep(60.0)
     
 
@@ -160,10 +160,6 @@ async def createDuel(message):
 
     global duel
     global lastMessage
-    global backgroundTimer
-
-    if backgroundTimer != None:
-        backgroundTimer.cancel()
 
     if duel == None:
         # duel = Duel(DuelUser(message.author))
@@ -356,12 +352,6 @@ def makeImage(hitpoints):
 
 async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
 
-    global backgroundTimer
-
-
-    if backgroundTimer != None:
-        backgroundTimer.cancel()
-
     sendingUser = None
     receivingUser = None
     global duel
@@ -440,14 +430,9 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
 
     os.remove('./hpbar.png')
     duel.turnCount += 1
-    backgroundTimer = await checkDuelTimeout(message, duel)
+    await checkDuelTimeout(message, duel)
 
 async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
-
-    global backgroundTimer
-
-    if backgroundTimer != None:
-        backgroundTimer.cancel()
 
     sendingUser = None
     receivingUser = None
@@ -579,7 +564,7 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     # remove image from local file
     os.remove('./hpbar.png')
     duel.turnCount += 1
-    backgroundTimer = await checkDuelTimeout(message, duel)
+    await checkDuelTimeout(message, duel)
 
 async def updateDB(winner, loser):
 
@@ -621,7 +606,7 @@ async def rollForRares(message, winner):
     item = None
     itemText = None
 
-    tableRoll = randint(0, 1)
+    tableRoll = randint(0, 24)
 
     # winner hits the rares table
     if tableRoll == 0:
@@ -733,6 +718,7 @@ class Duel:
     user_2 = None
     turn = None
     turnCount = 0
+    uuid = uuid.uuid4
 
     def __init__(self, user):
         self.user_1 = user
