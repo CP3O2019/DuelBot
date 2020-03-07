@@ -121,7 +121,7 @@ async def startCancelCountdown(message):
 
 async def checkDuelTimeout(message, savedDuel):
 
-    await asyncio.sleep(30.0)
+    await asyncio.sleep(60.0)
 
     global duel
 
@@ -130,8 +130,9 @@ async def checkDuelTimeout(message, savedDuel):
     if duel == None:
         return
 
-    if duel != savedDuel:
-        return
+
+    print("saved turn count", savedDuel.turnCount)
+    print("current turn count", duel.turnCount)
 
     if savedDuel.turnCount == duel.turnCount:
 
@@ -353,6 +354,9 @@ async def freezeAttack(message, weapon, special, rolls, max, freezeChance):
     sendingUser = None
     receivingUser = None
     global duel
+
+    if duel == None:
+        return
 
     if message.author.id == duel.user_1.user.id:
         sendingUser = duel.user_1
@@ -607,10 +611,10 @@ async def rollForRares(message, winner):
     # winner hits the rares table
     if tableRoll == 0:
         raresRoll = randint(0, 99)
-        if raresRoll == 0:
+        if raresRoll == 0: # hit table for cracker
             item = "christmas_cracker"
             itemText = "Christmas cracker"
-        elif raresRoll <= 18:
+        elif raresRoll <= 18: # hit table for a partyhat
             phatRoll = randint(0, 5)
             if phatRoll == 0:
                 item = "red_partyhat"
@@ -630,24 +634,24 @@ async def rollForRares(message, winner):
             elif phatRoll == 5:
                 item = "white_partyhat"
                 itemText = "=a White partyhat"
-        elif raresRoll <= 39:
+        elif raresRoll <= 39: # hit table for a mask
             maskRoll = randint(0, 2)
             if maskRoll == 0:
                 item = "red_hween_mask"
-                itemText = "Christmas cracker"
+                itemText = "Red h'ween mask"
             elif maskRoll == 1:
                 item = "blue_hween_mask"
-                itemText = "Christmas cracker"
+                itemText = "Blue h'ween mask"
             elif maskRoll == 2:
                 item = "green_hween_mask"
                 itemText = "a Green h'ween mask"
-        elif raresRoll <= 49:
+        elif raresRoll <= 49: # hit table for a santa hat
             item = "santa_hat"
             itemText = "a Santa hat"
-        elif raresRoll <= 74:
+        elif raresRoll <= 74: # hit table for a pumpkin
             item = "pumpkin"
             itemText = "a Pumpkin"
-        elif raresRoll <= 99:
+        elif raresRoll <= 99: # hit table for an easter egg
             item = "easter_egg"
             itemText = "an Easter egg"
 
