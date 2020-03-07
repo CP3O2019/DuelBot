@@ -123,7 +123,7 @@ async def startCancelCountdown(message):
 
 async def checkDuelTimeout(message, savedDuel):
 
-    print("early turn count", savedDuel.turnCount)
+    oldTurn = savedDuel.turnCount
 
     await asyncio.sleep(60.0)
 
@@ -135,10 +135,10 @@ async def checkDuelTimeout(message, savedDuel):
         return
 
 
-    print("saved turn count", savedDuel.turnCount)
+    print("saved turn count", oldTurn)
     print("current turn count", duel.turnCount)
 
-    if savedDuel.turnCount == duel.turnCount:
+    if oldTurn == duel.turnCount:
 
         notTurn = None
 
@@ -161,7 +161,6 @@ async def createDuel(message):
 
     if duel == None:
         # duel = Duel(DuelUser(message.author))
-        print(f'Duel created for {message.author.nick}')
         duel = Duel(DuelUser(message.author))
         lastMessage = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
         return
@@ -183,11 +182,9 @@ async def createDuel(message):
     if startingUserBool == True:
         startingUser = duel.user_1
         duel.turn = duel.user_1
-        print("ok")
     else:
         startingUser = duel.user_2
         duel.turn = duel.user_2
-        print("uhm")
 
     await lastMessage.delete()
     await message.send(f"Beginning duel between {duel.user_1.user.nick} and {duel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
@@ -553,7 +550,6 @@ async def useAttack(message, weapon, special, rolls, max, healpercent, poison):
     if duel.turn == duel.user_1:
         duel.turn = duel.user_2
     else:
-        print('it is now the turn of', duel.user_1.user.nick)
         duel.turn = duel.user_1
 
     # remove image from local file
