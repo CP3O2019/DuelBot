@@ -128,7 +128,7 @@ async def checkDuelTimeout(message, savedDuel):
 
     oldTurn = savedDuel
 
-    await asyncio.sleep(60.0)
+    await asyncio.sleep(90.0)
 
     global duel
 
@@ -603,7 +603,7 @@ async def rollForRares(message, winner):
     item = None
     itemText = None
 
-    tableRoll = randint(0, 1)
+    tableRoll = randint(0, 24)
 
     # winner hits the rares table
     if tableRoll == 0:
