@@ -137,6 +137,8 @@ async def checkDuelTimeout(message, savedDuel):
     if duel == None:
         return
 
+    print(f"attempting to cancel duel with old count {oldTurn.turnCount} new count {duel.turnCount}, old uuid {oldTurn.uuid}, new turn {duel.uuid}")
+
     if oldTurn.turnCount == duel.turnCount and oldTurn.uuid == duel.uuid:
 
         notTurn = None
@@ -146,7 +148,7 @@ async def checkDuelTimeout(message, savedDuel):
             notTurn = duel.user_2
         else:
             notTurn = duel.user_1
-
+        print("Cancelling duel")
         await message.send(f"{notTurn.user.nick} took too long for their turn. {oldTurn.turn.user.nick} wins the duel.")
         await updateDB(duel.turn.user, notTurn.user)
         duel = None
