@@ -79,8 +79,8 @@ async def commands(message):
     embed.add_field(name="Commands", value="**.fight**: Begins a duel \n"
     "**.kd**: View your kill/death ratio \n"
     "**.rares**: See all of the rares you've won", inline = False)
-    embed.add_field(name="Weapons", value="**.dds**: Hits twice, max of **20** each hit, uses 25% special, 25% chance to poison \n"
-    "**.whip**: Hits once, max of 25 \n"
+    embed.add_field(name="Weapons", value="**.dds**: Hits twice, max of **18** each hit, uses 25% special, 25% chance to poison \n"
+    "**.whip**: Hits once, max of 27 \n"
     "**.ags**: Hits once, max of 46, uses 50% of special \n"
     "**.sgs**: Hits once, max of 39, uses 50% of special, heals for 50% of damage \n"
     "**.zgs**: Hits once, max of 36, uses 50% of special, has a 25% chance to freeze enemy \n"
@@ -88,7 +88,7 @@ async def commands(message):
     "**.dmace**: Hits once, max of 30, uses 25% special \n"
     "**.dwh**: Hits once, max of 39, uses 50% special \n"
     "**.ss**: Hits twice, max of 27 each hit, uses 100% special \n"
-    "**.gmaul**: Hits three times, max of 26 each hit, uses 100% special \n"
+    "**.gmaul**: Hits three times, max of 24 each hit, uses 100% special \n"
     "**.bp**: Hits once, max of 27, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
     "**.ice**: Hits once, max of 30, has a 12.5% chance to freeze enemy\n"
     "**.blood**: Hits once, max of 28, heals for 25% of damage \n"
@@ -285,11 +285,11 @@ async def kd(message):
 # weapon commands
 @bot.command()
 async def dds(message):
-    await useAttack(message, "DDS", 25, 2, 20, 0, True)
+    await useAttack(message, "DDS", 25, 2, 18, 0, True)
 
 @bot.command()
 async def whip(message):
-    await useAttack(message, "Abyssal whip", 0, 1, 25, 0, False)
+    await useAttack(message, "Abyssal whip", 0, 1, 27, 0, False)
 
 @bot.command()
 async def ags(message):
@@ -317,7 +317,7 @@ async def ss(message):
 
 @bot.command()
 async def gmaul(message):
-    await useAttack(message, "Granite maul", 100, 3, 26, 0, False)
+    await useAttack(message, "Granite maul", 100, 3, 24, 0, False)
 
 @bot.command()
 async def ice(message):
