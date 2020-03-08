@@ -654,7 +654,7 @@ async def rollForRares(message, winner):
     item = None
     itemText = None
 
-    tableRoll = randint(0, 24)
+    tableRoll = randint(0, 9)
 
     # winner hits the rares table
     if tableRoll == 0:
