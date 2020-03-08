@@ -137,8 +137,6 @@ async def checkDuelTimeout(message, savedDuel):
     if duel == None:
         return
 
-    print(f"attempting to cancel duel with old count {oldTurn.turnCount} new count {duel.turnCount}, old uuid {oldTurn.uuid}, new turn {duel.uuid}")
-
     if oldTurn.turnCount == duel.turnCount and oldTurn.uuid == duel.uuid:
 
         notTurn = None
