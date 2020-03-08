@@ -86,7 +86,7 @@ async def commands(message):
     "**.zgs**: Hits once, max of 36, uses 50% of special, has a 25% chance to freeze enemy \n"
     "**.dlong**: Hits once, max of 26, uses 25% special \n"
     "**.dmace**: Hits once, max of 30, uses 25% special \n"
-    "**.dwh**: Hits once, max of 46, uses 50% special \n"
+    "**.dwh**: Hits once, max of 39, uses 50% special \n"
     "**.ss**: Hits twice, max of 27 each hit, uses 100% special \n"
     "**.gmaul**: Hits three times, max of 26 each hit, uses 100% special \n"
     "**.bp**: Hits once, max of 27, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
@@ -128,7 +128,7 @@ async def checkDuelTimeout(message, savedDuel):
 
     oldTurn = savedDuel
 
-    await asyncio.sleep(90.0)
+    await asyncio.sleep(300.0)
 
     global duel
 
