@@ -65,7 +65,7 @@ def createTables():
         if conn is not None:
             conn.close()
 
-async def createTablesForUser(user)
+async def createTablesForUser(user):
     commands = (
 
     f"""
