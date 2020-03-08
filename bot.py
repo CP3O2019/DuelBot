@@ -65,6 +65,53 @@ def createTables():
         if conn is not None:
             conn.close()
 
+async def createTablesForUser(user)
+    commands = (
+
+    f"""
+    INSERT OR IGNORE INTO duel_rares (
+    user_id,
+    red_partyhat,
+    blue_partyhat,
+    yellow_partyhat,
+    green_partyhat,
+    purple_partyhat,
+    white_partyhat,
+    christmas_cracker,
+    red_hween_mask,
+    blue_hween_mask,
+    green_hween_mask,
+    santa_hat,
+    pumpkin,
+    easter_egg) 
+    VALUES 
+    ({user.id}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    """
+
+    f"""
+    INSERT OR IGNORE INTO duel_users (user_id, wins, losses) 
+    VALUES 
+    ({user.id}, 1, 0)
+    """
+    )
+
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+
+        for command in commands:
+            cur.execute(command)
+
+        cur.close()
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("SOME ERROR", error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+    
+
 if __name__ == '__main__':
     createTables()
 
@@ -80,19 +127,19 @@ async def commands(message):
     "**.kd**: View your kill/death ratio \n"
     "**.rares**: See all of the rares you've won", inline = False)
     embed.add_field(name="Weapons", value="**.dds**: Hits twice, max of **18** each hit, uses 25% special, 25% chance to poison \n"
-    "**.whip**: Hits once, max of 27 \n"
-    "**.ags**: Hits once, max of 46, uses 50% of special \n"
-    "**.sgs**: Hits once, max of 39, uses 50% of special, heals for 50% of damage \n"
-    "**.zgs**: Hits once, max of 36, uses 50% of special, has a 25% chance to freeze enemy \n"
-    "**.dlong**: Hits once, max of 26, uses 25% special \n"
-    "**.dmace**: Hits once, max of 30, uses 25% special \n"
-    "**.dwh**: Hits once, max of 39, uses 50% special \n"
-    "**.ss**: Hits twice, max of 27 each hit, uses 100% special \n"
-    "**.gmaul**: Hits three times, max of 24 each hit, uses 100% special \n"
-    "**.bp**: Hits once, max of 27, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
-    "**.ice**: Hits once, max of 30, has a 12.5% chance to freeze enemy\n"
-    "**.blood**: Hits once, max of 28, heals for 25% of damage \n"
-    "**.smoke**: Hits once, max of 27, 25% chance to poison"
+    "**.whip**: Hits once, max of **27** \n"
+    "**.ags**: Hits once, max of **46**, uses 50% of special \n"
+    "**.sgs**: Hits once, max of **39**, uses 50% of special, heals for 50% of damage \n"
+    "**.zgs**: Hits once, max of **36**, uses 50% of special, has a 25% chance to freeze enemy \n"
+    "**.dlong**: Hits once, max of **26**, uses 25% special \n"
+    "**.dmace**: Hits once, max of **30**, uses 25% special \n"
+    "**.dwh**: Hits once, max of **39**, uses 50% special \n"
+    "**.ss**: Hits twice, max of **27** each hit, uses 100% special \n"
+    "**.gmaul**: Hits three times, max of **24** each hit, uses 100% special \n"
+    "**.bp**: Hits once, max of **27**, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
+    "**.ice**: Hits once, max of **30**, has a 12.5% chance to freeze enemy\n"
+    "**.blood**: Hits once, max of **28**, heals for 25% of damage \n"
+    "**.smoke**: Hits once, max of **27**, 25% chance to poison"
     , inline=False)
     await message.send(embed=embed)
 
@@ -188,9 +235,10 @@ async def createDuel(message):
     await lastMessage.delete()
     await message.send(f"Beginning duel between {duel.user_1.user.nick} and {duel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
     
-# checks kill/death ratio of user
 @bot.command()
 async def rares(message):
+
+    await createTablesForUser(message.author)
 
     sql = f"""
     SELECT 
@@ -248,6 +296,9 @@ async def rares(message):
 
 @bot.command()
 async def kd(message):
+
+    await createTablesForUser(message.author)
+
     sql = f"""
     SELECT 
     wins wins,
