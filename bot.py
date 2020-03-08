@@ -149,8 +149,8 @@ async def checkDuelTimeout(message, savedDuel):
         else:
             notTurn = duel.user_1
         print("Cancelling duel")
-        await message.send(f"{notTurn.user.nick} took too long for their turn. {oldTurn.turn.user.nick} wins the duel.")
-        await updateDB(duel.turn.user, notTurn.user)
+        await message.send(f"{oldTurn.turn.user.nick} took too long for their turn. {notTurn.user.nick} wins the duel.")
+        await updateDB(notTurn.user, oldTurn.user)
         duel = None
 
     return
