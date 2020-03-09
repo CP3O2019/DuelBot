@@ -27,6 +27,7 @@ def createTables():
     commands = ("""
     CREATE TABLE IF NOT EXISTS duel_users (
         user_id BIGINT PRIMARY KEY,
+        nick TINYTEXT string,
         wins integer NOT NULL,
         losses integer NOT NULL
     )
@@ -110,8 +111,6 @@ async def createTablesForUser(user):
         if conn is not None:
             conn.close()
 
-    
-
 if __name__ == '__main__':
     createTables()
 
@@ -143,6 +142,45 @@ async def commands(message):
     , inline=False)
     await message.send(embed=embed)
 
+# @bot.command()
+async def hs(message):
+
+    class hsUser:
+        wins = 0
+        losses = 0
+        kda = 0
+
+
+    sql = f"""SELECT
+              user_id userId,
+              nick nick,
+              wins wins,
+              losses losses,
+
+            FROM duel_users
+            ORDER BY wins
+            """
+    rows = None
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        cur.execute(sql)
+        rows = cur.fetchall()
+        cur.close()
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("SOME ERROR", error)
+        return
+    finally:
+        if conn is not None:
+            conn.close()
+    
+    embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.gold())
+    for row in rows:
+
+    
+    
+
 # begin a duel command
 @bot.command()
 async def fight(message):
@@ -157,7 +195,7 @@ def check(user):
 
 async def startCancelCountdown(message, saved_uuid):
 
-    await asyncio.sleep(30.0)
+    await asyncio.sleep(60.0)
 
     global duel
 
