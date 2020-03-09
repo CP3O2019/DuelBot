@@ -178,9 +178,6 @@ async def hs(message):
     embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.gold())
     for row in rows:
 
-    
-    
-
 # begin a duel command
 @bot.command()
 async def fight(message):
