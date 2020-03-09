@@ -142,51 +142,50 @@ async def commands(message):
     , inline=False)
     await message.send(embed=embed)
 
-# @bot.command()
-async def hs(message):
+# # @bot.command()
+# async def hs(message):
 
-    class hsUser:
-        wins = 0
-        losses = 0
-        kda = 0
+#     class hsUser:
+#         wins = 0
+#         losses = 0
+#         kda = 0
 
 
-    sql = f"""SELECT
-              user_id userId,
-              nick nick,
-              wins wins,
-              losses losses,
+#     sql = f"""SELECT
+#               user_id userId,
+#               nick nick,
+#               wins wins,
+#               losses losses,
 
-            FROM duel_users
-            ORDER BY wins
-            """
-    rows = None
-    try:
-        conn = psycopg2.connect(DATABASE_URL)
-        cur = conn.cursor()
-        cur.execute(sql)
-        rows = cur.fetchall()
-        cur.close()
-        conn.commit()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print("SOME ERROR", error)
-        return
-    finally:
-        if conn is not None:
-            conn.close()
+#             FROM duel_users
+#             ORDER BY wins
+#             """
+#     rows = None
+#     try:
+#         conn = psycopg2.connect(DATABASE_URL)
+#         cur = conn.cursor()
+#         cur.execute(sql)
+#         rows = cur.fetchall()
+#         cur.close()
+#         conn.commit()
+#     except (Exception, psycopg2.DatabaseError) as error:
+#         print("SOME ERROR", error)
+#         return
+#     finally:
+#         if conn is not None:
+#             conn.close()
     
-    embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.gold())
-    for row in rows:
+#     embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.gold())
+#     for row in rows:
+
 
 # begin a duel command
 @bot.command()
 async def fight(message):
-
     global duel
-
     await createDuel(message)
     await startCancelCountdown(message, duel.uuid)
-
+    
 def check(user):
     return user != duel.user_1.user
 
