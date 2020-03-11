@@ -177,7 +177,7 @@ class AttackCommands(commands.Cog):
             await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
             await self.rollForRares(message, sendingUser.user)
-            del channelDuel
+            del globals.duels[message.channel.id]
             return
 
         # calculates special energy remaining and adds to message
@@ -288,7 +288,7 @@ class AttackCommands(commands.Cog):
         if leftoverHitpoints <= 0:
             await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
-            channelDuel = None
+            del globals.duels[message.channel.id]
             return
 
         if poisonRoll == 0 and receivingUser.poisoned == True:

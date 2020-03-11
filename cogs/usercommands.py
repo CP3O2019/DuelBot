@@ -381,7 +381,11 @@ class UserCommands(commands.Cog):
         if channelDuel == None:
             return
 
-        if channelDuel.user_2 == None and channelDuel.uuid == saved_uuid:       
+        print("CURRENT DUEL UUID", channelDuel.uuid) 
+        print("SAVED DUEL UUID", saved_uuid) 
+        if channelDuel.user_2 == None and channelDuel.uuid == saved_uuid:  
+            print("INSIDE CURRENT DUEL UUID", channelDuel.uuid) 
+            print("INSIDE SAVED DUEL UUID", saved_uuid)  
             del globals.duels[message.channel.id]
             await message.send("Nobody accepted the duel.")
 
