@@ -266,15 +266,19 @@ class AttackCommands(commands.Cog):
         # calculate special remaining
         sendingUser.special -= special
 
+        rand = randint(0, math.floor((100/freezeChance))-1)
+
         if leftoverHitpoints > 0:
-            if poisonRoll == 0:
+            if poisonRoll == 0 and rand == 0:
+                self.makeImage(leftoverHitpoints, True, True)
+            elif poisonRoll == 0 and rand != 0:
                 self.makeImage(leftoverHitpoints, False, True)
-            else:
-                self.makeImage(leftoverHitpoints, False, False)
+            elif poisonRoll != 0 and rand == 0:
+                self.makeImage(leftoverHitpoints, True, False)
+            elif poisonRoll != 0 and rand != 0:
+                self.makeImage(leftoverHitpoints, False, False)    
         else:
             self.makeImage(0, False, False)
-
-        rand = randint(0, math.floor((100/freezeChance))-1)
 
         sending = ""
 
@@ -664,8 +668,20 @@ class AttackCommands(commands.Cog):
         await message.send(f"*{message.author.nick} received {itemText} for winning!*")
 
     def makeImage(self, hitpoints, freeze, poison):
-        img = Image.new('RGB', (198, 40), (252, 3, 3))
-        img.paste((0, 255, 26), (0, 0, 2 * hitpoints, 40))
+
+        primary = (252, 3, 3)
+        secondary = (0, 255, 26)
+
+        if poison == True:
+            primary = (0, 255, 26)
+            secondary = (34, 148, 72)
+
+        if freeze == True:
+            primary = (69, 155, 217)
+            secondary = (130, 203, 255)
+
+        img = Image.new('RGB', (198, 40), primary)
+        img.paste(secondary, (0, 0, 2 * hitpoints, 40))
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(r'./HelveticaNeue.ttc', 16)
         draw.text((80, 10), f"{hitpoints}/99", (0, 0, 0), font=font)
