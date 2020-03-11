@@ -318,7 +318,7 @@ class UserCommands(commands.Cog):
                 notTurn = channelDuel.user_1
 
             await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
-            updateDB(notTurn.user, turnUser.user)
+            await self.updateDB(notTurn.user, turnUser.user)
             globals.duels[message.channel.id] = None
 
     def check(self, user, channelId):
