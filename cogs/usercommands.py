@@ -316,10 +316,10 @@ class UserCommands(commands.Cog):
 
             channelDuel = globals.duels.get(message.channel.id, None)
 
-            if channelDuel.turn.user.id == channelDuel.user_1.user.id:
+            if channelDuel.turn.user.id == channelDuel.user_1.user.id and channelDuel.uuid == duel.uuid:
                 turnUser = channelDuel.user_1
                 notTurn = channelDuel.user_2
-            else:
+            elif channelDuel.uuid == duel.uuid and channelDuel.turnCount == duel.turnCount:
                 turnUser = channelDuel.user_2
                 notTurn = channelDuel.user_1
             print("Cancelling duel from inside of beginFightTurnChecker in usercommands.py")
