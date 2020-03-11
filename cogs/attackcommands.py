@@ -290,7 +290,7 @@ class AttackCommands(commands.Cog):
         await message.send(file=discord.File('./hpbar.png'))
 
         print("turn", channelDuel.turn.user.nick)
-        print("user1", channelDuel.user_1.nick)
+        print("user1", channelDuel.user_1.user.nick)
         if channelDuel.turn == channelDuel.user_1:
             globals.duels[message.channel.id].turn = channelDuel.user_2
         else:
