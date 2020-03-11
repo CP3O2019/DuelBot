@@ -327,7 +327,8 @@ class AttackCommands(commands.Cog):
             return
 
         # if the wrong user is trying to go
-
+        print("sending user:", sendingUser.user.id)
+        print("turn user:", channelDuel.turn.user.id)
         if sendingUser.user.id != channelDuel.turn.user.id:
             await message.send("It's not your turn.")
             return
