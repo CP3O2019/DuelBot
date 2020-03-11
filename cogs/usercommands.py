@@ -296,7 +296,7 @@ class UserCommands(commands.Cog):
             else:
                 attackTypeCheck = False
 
-            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True
+            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurnCount == globals.duels[message.channel.id].turnCount
         
         try:
             msg = await self.bot.wait_for('message', check=checkParameters, timeout=90)
@@ -317,7 +317,7 @@ class UserCommands(commands.Cog):
                 turnUser = channelDuel.user_2
                 notTurn = channelDuel.user_1
 
-            await message.channel.send(f'{turnUser.user.nick} took tong to take their turn. {notTurn.user.nick} wins the duel.')
+            await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
 
             globals.duels[message.channel.id] = None
 
