@@ -244,6 +244,7 @@ class AttackCommands(commands.Cog):
             await message.send("You cannot use that type of attack twice in a row.")
             return
         else:
+            print("saving weapon")
             sendingUser.lastAttack = weapon
 
         hitArray = []
@@ -438,10 +439,15 @@ class AttackCommands(commands.Cog):
         savedTurn = channelDuel.turn
         savedTurnCount = channelDuel.turnCount
 
+        print("channel duel", channelDuel.turn.user.nick)
+        print("global duel", globals.duels[message.channel.id].turn.user.nick)
         if channelDuel.turn == channelDuel.user_1:
             channelDuel.turn = channelDuel.user_2
         else:
             channelDuel.turn = channelDuel.user_1
+
+        print("channel duel", channelDuel.turn.user.nick)
+        print("global duel", globals.duels[message.channel.id].turn.user.nick)
 
         attackTypes = [".dds",
                        ".ags",
