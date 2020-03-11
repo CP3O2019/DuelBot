@@ -290,9 +290,9 @@ class AttackCommands(commands.Cog):
         await message.send(file=discord.File('./hpbar.png'))
 
         if channelDuel.turn == channelDuel.user_1:
-            channelDuel.turn = channelDuel.user_2
+            globals.duels[message.channel.id].turn = channelDuel.user_2
         else:
-            channelDuel.turn = channelDuel.user_1
+            globals.duels[message.channel.id].turn = channelDuel.user_1
 
         os.remove('./hpbar.png')
         channelDuel.turnCount += 1
@@ -432,6 +432,7 @@ class AttackCommands(commands.Cog):
 
         # switches who's turn it is
         savedTurn = channelDuel.turn
+        savedTurnCount = channelDuel.turnCount
 
         if channelDuel.turn == channelDuel.user_1:
             channelDuel.turn = channelDuel.user_2
@@ -479,7 +480,7 @@ class AttackCommands(commands.Cog):
             else:
                 attackTypeCheck = False
 
-            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurn.turnCount != channelDuel.turnCount
+            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurnCount != channelDuel.turnCount
         
         try:
             msg = await self.bot.wait_for('message', check=checkParameters, timeout=90)
