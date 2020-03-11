@@ -220,7 +220,7 @@ class UserCommands(commands.Cog):
             globals.duels[message.channel.id] = Duel(DuelUser(message.author), uuid.uuid4())
             channelDuel = globals.duels.get(message.channel.id, None)
             globals.lastMessages[message.channel.id] = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
-            self.startCancelCountdown(message, channelDuel.uuid)
+            await self.startCancelCountdown(message, channelDuel.uuid)
             return
 
         # Check to see if the person is dueling themselves
