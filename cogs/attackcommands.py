@@ -158,9 +158,12 @@ class AttackCommands(commands.Cog):
 
         # create the image for the remaining hitpoints
         if leftoverHitpoints > 0:
-            self.makeImage(leftoverHitpoints)
+            if poisonRoll == 0:
+                self.makeImage(leftoverHitpoints, False, True)
+            else:
+                self.makeImage(leftoverHitpoints, False, False)
         else:
-            self.makeImage(0)
+            self.makeImage(0, False, False)
 
         sending = ""
 
@@ -182,13 +185,6 @@ class AttackCommands(commands.Cog):
 
         # send message and add image below
         await message.send(content=sending, file=discord.File('./hpbar.png'))
-        # await message.send(file=discord.File('./desktop/duelbot/hpbar.png'))
-
-        # switch the turn
-        if channelDuel.turn == channelDuel.user_1:
-            channelDuel.turn = channelDuel.user_2
-        else:
-            channelDuel.turn = channelDuel.user_1
 
         # remove image from local file
         os.remove('./hpbar.png')
@@ -255,6 +251,14 @@ class AttackCommands(commands.Cog):
             hit = randint(0, max)
             hitArray.append(hit)
 
+        # calculate poison
+        poisonRoll = randint(0, 3)
+
+        if receivingUser.poisoned == True:
+            # if the user is already poisoned and the poison roll succeeded, apply damage.
+            if poisonRoll == 0:
+                receivingUser.hitpoints -= 6
+
         # calculate damage dealt
         leftoverHitpoints = receivingUser.hitpoints - sum(hitArray)
         receivingUser.hitpoints = leftoverHitpoints
@@ -263,9 +267,12 @@ class AttackCommands(commands.Cog):
         sendingUser.special -= special
 
         if leftoverHitpoints > 0:
-            self.makeImage(leftoverHitpoints)
+            if poisonRoll == 0:
+                self.makeImage(leftoverHitpoints, False, True)
+            else:
+                self.makeImage(leftoverHitpoints, False, False)
         else:
-            self.makeImage(0)
+            self.makeImage(0, False, False)
 
         rand = randint(0, math.floor((100/freezeChance))-1)
 
@@ -280,8 +287,9 @@ class AttackCommands(commands.Cog):
             channelDuel = None
             return
 
+        if poisonRoll == 0 and receivingUser.poisoned == True:
+            sending += f' {receivingUser.user.nick} is hit for **6** poison damage.'
 
-        print("random freeze roll:", rand)
         if rand == 0:
             print("freeze")
             sending += f' {receivingUser.user.nick} is **frozen** and loses their turn.'
@@ -379,9 +387,12 @@ class AttackCommands(commands.Cog):
 
         # create the image for the remaining hitpoints
         if leftoverHitpoints > 0:
-            self.makeImage(leftoverHitpoints)
+            if poisonRoll == 0:
+                self.makeImage(leftoverHitpoints, False, True)
+            else:
+                self.makeImage(leftoverHitpoints, False, False)
         else:
-            self.makeImage(0)
+            self.makeImage(0, False, False)
 
         sending = ""
 
@@ -652,8 +663,8 @@ class AttackCommands(commands.Cog):
 
         await message.send(f"*{message.author.nick} received {itemText} for winning!*")
 
-    def makeImage(self, hitpoints):
-        img = Image.new('RGB', (198, 40), color='red')
+    def makeImage(self, hitpoints, freeze, poison):
+        img = Image.new('RGB', (198, 40), (252, 3, 3))
         img.paste((0, 255, 26), (0, 0, 2 * hitpoints, 40))
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(r'./HelveticaNeue.ttc', 16)
