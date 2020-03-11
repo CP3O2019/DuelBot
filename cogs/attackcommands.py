@@ -218,6 +218,7 @@ class AttackCommands(commands.Cog):
         channelDuel = globals.duels.get(message.channel.id, None)
 
         if channelDuel == None:
+            print("Couldn't find duel")
             return
 
         if message.author.id == channelDuel.user_1.user.id:
@@ -229,6 +230,7 @@ class AttackCommands(commands.Cog):
             receivingUser = channelDuel.user_1
 
         if sendingUser == None:
+            print("Couldn't find sending user")
             return
 
         if sendingUser.user.id != channelDuel.turn.user.id:
@@ -275,7 +277,10 @@ class AttackCommands(commands.Cog):
             channelDuel = None
             return
 
+
+        print("random freeze roll:", rand)
         if rand == 0:
+            print("freeze")
             sending += f' {receivingUser.user.nick} is **frozen** and loses their turn.'
             await message.send(sending)
             await message.send(file=discord.File('./hpbar.png'))
@@ -474,7 +479,7 @@ class AttackCommands(commands.Cog):
             else:
                 attackTypeCheck = False
 
-            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True
+            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurn.turnCount != channelDuel.turnCount
         
         try:
             msg = await self.bot.wait_for('message', check=checkParameters, timeout=90)
@@ -487,6 +492,9 @@ class AttackCommands(commands.Cog):
             notTurn = None
 
             channelDuel = globals.duels.get(message.channel.id, None)
+
+            if channelDuel == None:
+                return
 
             if channelDuel.turn.user.id == channelDuel.user_1.user.id:
                 turnUser = channelDuel.user_1
