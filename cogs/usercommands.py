@@ -245,7 +245,9 @@ class UserCommands(commands.Cog):
         del globals.lastMessages[message.channel.id]
         await message.send(f"Beginning duel between {channelDuel.user_1.user.nick} and {channelDuel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
 
-        if channelDuel.user_1 != None and channelDuel.user_2 != None:
+        if channel.user_1 != None and channelDuel.user_2 == None:
+            await self.startCancelCountdown(message, channelDuel.uuid)
+        elif channelDuel.user_1 != None and channelDuel.user_2 != None:
             await self.beginFightTurnChecker(message, channelDuel)
 
     async def beginFightTurnChecker(self, message, duel):
