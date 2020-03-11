@@ -215,26 +215,30 @@ class UserCommands(commands.Cog):
 
         channelDuel = globals.duels.get(message.channel.id, None)
 
+        # Check to see if a duel exists in the channel
         if channelDuel == None:
             globals.duels[message.channel.id] = Duel(DuelUser(message.author), uuid.uuid4())
             channelDuel = globals.duels.get(message.channel.id, None)
             globals.lastMessages[message.channel.id] = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
+            self.startCancelCountdown(message, channelDuel.uuid)
             return
 
+        # Check to see if the person is dueling themselves
         if self.check(message.author, message.channel.id) == False:
             await message.send("You cannot duel yourself.")
             return
 
+        # Check to see if a duel already exists between two people
         if channelDuel.user_1 != None and channelDuel.user_2 != None:
             await message.send("There are already two people dueling.")
             return
 
+        # If it passed the other checks, add duel user 2 to the fight
         channelDuel.user_2 = DuelUser(message.author)
 
+        # Randomly pick a starting user
         startingUserBool = bool(random.getrandbits(1))
-
         startingUser = None
-
         if startingUserBool == True:
             startingUser = channelDuel.user_1
             channelDuel.turn = channelDuel.user_1
@@ -242,13 +246,13 @@ class UserCommands(commands.Cog):
             startingUser = channelDuel.user_2
             channelDuel.turn = channelDuel.user_2
 
+
         del globals.lastMessages[message.channel.id]
         await message.send(f"Beginning duel between {channelDuel.user_1.user.nick} and {channelDuel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
 
-        if channel.user_1 != None and channelDuel.user_2 == None:
-            await self.startCancelCountdown(message, channelDuel.uuid)
-        elif channelDuel.user_1 != None and channelDuel.user_2 != None:
+        if channelDuel.user_1 != None and channelDuel.user_2 != None:
             await self.beginFightTurnChecker(message, channelDuel)
+
 
     async def beginFightTurnChecker(self, message, duel):
 
@@ -378,7 +382,7 @@ class UserCommands(commands.Cog):
             return
 
         if channelDuel.user_2 == None and channelDuel.uuid == saved_uuid:       
-            channelDuel = None
+            del globals.duels[message.channel.id]
             await message.send("Nobody accepted the duel.")
 
         elif channelDuel.user_2 != None:
