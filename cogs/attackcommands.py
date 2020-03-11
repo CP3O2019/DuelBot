@@ -325,6 +325,9 @@ class AttackCommands(commands.Cog):
             return
 
         # if the wrong user is trying to go
+        print("sending user:", sendingUser.user.id)
+        print("turn user:", channelDuel.turn.user.id)
+
         if sendingUser.user.id != channelDuel.turn.user.id:
             await message.send("It's not your turn.")
             return
@@ -490,7 +493,10 @@ class AttackCommands(commands.Cog):
             else:
                 attackTypeCheck = False
 
-            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurnCount != channelDuel.turnCount
+            if globals.duels.get(message.channel.id, None) == None:
+                return
+
+            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurnCount == globals.duels[message.channel.id].turnCount
         
         try:
             msg = await self.bot.wait_for('message', check=checkParameters, timeout=90)
