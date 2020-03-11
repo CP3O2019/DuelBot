@@ -243,9 +243,9 @@ class UserCommands(commands.Cog):
 
         del globals.lastMessages[message.channel.id]
         await message.send(f"Beginning duel between {channelDuel.user_1.user.nick} and {channelDuel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
-        await self.turnChecker(message, channelDuel)
+        await self.beginFightTurnChecker(message, channelDuel)
 
-    async def turnChecker(self, message, duel):
+    async def beginFightTurnChecker(self, message, duel):
 
         channelDuel = globals.duels.get(message.channel.id, None)
 
