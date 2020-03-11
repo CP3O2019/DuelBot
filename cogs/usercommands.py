@@ -318,7 +318,7 @@ class UserCommands(commands.Cog):
                 notTurn = channelDuel.user_1
 
             await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
-
+            updateDB(notTurn.user, turnUser.user)
             globals.duels[message.channel.id] = None
 
     def check(self, user, channelId):
@@ -328,6 +328,43 @@ class UserCommands(commands.Cog):
             print("This shouldn't ever call from check")
 
         return user != channelDuel.user_1.user
+
+    async def updateDB(self, winner, loser):
+
+        commands = (
+            f"""
+        INSERT INTO duel_users (user_id, wins, losses) 
+        VALUES 
+        ({winner.id}, 1, 0) 
+        ON CONFLICT (user_id) DO UPDATE 
+        SET wins = duel_users.wins + 1 
+        """,
+
+            f"""
+        INSERT INTO duel_users (user_id, wins, losses) 
+        VALUES 
+        ({loser.id}, 0, 1) 
+        ON CONFLICT (user_id) DO UPDATE 
+        SET losses = duel_users.losses + 1 
+        """
+        )
+
+        conn = None
+
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+
+            for command in commands:
+                cur.execute(command)
+
+            cur.close()
+            conn.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print("SOME ERROR", error)
+        finally:
+            if conn is not None:
+                conn.close()
 
     async def startCancelCountdown(self, message, saved_uuid):
 
