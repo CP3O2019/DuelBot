@@ -512,7 +512,9 @@ class AttackCommands(commands.Cog):
 
             channelDuel = globals.duels.get(message.channel.id, None)
 
+            print(f"Timed out from turn {duel.turnCount} by {duel.turn.user.nick}")
             if channelDuel == None:
+                print("Did not meet requirements to time out")
                 return
             elif channelDuel != None and channelDuel.turnCount == duel.turnCount and channelDuel.uuid == duel.uuid:
                 if channelDuel.turn.user.id == channelDuel.user_1.user.id:
