@@ -82,8 +82,9 @@ class UserCommands(commands.Cog):
 
         if channelDuel == None:
             print("This shouldn't ever throw")
+            return
 
-        await self.startCancelCountdown(message, channelDuel.uuid)
+        # await self.startCancelCountdown(message, channelDuel.uuid)
 
     @commands.command(name='commands')
     async def cmds(self, message):
@@ -243,7 +244,9 @@ class UserCommands(commands.Cog):
 
         del globals.lastMessages[message.channel.id]
         await message.send(f"Beginning duel between {channelDuel.user_1.user.nick} and {channelDuel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
-        await self.beginFightTurnChecker(message, channelDuel)
+
+        if channelDuel.user_1 != None and channelDuel.user_2 != None:
+            await self.beginFightTurnChecker(message, channelDuel)
 
     async def beginFightTurnChecker(self, message, duel):
 
