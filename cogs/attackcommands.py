@@ -448,15 +448,11 @@ class AttackCommands(commands.Cog):
         savedTurn = channelDuel.turn
         savedTurnCount = channelDuel.turnCount
 
-        print("channel duel", channelDuel.turn.user.nick)
-        print("global duel", globals.duels[message.channel.id].turn.user.nick)
         if channelDuel.turn == channelDuel.user_1:
             channelDuel.turn = channelDuel.user_2
         else:
             channelDuel.turn = channelDuel.user_1
 
-        print("channel duel", channelDuel.turn.user.nick)
-        print("global duel", globals.duels[message.channel.id].turn.user.nick)
 
         attackTypes = [".dds",
                        ".ags",
@@ -518,17 +514,18 @@ class AttackCommands(commands.Cog):
 
             if channelDuel == None:
                 return
+            elif channelDuel != None and channelDuel.turnCount == duel.turnCount and channelDuel.uuid == duel.uuid:
+                if channelDuel.turn.user.id == channelDuel.user_1.user.id:
+                    turnUser = channelDuel.user_1
+                    notTurn = channelDuel.user_2
+                else:
+                    turnUser = channelDuel.user_2
+                    notTurn = channelDuel.user_1
 
-            if channelDuel.turn.user.id == channelDuel.user_1.user.id:
-                turnUser = channelDuel.user_1
-                notTurn = channelDuel.user_2
-            else:
-                turnUser = channelDuel.user_2
-                notTurn = channelDuel.user_1
+                print("Canceling from inside of checkParameters in attackcommands.py")
+                await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
 
-            await message.channel.send(f'{turnUser.user.nick} took tong to take their turn. {notTurn.user.nick} wins the duel.')
-
-            globals.duels[message.channel.id] = None
+                globals.duels[message.channel.id] = None
 
     async def updateDB(self, winner, loser):
 

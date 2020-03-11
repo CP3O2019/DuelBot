@@ -318,7 +318,7 @@ class UserCommands(commands.Cog):
             else:
                 turnUser = channelDuel.user_2
                 notTurn = channelDuel.user_1
-
+            print("Cancelling duel from inside of beginFightTurnChecker in usercommands.py")
             await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
             await self.updateDB(notTurn.user, turnUser.user)
             globals.duels[message.channel.id] = None
