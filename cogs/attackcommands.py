@@ -158,7 +158,7 @@ class AttackCommands(commands.Cog):
 
         # create the image for the remaining hitpoints
         if leftoverHitpoints > 0:
-            if poisonRoll == 0:
+            if receivingUser.poisoned == True:
                 self.makeImage(leftoverHitpoints, False, True)
             else:
                 self.makeImage(leftoverHitpoints, False, False)
@@ -269,9 +269,9 @@ class AttackCommands(commands.Cog):
         rand = randint(0, math.floor((100/freezeChance))-1)
 
         if leftoverHitpoints > 0:
-            if poisonRoll == 0 and rand == 0:
+            if receivingUser.poisoned == True and rand == 0:
                 self.makeImage(leftoverHitpoints, True, True)
-            elif poisonRoll == 0 and rand != 0:
+            elif receivingUser.poisoned == True and rand != 0:
                 self.makeImage(leftoverHitpoints, False, True)
             elif poisonRoll != 0 and rand == 0:
                 self.makeImage(leftoverHitpoints, True, False)
@@ -391,7 +391,7 @@ class AttackCommands(commands.Cog):
 
         # create the image for the remaining hitpoints
         if leftoverHitpoints > 0:
-            if poisonRoll == 0:
+            if receivingUser.poisoned == True:
                 self.makeImage(leftoverHitpoints, False, True)
             else:
                 self.makeImage(leftoverHitpoints, False, False)
@@ -673,8 +673,8 @@ class AttackCommands(commands.Cog):
         secondary = (0, 255, 26)
 
         if poison == True:
-            primary = (0, 255, 26)
-            secondary = (34, 148, 72)
+            primary = (44, 156, 55)
+            secondary = (112, 219, 123)
 
         if freeze == True:
             primary = (69, 155, 217)
