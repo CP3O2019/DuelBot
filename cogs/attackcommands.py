@@ -14,7 +14,6 @@ from PIL import ImageFont
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
-
 class AttackCommands(commands.Cog):
 
     def __init__(self, bot):
@@ -66,7 +65,7 @@ class AttackCommands(commands.Cog):
         await self.useAttack(message, "Saradomin godsword", 50, 1, 37, 50, False)
 
     @commands.command()
-    async def claws(self, message):
+    async def dclaws(self, message):
 
         sendingUser = None
         receivingUser = None
@@ -194,7 +193,7 @@ class AttackCommands(commands.Cog):
         # remove image from local file
         os.remove('./hpbar.png')
         channelDuel.turnCount += 1
-        await self.checkDuelTimeout(message, channelDuel)
+        await self.turnChecker(message, channelDuel)
 
     @commands.command()
     async def bp(self, message):
@@ -292,7 +291,7 @@ class AttackCommands(commands.Cog):
 
         os.remove('./hpbar.png')
         channelDuel.turnCount += 1
-        await self.checkDuelTimeout(message, channelDuel)
+        await self.turnChecker(message, channelDuel)
 
     async def useAttack(self, message, weapon, special, rolls, max, healpercent, poison):
 
@@ -420,7 +419,6 @@ class AttackCommands(commands.Cog):
         # remove image from local file
         os.remove('./hpbar.png')
         channelDuel.turnCount += 1
-
         await self.turnChecker(message, channelDuel)
 
     async def turnChecker(self, message, duel):
@@ -435,39 +433,39 @@ class AttackCommands(commands.Cog):
         else:
             channelDuel.turn = channelDuel.user_1
 
-        attackTypes = [",dds",
-                       ",ags",
-                       ",sgs",
-                       ",claws",
-                       ",whip",
-                       ",zgs",
-                       ",dlong",
-                       ",dmace",
-                       ",dwh",
-                       ",ss",
-                       ",gmaul",
-                       ",ice",
-                       ",blood",
-                       ",smoke",
-                       ",bp"]
+        attackTypes = [".dds",
+                       ".ags",
+                       ".sgs",
+                       ".dlaws",
+                       ".whip",
+                       ".zgs",
+                       ".dlong",
+                       ".dmace",
+                       ".dwh",
+                       ".ss",
+                       ".gmaul",
+                       ".ice",
+                       ".blood",
+                       ".smoke",
+                       ".bp"]
 
         def checkParameters(message):
             channelDuel = globals.duels.get(message.channel.id, None)
-            attackTypes = [",dds",
-                           ",ags",
-                           ",sgs",
-                           ",claws",
-                           ",whip",
-                           ",zgs",
-                           ",dlong",
-                           ",dmace",
-                           ",dwh",
-                           ",ss",
-                           ",gmaul",
-                           ",ice",
-                           ",blood",
-                           ",smoke",
-                           ",bp"]
+            attackTypes = [".dds",
+                           ".ags",
+                           ".sgs",
+                           ".dclaws",
+                           ".whip",
+                           ".zgs",
+                           ".dlong",
+                           ".dmace",
+                           ".dwh",
+                           ".ss",
+                           ".gmaul",
+                           ".ice",
+                           ".blood",
+                           ".smoke",
+                           ".bp"]
 
             attackTypeCheck = None
 

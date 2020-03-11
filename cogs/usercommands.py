@@ -101,6 +101,7 @@ class UserCommands(commands.Cog):
         "**.dwh**: Hits once, max of **39**, uses 50% special \n"
         "**.ss**: Hits twice, max of **27** each hit, uses 100% special \n"
         "**.gmaul**: Hits three times, max of **24** each hit, uses 100% special \n"
+        "**.dclaws**: Hits up to four times, halving each successive hit, max of 31, uses 50% special \n"
         "**.bp**: Hits once, max of **27**, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
         "**.ice**: Hits once, max of **30**, has a 12.5% chance to freeze enemy\n"
         "**.blood**: Hits once, max of **28**, heals for 25% of damage \n"
