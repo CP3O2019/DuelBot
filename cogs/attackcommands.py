@@ -291,16 +291,7 @@ class AttackCommands(commands.Cog):
 
         await message.send(sending)
         await message.send(file=discord.File('./hpbar.png'))
-
-        print("turn", channelDuel.turn.user.nick)
-        print("user1", channelDuel.user_1.user.nick)
-        if channelDuel.turn == channelDuel.user_1:
-            globals.duels[message.channel.id].turn = channelDuel.user_2
-        else:
-            globals.duels[message.channel.id].turn = channelDuel.user_1
         
-        print("turn", channelDuel.turn.user.nick)
-
         os.remove('./hpbar.png')
         channelDuel.turnCount += 1
         await self.turnChecker(message, channelDuel)
@@ -428,7 +419,6 @@ class AttackCommands(commands.Cog):
 
         # send message and add image below
         await message.send(content=sending, file=discord.File('./hpbar.png'))
-
 
         # remove image from local file
         os.remove('./hpbar.png')
@@ -661,34 +651,6 @@ class AttackCommands(commands.Cog):
                 conn.close()
 
         await message.send(f"*{message.author.nick} received {itemText} for winning!*")
-
-    async def checkDuelTimeout(self, message, savedDuel):
-
-        oldTurn = savedDuel
-
-        await asyncio.sleep(180.0)
-
-        channelDuel = globals.duels.get(message.channel.id, None)
-
-        if channelDuel == None:
-            return
-
-        if oldTurn.turnCount == channelDuel.turnCount and oldTurn.uuid == channelDuel.uuid:
-
-            notTurn = None
-
-            # gets the player who's turn it is not
-            if oldTurn.turn == channelDuel.user_1:
-                notTurn = channelDuel.user_2
-            else:
-                notTurn = channelDuel.user_1
-            print("Cancelling duel")
-            await message.send(f"{oldTurn.turn.user.nick} took too long for their turn. {notTurn.user.nick} wins the duel.")
-            await self.updateDB(notTurn.user, oldTurn.turn.user)
-            print("testing deleting the channel duel")
-            del channelDuel
-
-        return
 
     def makeImage(self, hitpoints):
         img = Image.new('RGB', (198, 40), color='red')

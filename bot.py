@@ -94,34 +94,6 @@ async def startCancelCountdown(message, saved_uuid):
     elif channelDuel.user_2 != None:
         return
 
-async def checkDuelTimeout(message, savedDuel):
-
-    oldTurn = savedDuel
-
-    await asyncio.sleep(180.0)
-
-    channelDuel = globals.duels.get(message.channel.id, None)
-
-    if channelDuel == None:
-        return
-
-    if oldTurn.turnCount == channelDuel.turnCount and oldTurn.uuid == channelDuel.uuid:
-
-        notTurn = None
-
-        # gets the player who's turn it is not
-        if oldTurn.turn == channelDuel.user_1:
-            notTurn = channelDuel.user_2
-        else:
-            notTurn = channelDuel.user_1
-        print("Cancelling duel")
-        await message.send(f"{oldTurn.turn.user.nick} took too long for their turn. {notTurn.user.nick} wins the duel.")
-        await updateDB(notTurn.user, oldTurn.turn.user)
-        print("testing deleting the channel duel")
-        del duels[message.channel.id]
-
-    return
-
 async def createDuel(message):
 
     global duels
