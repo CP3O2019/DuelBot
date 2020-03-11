@@ -273,9 +273,9 @@ class AttackCommands(commands.Cog):
                 self.makeImage(leftoverHitpoints, True, True)
             elif receivingUser.poisoned == True and rand != 0:
                 self.makeImage(leftoverHitpoints, False, True)
-            elif poisonRoll != 0 and rand == 0:
+            elif receivingUser.poisoned == False and rand == 0:
                 self.makeImage(leftoverHitpoints, True, False)
-            elif poisonRoll != 0 and rand != 0:
+            elif receivingUser.poisoned == False and rand != 0:
                 self.makeImage(leftoverHitpoints, False, False)    
         else:
             self.makeImage(0, False, False)
