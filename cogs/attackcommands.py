@@ -238,7 +238,7 @@ class AttackCommands(commands.Cog):
                         val = item[2]
 
                         if type(item[2]) == int:
-                            multipliedVal = [item[2] * item [3]
+                            multipliedVal = item[2] * item[3]
                             val = "{:,d}".format(multipliedVal)
                         
                         lootMessage += f"*{item[3]}x {item[0]} worth {val} GP* \n"
