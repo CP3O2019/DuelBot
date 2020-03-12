@@ -334,7 +334,7 @@ class UserCommands(commands.Cog):
             else:
                 attackTypeCheck = False
 
-            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurnCount == globals.duels[message.channel.id].turnCount
+            return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurn.turnCount == globals.duels[message.channel.id].turnCount
         
         try:
             msg = await self.bot.wait_for('message', check=checkParameters, timeout=90)
