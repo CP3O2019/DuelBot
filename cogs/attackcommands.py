@@ -121,7 +121,7 @@ class AttackCommands(commands.Cog):
         else:
             hitArray.append(0)  # First hit is a 0
             secondHit = randint(0, 21)
-            if secondHit >= 10:
+            if secondHit >= 4:
                 hitArray.append(secondHit)  # Second hit rolls for max
                 # Third and fourth hits are half of second
                 hitArray.append(math.floor(secondHit/2))
@@ -129,14 +129,14 @@ class AttackCommands(commands.Cog):
             else:
                 hitArray.append(0)  # Second hit is 0
                 thirdHit = randint(0, 21)
-                if thirdHit >= 10:
+                if thirdHit >= 4:
                     # Third and fourth hits do 75% of max
                     hitArray.append(thirdHit)
                     hitArray.append(thirdHit - 1)
                 else:
                     hitArray.append(0)  # Third hit is a 0
                     fourthHit = randint(0, 21)
-                    if fourthHit >= 10:
+                    if fourthHit >= 4:
                         hitArray.append(31)  # Fourth hit is a 0
                     else:
                         hitArray[2] = 1
