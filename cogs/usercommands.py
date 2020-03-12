@@ -7,6 +7,7 @@ import random
 from random import randint
 import globals
 from globals import Duel, DuelUser
+from cogs.mathHelpers import RSMathHelpers
 from discord.ext import commands
 from bot import duels, lastMessages
 
