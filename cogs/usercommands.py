@@ -370,17 +370,17 @@ class UserCommands(commands.Cog):
 
         commands = (
             f"""
-        INSERT INTO duel_users (user_id, wins, losses) 
+        INSERT INTO duel_users (user_id, wins, losses, gp) 
         VALUES 
-        ({winner.id}, 1, 0) 
+        ({winner.id}, 1, 0, 0) 
         ON CONFLICT (user_id) DO UPDATE 
         SET wins = duel_users.wins + 1 
         """,
 
             f"""
-        INSERT INTO duel_users (user_id, wins, losses) 
+        INSERT INTO duel_users (user_id, wins, losses, gp) 
         VALUES 
-        ({loser.id}, 0, 1) 
+        ({loser.id}, 0, 1, 0) 
         ON CONFLICT (user_id) DO UPDATE 
         SET losses = duel_users.losses + 1 
         """

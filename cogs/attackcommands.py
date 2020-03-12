@@ -266,8 +266,6 @@ class AttackCommands(commands.Cog):
             print("Couldn't find sending user")
             return
 
-        print("sending user:", sendingUser.user.id)
-        print("turn user:", channelDuel.turn.user.id)
         if sendingUser.user.id != channelDuel.turn.user.id:
             await message.send("It's not your turn.")
             return
@@ -279,7 +277,6 @@ class AttackCommands(commands.Cog):
             await message.send("You cannot use that type of attack twice in a row.")
             return
         else:
-            print("saving weapon")
             sendingUser.lastAttack = weapon
 
         hitArray = []
@@ -368,8 +365,7 @@ class AttackCommands(commands.Cog):
             return
 
         # if the wrong user is trying to go
-        print("sending user:", sendingUser.user.id)
-        print("turn user:", channelDuel.turn.user.id)
+
         if sendingUser.user.id != channelDuel.turn.user.id:
             await message.send("It's not your turn.")
             return
@@ -543,16 +539,13 @@ class AttackCommands(commands.Cog):
 
         except asyncio.TimeoutError:
             # called when it times out
-            print(f'Duel in channel {message.channel.id} timed out.')
 
             turnUser = None
             notTurn = None
 
             channelDuel = globals.duels.get(message.channel.id, None)
 
-            print(f"Timed out from turn {duel.turnCount} by {duel.turn.user.nick}")
             if channelDuel == None:
-                print("Did not meet requirements to time out")
                 return
             elif channelDuel != None and channelDuel.turnCount == duel.turnCount and channelDuel.uuid == duel.uuid:
                 if channelDuel.turn.user.id == channelDuel.user_1.user.id:
@@ -562,9 +555,8 @@ class AttackCommands(commands.Cog):
                     turnUser = channelDuel.user_2
                     notTurn = channelDuel.user_1
 
-                print("Canceling from inside of checkParameters in attackcommands.py")
                 await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
-
+                print(f'Duel in channel {message.channel.id} timed out.')
                 globals.duels[message.channel.id] = None
 
     async def updateDB(self, winner, loser):

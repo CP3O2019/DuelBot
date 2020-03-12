@@ -23,8 +23,7 @@ def createTables():
 
     commands = (
     """
-    ALTER TABLE duel_users
-    ADD gp integer NOT NULL
+    DROP TABLE duel_users
     """
     ,
     """
