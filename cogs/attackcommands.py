@@ -725,6 +725,5 @@ class AttackCommands(commands.Cog):
         draw.text((80, 10), f"{hitpoints}/99", (0, 0, 0), font=font)
         img.save('./hpbar.png')
 
-
 def setup(bot):
     bot.add_cog(AttackCommands(bot))

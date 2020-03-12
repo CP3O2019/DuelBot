@@ -89,7 +89,7 @@ class UserCommands(commands.Cog):
         embed.add_field(name="Commands", value="**.fight**: Begins a duel \n"
         "**.kd**: View your kill/death ratio \n"
         "**.rares**: See all of the rares you've won \n"
-        "**.gp**: See how much gp you have", inline = False)
+        "**.gp**: See how much GP you have", inline = False)
         embed.add_field(name="Weapons", value="**.dds**: Hits twice, max of **18** each hit, uses 25% special, 25% chance to poison \n"
         "**.whip**: Hits once, max of **27** \n"
         "**.ags**: Hits once, max of **46**, uses 50% of special \n"
@@ -98,7 +98,7 @@ class UserCommands(commands.Cog):
         "**.dwh**: Hits once, max of **39**, uses 50% special \n"
         "**.ss**: Hits twice, max of **27** each hit, uses 100% special \n"
         "**.gmaul**: Hits three times, max of **24** each hit, uses 100% special \n"
-        "**.dclaws**: Hits up to four times, halving each successive hit, max of 31, uses 50% special \n"
+        "**.dclaws**: Hits up to four times, halving each successive hit, max of **31**, uses 50% special \n"
         "**.bp**: Hits once, max of **27**, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
         "**.ice**: Hits once, max of **30**, has a 12.5% chance to freeze enemy\n"
         "**.blood**: Hits once, max of **28**, heals for 25% of damage \n"
@@ -241,6 +241,30 @@ class UserCommands(commands.Cog):
         finally:
             if conn is not None:
                 conn.close()
+
+    @commands.command()
+    async def dice(self, message, *args):
+        try:
+            helper = RSMathHelpers(self.bot)
+            diceAmount = helper.numify(args[0])
+            diceAmountString_lost = helper.shortNumify(diceAmount, 1)
+            diceAmountString_winnings = helper.shortNumify(diceAmount, 2)
+
+            await helper.removeGPFromUser(message, message.author.id, diceAmount)
+
+            rand = randint(1, 100)
+            diceDescription = ''
+            if rand >= 55:
+                await helper.giveGPToUser(message, message.author.id, diceAmount * 2)
+                diceDescription = f'You rolled a **{rand}** and won {diceAmountString_winnings} GP'
+            else:
+                diceDescription = f'You rolled a **{rand}** and lost {diceAmountString_lost} GP.'
+
+            embed = discord.Embed(title='**Dice Roll**', description=diceDescription, color = discord.Color.orange())
+            embed.set_thumbnail(url='https://vignette.wikia.nocookie.net/runescape2/images/f/f2/Dice_bag_detail.png/revision/latest?cb=20111120013858')
+            await message.send(embed=embed)
+        except:
+            await message.send('You must dice a valid amount.')
 
     async def createDuel(self, message):
 
