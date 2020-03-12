@@ -177,6 +177,7 @@ class AttackCommands(commands.Cog):
             await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
             await self.rollForRares(message, sendingUser.user)
+            await self.generateLoot(message)
             del globals.duels[message.channel.id]
             return
 
@@ -202,6 +203,41 @@ class AttackCommands(commands.Cog):
     @commands.command()
     async def smoke(self, message):
         await self.useAttack(message, "Smoke barrage", 0, 1, 27, 0, True)
+
+    async def generateLoot(self, message):
+        loot = await PotentialItems(self.bot).rollLoot()
+        print(loot)
+
+        print(f"Adding {loot[995][1]} coins to user {message.author.id}'s pouch.")
+
+        sql = f"""
+        UPDATE duel_users 
+        SET gp = gp + {loot[995][1]} 
+        WHERE user_id = {message.author.id}
+        """
+        conn = None
+
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+            cur.execute(sql)
+            cur.close()
+            conn.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print("SOME ERROR", error)
+        finally:
+            if conn is not None:
+                conn.close()
+
+                lootMessage = f"__**{message.author.nick} received some loot from their kill:**__ \n"
+
+                for item in loot.values():
+                    if item[0] != 'Coins':
+                        lootMessage += f"*{item[3]}x {item[0]} worth {item[2]} GP* \n"
+                        
+                commaMoney = "{:,d}".format(loot[995][1])
+                lootMessage += f"Total loot value: **{commaMoney}**"
+                await message.send(lootMessage)
 
     # Checking to see if the player who's turn it is has taken their turn
     # Takes in a message from the previous turn
@@ -288,6 +324,7 @@ class AttackCommands(commands.Cog):
         if leftoverHitpoints <= 0:
             await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
+            await self.generateLoot(message)
             del globals.duels[message.channel.id]
             return
 
@@ -424,7 +461,7 @@ class AttackCommands(commands.Cog):
             await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
             await self.rollForRares(message, sendingUser.user)
-            print("attempting to delete channel duel in useAttack")
+            await self.generateLoot(message)
             del globals.duels[message.channel.id]
             return
 

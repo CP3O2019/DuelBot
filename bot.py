@@ -23,11 +23,17 @@ def createTables():
 
     commands = (
     """
+    ALTER TABLE duel_users
+    ADD gp integer NOT NULL
+    """
+    ,
+    """
     CREATE TABLE IF NOT EXISTS duel_users (
         user_id BIGINT PRIMARY KEY,
         nick TEXT,
         wins integer NOT NULL,
-        losses integer NOT NULL
+        losses integer NOT NULL,
+        gp integer NOT NULL
     )
     """,
     """

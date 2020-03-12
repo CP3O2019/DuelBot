@@ -50,9 +50,9 @@ class UserCommands(commands.Cog):
         ON CONFLICT (user_id) DO NOTHING
         """,
         f"""
-        INSERT INTO duel_users (user_id, nick, wins, losses) 
+        INSERT INTO duel_users (user_id, nick, wins, losses, gp) 
         VALUES 
-        ({user.id}, '{user.nick}', 0, 0)
+        ({user.id}, '{user.nick}', 0, 0, 0)
         ON CONFLICT (user_id) DO NOTHING
         """
         )
@@ -211,6 +211,38 @@ class UserCommands(commands.Cog):
             if conn is not None:
                 conn.close()
 
+    @commands.command()
+    async def gp(self, message):
+        await self.createTablesForUser(message.author)
+
+        sql = f"""
+        SELECT
+        gp gp
+        FROM duel_users
+        WHERE user_id = {message.author.id}"""
+
+        conn = None
+
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+            cur.execute(sql)
+            rows = cur.fetchall()
+
+            for row in rows:
+                commaMoney = "{:,d}".format(row[0])
+                await message.send(f'You have {commaMoney} GP!')
+
+            cur.close()
+            conn.commit()
+
+        except (Exception, psycopg2.DatabaseError) as error:
+            print("GP ERROR", error)
+            return
+        finally:
+            if conn is not None:
+                conn.close()
+
     async def createDuel(self, message):
 
         channelDuel = globals.duels.get(message.channel.id, None)
@@ -252,7 +284,6 @@ class UserCommands(commands.Cog):
 
         if channelDuel.user_1 != None and channelDuel.user_2 != None:
             await self.beginFightTurnChecker(message, channelDuel)
-
 
     async def beginFightTurnChecker(self, message, duel):
 
