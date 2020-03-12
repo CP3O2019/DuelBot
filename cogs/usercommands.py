@@ -88,7 +88,8 @@ class UserCommands(commands.Cog):
         embed = discord.Embed(title="Duel bot commands", color = discord.Color.orange())
         embed.add_field(name="Commands", value="**.fight**: Begins a duel \n"
         "**.kd**: View your kill/death ratio \n"
-        "**.rares**: See all of the rares you've won", inline = False)
+        "**.rares**: See all of the rares you've won \n"
+        "**.gp**: See how much gp you have", inline = False)
         embed.add_field(name="Weapons", value="**.dds**: Hits twice, max of **18** each hit, uses 25% special, 25% chance to poison \n"
         "**.whip**: Hits once, max of **27** \n"
         "**.ags**: Hits once, max of **46**, uses 50% of special \n"
