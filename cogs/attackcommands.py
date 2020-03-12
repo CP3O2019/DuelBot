@@ -235,7 +235,12 @@ class AttackCommands(commands.Cog):
 
                 for item in loot.values():
                     if item[0] != 'Coins':
-                        lootMessage += f"*{item[3]}x {item[0]} worth {item[2]} GP* \n"
+                        val = item[2]
+
+                        if type(item[2]) == int:
+                            val = "{:,d}".format([item[2] * item [3])
+                        
+                        lootMessage += f"*{item[3]}x {item[0]} worth {val} GP* \n"
                         
                 commaMoney = "{:,d}".format(loot[995][1])
                 lootMessage += f"Total loot value: **{commaMoney}**"
