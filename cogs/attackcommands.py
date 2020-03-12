@@ -178,8 +178,8 @@ class AttackCommands(commands.Cog):
             await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
             await self.rollForRares(message, sendingUser.user)
-            await self.generateLoot(message)
             del globals.duels[message.channel.id]
+            await self.generateLoot(message)
             return
 
         # calculates special energy remaining and adds to message
@@ -239,7 +239,7 @@ class AttackCommands(commands.Cog):
                         
                 commaMoney = "{:,d}".format(loot[995][1])
                 lootMessage += f"Total loot value: **{commaMoney}**"
-                await lastmsg.edit(lootMessage)
+                await lastmsg.edit(self, lootMessage)
 
     # Checking to see if the player who's turn it is has taken their turn
     # Takes in a message from the previous turn
@@ -323,8 +323,10 @@ class AttackCommands(commands.Cog):
         if leftoverHitpoints <= 0:
             await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
-            await self.generateLoot(message)
+            await self.rollForRares(message, sendingUser.user)
             del globals.duels[message.channel.id]
+            await self.generateLoot(message)
+
             return
 
         if poisonRoll == 0 and receivingUser.poisoned == True:
@@ -459,8 +461,8 @@ class AttackCommands(commands.Cog):
             await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
             await self.rollForRares(message, sendingUser.user)
-            await self.generateLoot(message)
             del globals.duels[message.channel.id]
+            await self.generateLoot(message)
             return
 
         # calculates special energy remaining and adds to message
