@@ -4,6 +4,7 @@ import os
 import random
 import math
 import psycopg2
+from cogs.loots import PotentialItems
 from random import randint
 import globals
 from discord.ext import commands
