@@ -235,13 +235,19 @@ class AttackCommands(commands.Cog):
 
                 for item in loot.values():
                     if item[0] != 'Coins':
+
                         val = item[2]
 
                         if type(item[2]) == int:
                             multipliedVal = item[2] * item[3]
                             val = "{:,d}".format(multipliedVal)
                         
-                        lootMessage += f"*{item[3]}x {item[0]} worth {val} GP* \n"
+                        each = ''
+
+                        if item[3] > 1 and type(item[2]) != int:
+                            each = 'each' 
+
+                        lootMessage += f"*{item[3]}x {item[0]} worth {val} GP {each}* \n"
                         
                 commaMoney = "{:,d}".format(loot[995][1])
                 lootMessage += f"Total loot value: **{commaMoney}**"
@@ -610,7 +616,7 @@ class AttackCommands(commands.Cog):
         item = None
         itemText = None
 
-        tableRoll = randint(0, 9)
+        tableRoll = randint(0, 99)
 
         # winner hits the rares table
         if tableRoll == 0:
