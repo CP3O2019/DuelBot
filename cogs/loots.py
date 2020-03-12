@@ -96,7 +96,7 @@ class PotentialItems(commands.Cog):
             # Roll for table
             if rng <= 5:
                 table = self.superRareItems
-            elif rng <= 35:
+            elif rng <= 20:
                 table = self.rareItems
             elif rng <= 135:
                 table = self.uncommonItems

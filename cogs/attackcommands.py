@@ -245,7 +245,7 @@ class AttackCommands(commands.Cog):
                         lootMessage += f"*{item[3]}x {item[0]} worth {item[2]} GP{each}* \n"
                         
                 commaMoney = "{:,d}".format(loot[995][1])
-                lootMessage += f"Total loot value: **{commaMoney}**"
+                lootMessage += f"Total loot value: **{commaMoney} GP**"
                 await lastmsg.edit(content=lootMessage)
 
     # Checking to see if the player who's turn it is has taken their turn
