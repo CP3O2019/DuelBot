@@ -23,10 +23,6 @@ def createTables():
 
     commands = (
     """
-    DROP TABLE duel_users
-    """
-    ,
-    """
     CREATE TABLE IF NOT EXISTS duel_users (
         user_id BIGINT PRIMARY KEY,
         nick TEXT,

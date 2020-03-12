@@ -206,6 +206,7 @@ class AttackCommands(commands.Cog):
         await self.useAttack(message, "Smoke barrage", 0, 1, 27, 0, True)
 
     async def generateLoot(self, message):
+        lastmsg = await message.send('*Checking the loot pile...*')
         loot = await PotentialItems(self.bot).rollLoot()
         print(loot)
 
@@ -238,7 +239,7 @@ class AttackCommands(commands.Cog):
                         
                 commaMoney = "{:,d}".format(loot[995][1])
                 lootMessage += f"Total loot value: **{commaMoney}**"
-                await message.send(lootMessage)
+                await lastmsg.edit(lootMessage)
 
     # Checking to see if the player who's turn it is has taken their turn
     # Takes in a message from the previous turn
@@ -563,17 +564,17 @@ class AttackCommands(commands.Cog):
 
         commands = (
             f"""
-        INSERT INTO duel_users (user_id, wins, losses) 
-        VALUES 
-        ({winner.id}, 1, 0) 
+        INSERT INTO duel_users (user_id, wins, losses, gp) 
+        VALUES
+        ({winner.id}, 1, 0, 0) 
         ON CONFLICT (user_id) DO UPDATE 
         SET wins = duel_users.wins + 1 
         """,
 
             f"""
-        INSERT INTO duel_users (user_id, wins, losses) 
+        INSERT INTO duel_users (user_id, wins, losses, gp) 
         VALUES 
-        ({loser.id}, 0, 1) 
+        ({loser.id}, 0, 1, 0) 
         ON CONFLICT (user_id) DO UPDATE 
         SET losses = duel_users.losses + 1 
         """
