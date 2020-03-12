@@ -225,7 +225,7 @@ class AttackCommands(commands.Cog):
             cur.close()
             conn.commit()
         except (Exception, psycopg2.DatabaseError) as error:
-            print("SOME ERROR", error)
+            print("SOME ERROR 3", error)
         finally:
             if conn is not None:
                 conn.close()
@@ -591,7 +591,7 @@ class AttackCommands(commands.Cog):
             cur.close()
             conn.commit()
         except (Exception, psycopg2.DatabaseError) as error:
-            print("SOME ERROR", error)
+            print("SOME ERROR 1", error)
         finally:
             if conn is not None:
                 conn.close()
@@ -688,7 +688,7 @@ class AttackCommands(commands.Cog):
             cur.close()
             conn.commit()
         except (Exception, psycopg2.DatabaseError) as error:
-            print("SOME ERROR", error)
+            print("SOME ERROR 2", error)
             return
         finally:
             if conn is not None:

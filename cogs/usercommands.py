@@ -219,7 +219,8 @@ class UserCommands(commands.Cog):
         SELECT
         gp gp
         FROM duel_users
-        WHERE user_id = {message.author.id}"""
+        WHERE user_id = {message.author.id}
+        """
 
         conn = None
 
@@ -292,39 +293,39 @@ class UserCommands(commands.Cog):
         # switches who's turn it is
         savedTurn = channelDuel.turn
 
-        attackTypes = [",dds",
-                       ",ags",
-                       ",sgs",
-                       ",claws",
-                       ",whip",
-                       ",zgs",
-                       ",dlong",
-                       ",dmace",
-                       ",dwh",
-                       ",ss",
-                       ",gmaul",
-                       ",ice",
-                       ",blood",
-                       ",smoke",
-                       ",bp"]
+        attackTypes = [".dds",
+                       ".ags",
+                       ".sgs",
+                       ".claws",
+                       ".whip",
+                       ".zgs",
+                       ".dlong",
+                       ".dmace",
+                       ".dwh",
+                       ".ss",
+                       ".gmaul",
+                       ".ice",
+                       ".blood",
+                       ".smoke",
+                       ".bp"]
 
         def checkParameters(message):
             channelDuel = globals.duels.get(message.channel.id, None)
-            attackTypes = [",dds",
-                           ",ags",
-                           ",sgs",
-                           ",claws",
-                           ",whip",
-                           ",zgs",
-                           ",dlong",
-                           ",dmace",
-                           ",dwh",
-                           ",ss",
-                           ",gmaul",
-                           ",ice",
-                           ",blood",
-                           ",smoke",
-                           ",bp"]
+            attackTypes = [".dds",
+                       ".ags",
+                       ".sgs",
+                       ".claws",
+                       ".whip",
+                       ".zgs",
+                       ".dlong",
+                       ".dmace",
+                       ".dwh",
+                       ".ss",
+                       ".gmaul",
+                       ".ice",
+                       ".blood",
+                       ".smoke",
+                       ".bp"]
 
             attackTypeCheck = None
 
@@ -346,6 +347,9 @@ class UserCommands(commands.Cog):
             notTurn = None
 
             channelDuel = globals.duels.get(message.channel.id, None)
+
+            if channelDuel == None:
+                return
 
             if channelDuel.turn.user.id == channelDuel.user_1.user.id and channelDuel.uuid == duel.uuid:
                 turnUser = channelDuel.user_1
@@ -398,7 +402,7 @@ class UserCommands(commands.Cog):
             cur.close()
             conn.commit()
         except (Exception, psycopg2.DatabaseError) as error:
-            print("SOME ERROR", error)
+            print("SOME ERROR 4", error)
         finally:
             if conn is not None:
                 conn.close()
@@ -412,11 +416,7 @@ class UserCommands(commands.Cog):
         if channelDuel == None:
             return
 
-        print("CURRENT DUEL UUID", channelDuel.uuid) 
-        print("SAVED DUEL UUID", saved_uuid) 
-        if channelDuel.user_2 == None and channelDuel.uuid == saved_uuid:  
-            print("INSIDE CURRENT DUEL UUID", channelDuel.uuid) 
-            print("INSIDE SAVED DUEL UUID", saved_uuid)  
+        if channelDuel.user_2 == None and channelDuel.uuid == saved_uuid:
             del globals.duels[message.channel.id]
             await message.send("Nobody accepted the duel.")
 
