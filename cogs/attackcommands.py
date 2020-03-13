@@ -390,7 +390,9 @@ class AttackCommands(commands.Cog):
             sendingUser.lastAttack = weapon
 
         # if the user does not have enough special attack
-        if sendingUser.special < special:
+        if special == 0:
+            pass
+        elif sendingUser.special < special:
             await message.send(f"Using the {weapon} requires {special}% special attack energy.")
             return
 
