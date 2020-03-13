@@ -112,7 +112,7 @@ class PotentialItems(commands.Cog):
             lootQuantity = randint(table[loot][1], table[loot][2])
 
             if self.lootArray.get(loot, None) != None:
-                self.lootArray[loot] = self.lootArray[loot] + lootQuantity
+                self.lootArray[loot][0] = self.lootArray[loot] + lootQuantity
             elif self.lootArray.get(loot, None) == None:
                 self.lootArray[loot] = [lootQuantity, table[loot][3]] #Stores the quantity and emoji for the item
 
