@@ -208,7 +208,7 @@ class AttackCommands(commands.Cog):
         await self.useAttack(message, "Smoke barrage", 0, 1, 27, 0, True)
 
     @commands.command()
-    await def randomLoot(self, message):
+    async def randomLoot(self, message):
         await self.generateLoot(message)
 
     async def generateLoot(self, message):
