@@ -147,7 +147,7 @@ class RSMathHelpers(commands.Cog):
 
     async def removeGPFromUser(self, message, userId, amount):
 
-        if amount < await self.checkUserGP(userId):
+        if amount <= await self.checkUserGP(userId):
             sql = f"""
             UPDATE duel_users 
             SET gp = gp - {amount} 
