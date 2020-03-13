@@ -207,6 +207,10 @@ class AttackCommands(commands.Cog):
     async def smoke(self, message):
         await self.useAttack(message, "Smoke barrage", 0, 1, 27, 0, True)
 
+    @commands.command()
+    await def randomLoot(self, message):
+        await self.generateLoot(message)
+
     async def generateLoot(self, message):
         lastmsg = await message.send('*Checking the loot pile...*')
         loot = await PotentialItems(self.bot).rollLoot()
