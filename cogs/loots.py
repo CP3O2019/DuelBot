@@ -79,7 +79,7 @@ class PotentialItems(commands.Cog):
                 value = int(itemPrice)
 
             # 0 is the name of the item, 1 is the integer value of the item, 2 is the item price shortened, 3 is the number of the item, 4 is the emoji
-            self.lootArray[itemKey] = [jsonResponse['item']['name'], value, itemPrice, lootDict[itemKey][0], lootDict[itemKey[1]]]
+            self.lootArray[itemKey] = [jsonResponse['item']['name'], value, itemPrice, lootDict[itemKey][0], lootDict[itemKey][1]]
         
         # Add the coin value of each item to the the total coins in the drop
         for item in self.lootArray.values():
