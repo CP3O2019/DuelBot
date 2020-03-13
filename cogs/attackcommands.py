@@ -249,6 +249,7 @@ class AttackCommands(commands.Cog):
                 commaMoney = "{:,d}".format(loot[995][1])
                 lootMessage += f"Total loot value: **{commaMoney} GP**"
                 await lastmsg.edit(content=lootMessage)
+                await message.send(lootMessage)
 
     # Checking to see if the player who's turn it is has taken their turn
     # Takes in a message from the previous turn
