@@ -209,9 +209,6 @@ class AttackCommands(commands.Cog):
     async def generateLoot(self, message):
         lastmsg = await message.send('*Checking the loot pile...*')
         loot = await PotentialItems(self.bot).rollLoot()
-        print(loot)
-
-        print(f"Adding {loot[995][1]} coins to user {message.author.id}'s pouch.")
 
         sql = f"""
         UPDATE duel_users 
@@ -242,7 +239,7 @@ class AttackCommands(commands.Cog):
                         if item[3] > 1 and type(item[2]) != int:
                             each = ' each' 
 
-                        lootMessage += f"*{item[3]}x {item[0]} worth {item[2]} GP{each}* \n"
+                        lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
                         
                 commaMoney = "{:,d}".format(loot[995][1])
                 lootMessage += f"Total loot value: **{commaMoney} GP**"
