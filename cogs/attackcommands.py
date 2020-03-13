@@ -5,6 +5,7 @@ import random
 import math
 import psycopg2
 from cogs.loots import PotentialItems
+from cogs.osrsEmojis import ItemEmojis
 from random import randint
 import globals
 from discord.ext import commands
