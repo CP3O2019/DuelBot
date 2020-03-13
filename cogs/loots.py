@@ -184,7 +184,7 @@ class PotentialItems(commands.Cog):
                     4714: ["Ahrim' robeskirt", 1, 1, ItemEmojis.Barrows.ahrimsRobeskirt],
                     4716: ["Dharok's helm", 1, 1, ItemEmojis.Barrows.dharoksHelm],
                     4718: ["Dharok's greataxe", 1, 1, ItemEmojis.Barrows.dharoksGreataxe],
-                    4720: ["Dharok's platelegs", 1, 1, ItemEmojis.Barrows.dharoksPlatelegs]
+                    4720: ["Dharok's platelegs", 1, 1, ItemEmojis.Barrows.dharoksPlatelegs],
                     4722: ["Dharok's platebody", 1, 1, ItemEmojis.Barrows.dharoksPlatebody],
                     4724: ["Guthan's helm", 1, 1, ItemEmojis.Barrows.guthansHelm],
                     4726: ["Guthan's spear", 1, 1, ItemEmojis.Barrows.guthansWarpear],
