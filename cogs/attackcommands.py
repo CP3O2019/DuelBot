@@ -208,6 +208,7 @@ class AttackCommands(commands.Cog):
         await self.useAttack(message, "Smoke barrage", 0, 1, 27, 0, True)
 
     @commands.command()
+    @commands.is_owner()
     async def randomLoot(self, message):
         await self.generateLoot(message)
 
@@ -247,7 +248,7 @@ class AttackCommands(commands.Cog):
                         lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
                         
                 commaMoney = "{:,d}".format(loot[995][1])
-                lootMessage += f"Total loot value: **{commaMoney} GP**"
+                lootMessage += f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.Coins}"
                 await lastmsg.edit(content=lootMessage)
                 await message.send(lootMessage)
 
