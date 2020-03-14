@@ -184,7 +184,7 @@ class AttackCommands(commands.Cog):
             await self.updateDB(sendingUser.user, receivingUser.user)
             await self.rollForRares(message, sendingUser.user)
             del globals.duels[message.channel.id]
-            await PotentialItems.generateLoot(message)
+            await PotentialItems.generateLoot(self, message)
             return
 
         # calculates special energy remaining and adds to message
@@ -214,7 +214,7 @@ class AttackCommands(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def randomLoot(self, message):
-        await PotentialItems.generateLoot(message)
+        await PotentialItems.generateLoot(self, message)
 
     # freezeAttack() causes the attacking user to use an attack that has potential to use the enemy
     # Inputs:
@@ -337,7 +337,7 @@ class AttackCommands(commands.Cog):
 
             # Generate loot and send the message to the channel
             # Purposefully after deleting the duel because it can throw errors from the G/E API
-            await PotentialItems.generateLoot(message)
+            await PotentialItems.generateLoot(self, message)
 
             return
 
@@ -482,7 +482,7 @@ class AttackCommands(commands.Cog):
             await self.updateDB(sendingUser.user, receivingUser.user)
             await self.rollForRares(message, sendingUser.user)
             del globals.duels[message.channel.id]
-            await PotentialItems.generateLoot(message)
+            await PotentialItems.generateLoot(self, message)
             return
 
         # calculates special energy remaining and adds to message
@@ -822,10 +822,10 @@ class AttackCommands(commands.Cog):
         draw = ImageDraw.Draw(img)
 
         # Load the Runescape font
-        font = ImageFont.truetype(r'./runescape_uf.ttf', 18)
+        font = ImageFont.truetype(r'./HelveticaNeue.ttc', 16)
 
         # Add text containing info about the remaining HP to the image
-        draw.text((80, 13), f"{hitpoints}/99", (0, 0, 0), font=font)
+        draw.text((80, 10), f"{hitpoints}/99", (0, 0, 0), font=font)
 
         # Save the image locally
         # Note: this file is created and immediately deleted after the image has been posted to discord
