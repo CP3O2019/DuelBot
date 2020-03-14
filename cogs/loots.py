@@ -203,7 +203,7 @@ class PotentialItems(commands.Cog):
         bonusRolls = 0
 
         # Get the duel arena guild ID
-        duelArenaGuild = self.bot.guilds.get('663113372580970509')
+        duelArenaGuild = self.bot.get_guild(663113372580970509)
 
         # Attempt to retrieve the member, if they don't exist, ignore
         if duelArenaGuild.get_member(message.author.id) != None:
