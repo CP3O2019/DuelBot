@@ -91,7 +91,7 @@ class PotentialItems(commands.Cog):
     async def rollLoot(self, ctx):
 
         # Creates a dictionary of loot 
-        lootDict = self.rollForLoot(self, message)
+        lootDict = self.rollForLoot(self, ctx)
 
         # For each item in the loot dictionary, make a call to the OSRS GE API to retrieve the object
         for itemKey in lootDict.keys():
