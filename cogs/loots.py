@@ -12,6 +12,8 @@ from random import randint
 # import globals
 from discord.ext import commands
 
+DATABASE_URL = os.environ['DATABASE_URL']
+
 # Hosts the loot generator with all potential items on loot tables
 class PotentialItems(commands.Cog):
 
