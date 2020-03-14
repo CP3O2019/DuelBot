@@ -218,10 +218,15 @@ class PotentialItems(commands.Cog):
         rollNum = randint(3, 6)
 
         for _ in range(0, rollNum):
+            print('roll before')
             pickTable()
+            print('roll after')
+
 
         if bonusRolls == 1:
+            print('bonus roll before')
             pickTable()
+            print('bonus roll after)')
 
     # Dictionary loot tables
     # Structured as {itemID: minPossible, maxPossible, CustomEmoji}
