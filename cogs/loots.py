@@ -32,7 +32,7 @@ class PotentialItems(commands.Cog):
 
 
         # Generate the loot for whoever won the duel
-        loot = await PotentialItems(self.bot).rollLoot()
+        loot = await PotentialItems(self.bot).rollLoot(self, message)
 
         # Database calls to add the appropriate amount of GP from the loot rolls to the winning user's coffers
         sql = f"""
