@@ -229,7 +229,7 @@ class PotentialItems(commands.Cog):
             print('bonus roll after)')
     
         # Return the loot array
-        return lootArray
+        return self.lootArray
 
     # Dictionary loot tables
     # Structured as {itemID: minPossible, maxPossible, CustomEmoji}
