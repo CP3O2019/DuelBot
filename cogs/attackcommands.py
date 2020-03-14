@@ -825,7 +825,7 @@ class AttackCommands(commands.Cog):
         font = ImageFont.truetype(r'./runescape_uf.ttf', 16)
 
         # Add text containing info about the remaining HP to the image
-        draw.text((80, 10), f"{hitpoints}/99", (0, 0, 0), font=font)
+        draw.text((80, 15), f"{hitpoints}/99", (0, 0, 0), font=font)
 
         # Save the image locally
         # Note: this file is created and immediately deleted after the image has been posted to discord
