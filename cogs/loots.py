@@ -91,7 +91,7 @@ class PotentialItems(commands.Cog):
     async def rollLoot(self):
 
         # Creates a dictionary of loot 
-        lootDict = self.rollForLoot()
+        lootDict = self.rollForLoot(self, message)
 
         # For each item in the loot dictionary, make a call to the OSRS GE API to retrieve the object
         for itemKey in lootDict.keys():
@@ -163,7 +163,7 @@ class PotentialItems(commands.Cog):
         return self.lootArray
 
     # Internal function for rolling for loot (should probavly nest within rollLoot() but whatever, fuck it)
-    def rollForLoot(self):
+    def rollForLoot(self, message):
 
         # Nested function used for randomly selecting a loot table based on RNG, then selecting a loot from that table.
             # Common table 86.66%
