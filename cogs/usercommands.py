@@ -452,6 +452,7 @@ class UserCommands(commands.Cog):
     async def test(self, message):
         embed = discord.Embed(title='A test embed')
         embed.add_field(name='Emoji test', value=ItemEmojis.Rares.christmasCracker)
+        await message.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(UserCommands(bot))
