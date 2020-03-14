@@ -222,11 +222,14 @@ class PotentialItems(commands.Cog):
             pickTable()
             print('roll after')
 
-
+        # If the user receives a bonus roll for being a part of our server
         if bonusRolls == 1:
             print('bonus roll before')
             pickTable()
             print('bonus roll after)')
+    
+        # Return the loot array
+        return lootArray
 
     # Dictionary loot tables
     # Structured as {itemID: minPossible, maxPossible, CustomEmoji}
