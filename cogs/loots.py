@@ -88,7 +88,7 @@ class PotentialItems(commands.Cog):
 
     # Grabs prices of items and makes API calls to find the price, and convert them 
     # Returns: dictionary of loot to use for the message 
-    async def rollLoot(self):
+    async def rollLoot(self, ctx):
 
         # Creates a dictionary of loot 
         lootDict = self.rollForLoot(self, message)
@@ -163,7 +163,7 @@ class PotentialItems(commands.Cog):
         return self.lootArray
 
     # Internal function for rolling for loot (should probavly nest within rollLoot() but whatever, fuck it)
-    def rollForLoot(self, message):
+    def rollForLoot(self, ctx):
 
         # Nested function used for randomly selecting a loot table based on RNG, then selecting a loot from that table.
             # Common table 86.66%
@@ -206,7 +206,7 @@ class PotentialItems(commands.Cog):
         duelArenaGuild = self.bot.get_guild(663113372580970509)
 
         # Attempt to retrieve the member, if they don't exist, ignore
-        if duelArenaGuild.get_member(message.author.id) != None:
+        if duelArenaGuild.get_member(ctx.author.id) != None:
             bonusRolls = 1
 
         rollNum = randint(3, 6)
