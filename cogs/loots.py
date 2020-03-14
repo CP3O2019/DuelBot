@@ -199,14 +199,23 @@ class PotentialItems(commands.Cog):
                 self.lootArray[loot] = [lootQuantity, table[loot][3]] #Stores the quantity and emoji for the item
 
         # Roll between 3 and 6 drops
-        # TO-DO: add additional rolls for being in the duel arena server
+        # Gives an additional roll to people that are a member of the main discord guild
+        bonusRolls = 0
+
+        # Get the duel arena guild ID
+        duelArenaGuild = bot.guilds.get('663113372580970509')
+
+        # Attempt to retrieve the member, if they don't exist, ignore
+        if duelArenaGuild.get_member(message.author.id) != None:
+            bonusRolls = 1
+
         rollNum = randint(3, 6)
 
-        # Picks a table, 
         for _ in range(0, rollNum):
             pickTable()
-            
-        return self.lootArray
+
+        if bonusRolls == 1:
+            pickTable()
 
     # Dictionary loot tables
     # Structured as {itemID: minPossible, maxPossible, CustomEmoji}
