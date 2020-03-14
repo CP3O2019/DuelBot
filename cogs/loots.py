@@ -193,11 +193,16 @@ class PotentialItems(commands.Cog):
 
             # Roll for random loot quantity from min/max in value for key [loot]
             lootQuantity = randint(table[loot][1], table[loot][2])
+            print(lootQuantity)
 
+            # If loot already exists, add to quantity, otherwise create a hash
             if self.lootArray.get(loot, None) != None:
                 self.lootArray[loot][0] = self.lootArray[loot][0] + lootQuantity
+                print("ADDING TO STORAGE", self.lootArray[loot])
+
             elif self.lootArray.get(loot, None) == None:
                 self.lootArray[loot] = [lootQuantity, table[loot][3]] #Stores the quantity and emoji for the item
+                print("NEW STORAGE", self.lootArray[loot])
 
         # Roll between 3 and 6 drops
         # Gives an additional roll to people that are a member of the main discord guild
