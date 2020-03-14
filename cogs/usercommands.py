@@ -5,6 +5,7 @@ import psycopg2
 import uuid
 import random
 from random import randint
+from cogs.osrsEmojis import ItemEmojis
 import globals
 from globals import Duel, DuelUser
 from cogs.mathHelpers import RSMathHelpers
@@ -231,7 +232,7 @@ class UserCommands(commands.Cog):
 
             for row in rows:
                 commaMoney = "{:,d}".format(row[0])
-                await message.send(f'You have {commaMoney} GP!')
+                await message.send(f'{ItemEmojis.Coins.coins} You have {commaMoney} GP {ItemEmojis.Coins.coins}')
 
             cur.close()
             conn.commit()
@@ -249,7 +250,7 @@ class UserCommands(commands.Cog):
             helper = RSMathHelpers(self.bot)
             diceAmount = helper.numify(args[0])
             diceAmountString_lost = helper.shortNumify(diceAmount, 1)
-            diceAmountString_winnings = helper.shortNumify(diceAmount, 2)
+            diceAmountString_winnings = helper.shortNumify(diceAmount, 1)
 
             await helper.removeGPFromUser(message, message.author.id, diceAmount)
 
@@ -445,6 +446,12 @@ class UserCommands(commands.Cog):
 
         elif channelDuel.user_2 != None:
             return
+
+    @commands.is_owner()
+    @commands.command()
+    async def test(self, message):
+        embed = discord.Embed(title='A test embed')
+        embed.add_field(name='Emoji test', value=ItemEmojis.Rares.christmasCracker)
 
 def setup(bot):
     bot.add_cog(UserCommands(bot))
