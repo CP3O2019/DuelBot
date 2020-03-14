@@ -6,6 +6,7 @@ import uuid
 import random
 from random import randint
 from cogs.osrsEmojis import ItemEmojis
+from cogs.loots import PotentialItems
 import globals
 from globals import Duel, DuelUser
 from cogs.mathHelpers import RSMathHelpers
@@ -450,9 +451,7 @@ class UserCommands(commands.Cog):
     @commands.is_owner()
     @commands.command()
     async def test(self, message):
-        embed = discord.Embed(title='A test embed')
-        embed.add_field(name='Emoji test', value=ItemEmojis.Rares.christmasCracker)
-        await message.send(embed=embed)
+        await PotentialItems.generateLoot(self, message)
 
 def setup(bot):
     bot.add_cog(UserCommands(bot))
