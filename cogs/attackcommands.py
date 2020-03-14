@@ -822,7 +822,7 @@ class AttackCommands(commands.Cog):
         draw = ImageDraw.Draw(img)
 
         # Load the Runescape font
-        font = ImageFont.truetype(r'./runescape_uf.ttf', 16)
+        font = ImageFont.truetype(r'./runescape_uf.ttf', 20)
 
         # Add text containing info about the remaining HP to the image
         draw.text((80, 15), f"{hitpoints}/99", (0, 0, 0), font=font)
