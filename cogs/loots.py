@@ -189,6 +189,7 @@ class PotentialItems(commands.Cog):
 
             # Roll for random value in table -- loot is a dictionary key
             loot = random.choice(list(table.keys()))
+            print("LOOT", loot)
 
             # Roll for random loot quantity from min/max in value for key [loot]
             lootQuantity = randint(table[loot][1], table[loot][2])
