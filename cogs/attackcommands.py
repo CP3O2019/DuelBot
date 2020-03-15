@@ -78,6 +78,9 @@ class AttackCommands(commands.Cog):
 
         channelDuel = globals.duels.get(message.channel.id, None)
 
+        if message.channel.id != channelDuel.channel:
+            return
+
         if channelDuel == None:
             return
 
@@ -233,6 +236,9 @@ class AttackCommands(commands.Cog):
         # Retrieve the channel's duel from the global duel dict
         channelDuel = globals.duels.get(message.channel.id, None)
 
+        if message.channel.id != channelDuel.channel:
+            return
+
         #If the duel doesn't exist, just return
         if channelDuel == None:
             return
@@ -370,6 +376,9 @@ class AttackCommands(commands.Cog):
         receivingUser = None
 
         channelDuel = globals.duels.get(message.channel.id, None)
+
+        if message.channel.id != channelDuel.channel:
+            return
 
         if channelDuel == None:
             return
