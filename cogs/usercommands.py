@@ -24,14 +24,14 @@ class UserCommands(commands.Cog):
     async def on_ready(self):
         print('Bot is ready')
 
-    @commands.comand() 
+    @commands.command() 
     async def invite(self, ctx):
         await ctx.send("""
         Click the link below to add the DuelBot to your server! \n
         https://cutt.ly/lthupdh
         """)
 
-    @commands.comand() 
+    @commands.command() 
     async def server(self, ctx):
         await ctx.send("""
         Click the link below to joib our server and get an extra loot roll every kill! \n
