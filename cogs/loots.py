@@ -65,6 +65,7 @@ class PotentialItems(commands.Cog):
 
                 lootEmbed = discord.Embed(title='Loot', description=f"**{message.author.nick} received some loot from their kill:**", color = discord.Color.teal())
                 # lootMessage = f"__**{message.author.nick} received some loot from their kill:**__ \n"
+                lootMessage = ""
 
                 # Adds a message for each item in the loot dict
                 for item in loot.values():
