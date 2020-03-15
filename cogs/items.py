@@ -12,9 +12,17 @@ from random import randint
 # import globals
 from discord.ext import commands
 
-# DATABASE_URL = os.environ['DATABASE_URL']
+DATABASE_URL = os.environ['DATABASE_URL']
 
 class SpecItems(commands.Cog):
+
+    # TODO List
+    # Enable buying items
+    # Enable selling items
+    # Create store for buying items
+    # Limit using special weapons unless the weapon is owned
+    # Add 'dropping' weapons
+    # Add 'picking up' weapons
 
     def __init__(self, bot):
         self.bot = bot

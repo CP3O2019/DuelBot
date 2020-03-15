@@ -275,7 +275,7 @@ class UserCommands(commands.Cog):
 
         # Check to see if a duel exists in the channel
         if channelDuel == None:
-            globals.duels[message.channel.id] = Duel(DuelUser(message.author), uuid.uuid4())
+            globals.duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id)
             channelDuel = globals.duels.get(message.channel.id, None)
             globals.lastMessages[message.channel.id] = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
             await self.startCancelCountdown(message, channelDuel.uuid)
@@ -292,7 +292,7 @@ class UserCommands(commands.Cog):
             return
 
         # If it passed the other checks, add duel user 2 to the fight
-        channelDuel.user_2 = DuelUser(message.author)
+        channelDuel.user_2 = globals.DuelUser(message.author)
 
         # Randomly pick a starting user
         startingUserBool = bool(random.getrandbits(1))

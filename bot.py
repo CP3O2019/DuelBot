@@ -103,7 +103,7 @@ async def createDuel(message):
     channelDuel = globals.duels.get(message.channel.id, None)
 
     if channelDuel == None:
-        duels[message.channel.id] = Duel(DuelUser(message.author), uuid.uuid4())
+        duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id)
         channelDuel = globals.duels.get(message.channel.id, None)
         globals.lastMessages[message.channel.id] = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
         return
@@ -116,7 +116,7 @@ async def createDuel(message):
         await message.send("There are already two people dueling.")
         return
 
-    channelDuel.user_2 = DuelUser(message.author)
+    channelDuel.user_2 = globals.DuelUser(message.author)
 
     startingUserBool = bool(random.getrandbits(1))
 
@@ -131,30 +131,6 @@ async def createDuel(message):
 
     del globals.lastMessages[message.channel.id]
     await message.send(f"Beginning duel between {channelDuel.user_1.user.nick} and {channelDuel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
-
-class DuelUser:
-    hitpoints = 99
-    special = 100
-    poisoned = False
-    lastAttack = None
-    user = None
-
-    def __init__(self, user):
-        self.user = user
-
-        if user.nick == None:
-            user.nick = user.display_name
-
-class Duel:
-    user_1 = None
-    user_2 = None
-    turn = None
-    turnCount = 0
-    uuid = None
-
-    def __init__(self, user, uuid):
-        self.user_1 = user
-        self.uuid = uuid
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):

@@ -218,15 +218,11 @@ class PotentialItems(commands.Cog):
         rollNum = randint(3, 6)
 
         for _ in range(0, rollNum):
-            print('roll before')
             pickTable()
-            print('roll after')
 
         # If the user receives a bonus roll for being a part of our server
         if bonusRolls == 1:
-            print('bonus roll before')
             pickTable()
-            print('bonus roll after)')
     
         # Return the loot array
         return self.lootArray
