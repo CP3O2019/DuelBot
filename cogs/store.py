@@ -104,11 +104,19 @@ class StoreCommands(commands.Cog):
                     FROM duel_users
                     WHERE user_id = {ctx.author.id}"""
 
+            userGP = 0
             conn = None
             try:
                 conn = psycopg2.connect(DATABASE_URL)
                 cur = conn.cursor()
                 cur.execute(sql)
+
+                rows = cur.fetchAll()
+
+                # Get the user's GP in their coffers and set the val
+                for row in rows:
+                    userGP = row[0]
+
                 cur.close()
                 conn.commit()
             except (Exception, psycopg2.DatabaseError) as error:

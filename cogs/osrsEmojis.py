@@ -63,9 +63,9 @@ class ItemEmojis(commands.Cog):
         veracsFlail = '<:veracsflail:687939117392068630>'
 
         karilsLeathertop = '<:karilsleathertop:687939117551845404>'
-        karilsLeatherskirt = '<:karilsleathertop:687939117551845404>'
+        karilsLeatherskirt = '<:karilsleatherskirt:687939117387874367>'
         karilsCrossbow = '<:karilscrossbow:687939117530480640>'
-        karilsCoif = '<:karilscrossbow:687939117530480640>'
+        karilsCoif = '<:karilscoif:687939117492731977>'
 
     class DragonItems:
         dragonBoots = '<:dragonboots:688083206490030098>'

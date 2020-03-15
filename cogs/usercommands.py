@@ -24,6 +24,20 @@ class UserCommands(commands.Cog):
     async def on_ready(self):
         print('Bot is ready')
 
+    @commands.comand() 
+    async def invite(self, ctx):
+        await ctx.send("""
+        Click the link below to add the DuelBot to your server! \n
+        https://cutt.ly/lthupdh
+        """)
+
+    @commands.comand() 
+    async def server(self, ctx):
+        await ctx.send("""
+        Click the link below to joib our server and get an extra loot roll every kill! \n
+       https://discord.gg/8tvaT9
+        """)
+
     async def createTablesForUser(self, user):
         print("Creating data tables for user", user.id)
 
