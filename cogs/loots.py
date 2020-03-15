@@ -162,7 +162,7 @@ class PotentialItems(commands.Cog):
         
         # Add the coin value of each item to the the total coins in the drop
         for item in self.lootArray.values():
-            self.lootArray[995][1] = self.lootArray[995][1] + (item[1] * item[3]
+            self.lootArray[995][1] = self.lootArray[995][1] + (item[1] * item[3])
 
         # Returns the loot array
         return self.lootArray
