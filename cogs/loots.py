@@ -63,7 +63,7 @@ class PotentialItems(commands.Cog):
                     # item[3] = value of the item rolled
                     # item[4] = the discord emoji for the item
 
-                lootEmbed = discord.Embed(title='Loot', description=f"**{message.author.nick} received some loot from their kill:**")
+                lootEmbed = discord.Embed(title='Loot', description=f"**{message.author.nick} received some loot from their kill:**", color = discord.Color.teal())
                 # lootMessage = f"__**{message.author.nick} received some loot from their kill:**__ \n"
 
                 # Adds a message for each item in the loot dict
@@ -77,14 +77,15 @@ class PotentialItems(commands.Cog):
                             each = ' each' 
 
                         # e.g. '2x <abyssalwhip:12345678> Abyssal whip worth 2.5m GP each'
-                        lootEmbed.add_field(name=f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}*")
-                        # lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
+                        # lootEmbed.add_field(name=f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}*")
+                        lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
                         
                 # Adds commas to the integer value of the loot (e.g. 1234567 --> 1,234,567) 
                 commaMoney = "{:,d}".format(loot[995][1])
 
                 # Appends the message to send with the total GP won
-                lootEmbed.add_field(name=f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}")
+                lootMessage += f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
+                lootEmbed.add_field(name="Loot", value = lootMessage)
 
                 # Edits the placeholder 'Checking the loot pile...' message
                 await lastmsg.edit(embed=lootEmbed)
