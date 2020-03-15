@@ -47,10 +47,10 @@ class StoreCommands(commands.Cog):
                 if conn is not None:
                     conn.close()
 
-        @commands.command()
-        async def buy(self, ctx, *args)
-            print(args[0])
-            print(args[1])
+        # @commands.command()
+        # async def buy(self, ctx, *args):
+        #     print(args[0])
+        #     print(args[1])
 
 
 
