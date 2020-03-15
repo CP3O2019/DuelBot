@@ -24,7 +24,7 @@ class Dailies(commands.Cog):
             3: ["What hunter level is required to hunt black chinchompas?", "73"],
             4: ["What level is the revenant dragon?", "135"],
             5: ["How much slayer xp does killing a revenant ork give?", "115"],
-            6: ["Name one of the items on the revenant unique table.", ["craws bow, thammarons sceptre, viggoras chainmace, amulet of avarice"]],
+            6: ["Name one of the items on the revenant unique table.", ["craws bow", "thammarons sceptre", "viggoras chainmace", "amulet of avarice"]],
             7: ["How much GP does the emblem trader buy an ancient medallion for?", ["4m", "4000k", "4000000"]],
             8: ["What percent is the duel arena tax?", ["1%", "1", "1 percent"]],
             9: ["How many times do you need to casting a god spell in the Mage Arena before using it outside of the arena?", "100"],
