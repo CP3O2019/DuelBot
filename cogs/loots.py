@@ -77,14 +77,14 @@ class PotentialItems(commands.Cog):
                             each = ' each' 
 
                         # e.g. '2x <abyssalwhip:12345678> Abyssal whip worth 2.5m GP each'
-                        lootEmbed.add_field(title=f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}*")
+                        lootEmbed.add_field(name=f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}*")
                         # lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
                         
                 # Adds commas to the integer value of the loot (e.g. 1234567 --> 1,234,567) 
                 commaMoney = "{:,d}".format(loot[995][1])
 
                 # Appends the message to send with the total GP won
-                lootEmbed.add_field(title=f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}")
+                lootEmbed.add_field(name=f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}")
 
                 # Edits the placeholder 'Checking the loot pile...' message
                 await lastmsg.edit(embed=lootEmbed)
