@@ -245,6 +245,7 @@ class StoreCommands(commands.Cog):
             return
         except ValueError:
             await ctx.send('Proper syntax is *.buy [quantity] [item name].')
+            return
 
         itemList = {
             13652: "dragonclaws",  # Dragon claws
