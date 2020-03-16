@@ -23,6 +23,17 @@ class PotentialItems(commands.Cog):
         self.lootArray = {995: [0, ItemEmojis.Coins.coins]}
         self.totalPrice = 0
 
+    # async def pkLootFromUser(self, ctx, winner, loser):
+    #     def getLoserInventory(loserId):
+    #         sql = f"""
+    #         SELECT FROM
+    #         pking_items
+    #         WHERE user_id = {loserId}
+    #         """
+        
+
+
+
     async def generateLoot(self, message):
         lastmsg = await message.send('*Checking the loot pile...*')
         loot = await PotentialItems(self.bot).rollLoot(message)
@@ -64,7 +75,6 @@ class PotentialItems(commands.Cog):
             embed = discord.Embed(title=f"**{message.author.nick} received some loot from their kill:**", color=discord.Color.dark_teal())
             embed.add_field(name="Loot", value=lootMessage)
             await lastmsg.edit(embed=embed)
-
 
     #Returns dict of loot
     async def rollLoot(self, ctx):

@@ -467,5 +467,65 @@ class UserCommands(commands.Cog):
     async def test(self, message):
         await PotentialItems.generateLoot(self, message)
 
+
+    @commands.command()
+    async def hs(self, ctx):
+        placeholderEmbed = discord.Embed(title="Wins highscores", description = "Checking the highscores...", color=discord.Color.gold())
+        msg = await ctx.send(embed=placeholderEmbed)
+
+        async def getWinsHighscores(ctx):
+            sql = f"""
+            SELECT nick, wins
+            FROM duel_users
+            ORDER BY wins DESC
+            """
+
+            conn = None
+            leaderboard = []
+
+            try:
+                conn = psycopg2.connect(DATABASE_URL)
+                cur = conn.cursor()
+                cur.execute(sql)
+
+                rows = cur.fetchall()
+
+                counter = 0
+                for row in rows:
+                    print(row)
+                    leaderboard.append(row)
+                    print("leaderboard", leaderboard)
+                    print(row[0])
+                    print(row[1])
+                    counter += 1
+                    if counter == 10:
+                        return leaderboard
+
+                cur.close()
+                conn.commit()
+            except (Exception, psycopg2.DatabaseError) as error:
+                print("SOME ERROR 4", error)
+                return leaderboard
+            finally:
+                if conn is not None:
+                    conn.close()
+                return leaderboard
+
+        # For when we have different high scores
+        # if args == None:
+        frontPage = await getWinsHighscores(ctx)
+
+        description = ""
+
+        if len(frontPage) == 0:
+            errorEmbed = discord.Embed(title="Wins highscores", description="Something went wrong.", color=discord.Color.dark_red())
+            await msg.edit(embed=errorEmbed)
+
+        for n in range(0, len(frontPage)):
+            description += f"**{frontPage[n][0]}**: {frontPage[n][1]} \n"
+
+        frontPageEmbed = discord.Embed(title="Wins highscores", description=description, color=discord.Color.gold())
+        await msg.edit(embed=frontPageEmbed)
+
 def setup(bot):
     bot.add_cog(UserCommands(bot))
