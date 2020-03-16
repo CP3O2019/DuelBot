@@ -46,7 +46,7 @@ class PotentialItems(commands.Cog):
             if conn is not None:
                 conn.close()
 
-            lootMessage = f"__**{message.author.nick} received some loot from their kill:**__ \n"
+            lootMessage = ""
 
             for item in loot.values():
                 if item[0] != 'Coins':
@@ -56,16 +56,12 @@ class PotentialItems(commands.Cog):
                     if item[3] > 1 and type(item[2]) != int:
                         each = ' each' 
 
-
-
                     lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
-
-                        
                     
             commaMoney = "{:,d}".format(loot[995][1])
             lootMessage += f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
 
-            embed = discord.Embed(title="Loot", description=f"**{message.author.nick} received some loot from their kill:**", color=discord.Color.dark_teal())
+            embed = discord.Embed(title=f"**{message.author.nick} received some loot from their kill:**", color=discord.Color.dark_teal())
             embed.add_field(name="Loot", value=lootMessage)
             await lastmsg.edit(embed=embed)
 
