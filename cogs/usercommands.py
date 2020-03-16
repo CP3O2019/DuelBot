@@ -492,11 +492,7 @@ class UserCommands(commands.Cog):
 
                 counter = 0
                 for row in rows:
-                    print(row)
                     leaderboard.append(row)
-                    print("leaderboard", leaderboard)
-                    print(row[0])
-                    print(row[1])
                     counter += 1
                     if counter == 10:
                         return leaderboard
