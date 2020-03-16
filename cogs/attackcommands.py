@@ -629,17 +629,17 @@ class AttackCommands(commands.Cog):
             f"""
         INSERT INTO duel_users (user_id, nick, wins, losses, gp) 
         VALUES
-        ({winner.id}, {loser.nick}, 1, 0, 0) 
+        ({winner.id}, "{str(loser.nick)}", 1, 0, 0) 
         ON CONFLICT (user_id) DO UPDATE 
-        SET wins = duel_users.wins + 1, nick = {loser.nick}
+        SET wins = duel_users.wins + 1, nick = "{str(loser.nick)}"
         """,
 
             f"""
         INSERT INTO duel_users (user_id, nick, wins, losses, gp) 
         VALUES 
-        ({loser.id}, {loser.nick}, 0, 1, 0) 
+        ({loser.id}, "{str(loser.nick)}", 0, 1, 0) 
         ON CONFLICT (user_id) DO UPDATE 
-        SET losses = duel_users.losses + 1 , nick = {loser.nick}
+        SET losses = duel_users.losses + 1 , nick = "{str(loser.nick)}"
         """
         )
 
