@@ -167,9 +167,10 @@ class RSMathHelpers(commands.Cog):
             finally:
                 if conn is not None:
                     conn.close()
-
+                return True
         else:
             await message.send("You don't have that much GP.")
+            return False
 
     async def giveGPToUser(self, message, userId, amount):
 

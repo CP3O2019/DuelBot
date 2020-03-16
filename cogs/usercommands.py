@@ -268,7 +268,10 @@ class UserCommands(commands.Cog):
             diceAmountString_lost = helper.shortNumify(diceAmount, 1)
             diceAmountString_winnings = helper.shortNumify(diceAmount, 1)
 
-            await helper.removeGPFromUser(message, message.author.id, diceAmount)
+            hasMoney = await helper.removeGPFromUser(message, message.author.id, diceAmount)
+
+            if hasMoney == False:
+                return
 
             rand = randint(1, 100)
             diceDescription = ''
