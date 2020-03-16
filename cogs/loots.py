@@ -9,32 +9,24 @@ import requests
 from cogs.osrsEmojis import ItemEmojis
 from osrsbox import items_api
 from random import randint
-# import globals
+import globals
 from discord.ext import commands
 
-DATABASE_URL = os.environ['DATABASE_URL']
+# DATABASE_URL = os.environ['DATABASE_URL']
 
-# Hosts the loot generator with all potential items on loot tables
 class PotentialItems(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.all_db_items = items_api.load() #Load the RS ItemDB
-        
-        self.lootArray = {995: [0, ItemEmojis.Coins.coins]} # Default category is coins to prevent glitches
-        self.totalPrice = 0 #K eeps track of price of loot
+        self.all_db_items = globals.all_db_items
+        #Formatted {id: [name, price, stringprice, quantity]}
+        self.lootArray = {995: [0, ItemEmojis.Coins.coins]}
+        self.totalPrice = 0
 
-    # Generates loot and sends a message to the discord channel of the duel that details loot and value
     async def generateLoot(self, message):
-        # Writes a placeholder message BEFORE making OSRS GE API calls.
-        # This prevents other messages from coming between them, and looks cleaner
-        lastmsg = await message.send('*Checking the loot pile...*') 
+        lastmsg = await message.send('*Checking the loot pile...*')
+        loot = await PotentialItems(self.bot).rollLoot()
 
-
-        # Generate the loot for whoever won the duel
-        loot = await PotentialItems(self.bot).rollLoot(message)
-
-        # Database calls to add the appropriate amount of GP from the loot rolls to the winning user's coffers
         sql = f"""
         UPDATE duel_users 
         SET gp = gp + {loot[995][1]} 
@@ -54,64 +46,38 @@ class PotentialItems(commands.Cog):
             if conn is not None:
                 conn.close()
 
-                # Bot sends a message to the channel that shows their loot.
-                # The first and last lines are standard, with loot rolls in the middle for each item that was rolled.
-                # Displays:
-                    # item[0] = string item name 
-                    # item[1] = the long int value of the item rolled
-                    # item[2] = value of the item rolled
-                    # item[3] = value of the item rolled
-                    # item[4] = the discord emoji for the item
+            lootMessage = f"__**{message.author.nick} received some loot from their kill:**__ \n"
 
-                lootEmbed = discord.Embed(title='Loot', description=f"**{message.author.nick} received some loot from their kill:**", color = discord.Color.teal())
-                # lootMessage = f"__**{message.author.nick} received some loot from their kill:**__ \n"
-                lootMessage = ""
+            for item in loot.values():
+                if item[0] != 'Coins':
+                    
+                    each = ''
 
-                # Adds a message for each item in the loot dict
-                for item in loot.values():
-                    if item[0] != 'Coins':
-                        
-                        each = ''
+                    if item[3] > 1 and type(item[2]) != int:
+                        each = ' each' 
 
-                        # If the quantity if greater than one, add 'each' to the string
-                        if item[3] > 1 and type(item[2]) != int:
-                            each = ' each' 
+                    lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
+                    
+            commaMoney = "{:,d}".format(loot[995][1])
+            lootMessage += f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
+            await lastmsg.edit(content=lootMessage)
 
-                        # e.g. '2x <abyssalwhip:12345678> Abyssal whip worth 2.5m GP each'
-                        # lootEmbed.add_field(name=f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}*")
-                        lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
-                        
-                # Adds commas to the integer value of the loot (e.g. 1234567 --> 1,234,567) 
-                commaMoney = "{:,d}".format(loot[995][1])
 
-                # Appends the message to send with the total GP won
-                lootMessage += f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
-                lootEmbed.add_field(name="Loot", value = lootMessage)
-
-                # Edits the placeholder 'Checking the loot pile...' message
-                await lastmsg.edit(embed=lootEmbed)
-
-    # Grabs prices of items and makes API calls to find the price, and convert them 
-    # Returns: dictionary of loot to use for the message 
+    #Returns dict of loot
     async def rollLoot(self, ctx):
 
-        # Creates a dictionary of loot 
-        lootDict = self.rollForLoot(ctx)
+        lootDict = self.rollForLoot(self, ctx)
 
-        # For each item in the loot dictionary, make a call to the OSRS GE API to retrieve the object
+        lootValueDict = {}
+
         for itemKey in lootDict.keys():
             url = f'http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={itemKey}'
 
-            # Hosts the json response of the API call
-            # Pre-written to accept the coins API call for coins, which doesn't return anything
             jsonResponse = None
 
-            # If the item rolled is not coins
             if itemKey != 995:
                 response = requests.get(url)
-                jsonResponse = response.json() # Parse
-
-            # If the item rolled is coins, use this default object with the necessary parameters to continue that matches the API structure
+                jsonResponse = response.json()
             elif itemKey == 995:
                 jsonResponse = {'item':
                                     {'name': 'Coins',
@@ -120,120 +86,93 @@ class PotentialItems(commands.Cog):
                                     }
                                 }
 
-            # Get current price of item
+            #Get current price of item
             # Can beformatted as x,xxx,xxx or x.xxxM/K/B
-            # Defaults to 0 
             itemPrice = 0
+
             itemPrice = jsonResponse['item']['current']['price']
+
+            # Remove commas
 
             value = 0
 
-            # If the item is a string (not an int, basically), do some finagling to convert it to an int and set the value as the int
+            # If the item is a string (not an int, basically) 
             if type(itemPrice) == str:
 
-                # Remove commas, if there are any
                 if ',' in itemPrice:
                     itemPrice = itemPrice.replace(',', '')
                     value = int(itemPrice)
                 else:
-                    # Convert the item to a float (minus the last character, which should be K/M/B)
                     priceMultiplier = float(itemPrice[0: -1])
-
-                    # The last character, which should be K/M/B
                     priceSuffix = itemPrice[-1]
                     
-                    if priceSuffix == 'k': # Thousands 
+                    if priceSuffix == 'k':
                         value = math.floor(priceMultiplier * 1000)
-                    elif priceSuffix == 'm': # Millions
+                    elif priceSuffix == 'm':
                         value = math.floor(priceMultiplier * 1000000)
-                    elif priceSuffix == 'b': # Billions
+                    elif priceSuffix == 'b':
                         value = math.floor(priceMultiplier * 1000000000)
 
-            # If the itemPrice is an int, set the value to the int
+
             if type(itemPrice) == int:
                 value = int(itemPrice)
 
-            # Prints the loot to the console
-            # Really useful for debugging if an item crashes the loot system, since it tends to be the last item used for an GE API call
             print('LOOT VALUES:', lootDict[itemKey])
-
-            # 0 is the name of the item, 1 is the integer value of the item, 2 is the item price shortened, 3 is the quantity of the item, 4 is the emoji
+            # 0 is the name of the item, 1 is the integer value of the item, 2 is the item price shortened, 3 is the number of the item, 4 is the emoji
             self.lootArray[itemKey] = [jsonResponse['item']['name'], value, itemPrice, lootDict[itemKey][0], lootDict[itemKey][1]]
         
         # Add the coin value of each item to the the total coins in the drop
         for item in self.lootArray.values():
-            self.lootArray[995][1] = self.lootArray[995][1] + (item[1] * item[3])
+            self.lootArray[995][1] = self.lootArray[995][1] + item[1]
 
-        # Returns the loot array
         return self.lootArray
 
-    # Internal function for rolling for loot (should probavly nest within rollLoot() but whatever, fuck it)
     def rollForLoot(self, ctx):
-
-        # Nested function used for randomly selecting a loot table based on RNG, then selecting a loot from that table.
-            # Common table 86.66%
-            # Uncommon table - 10.00%
-            # Rare table - 2.66%
-            # Superrare table - 0.66%
         def pickTable():
-
             # Pick a random number and assign it to the table
             rng = randint(0, 599)
 
             table = None
 
             # Roll for table
-            if rng <= 3:
+            if rng <= 5:
                 table = self.superRareItems
-            elif rng <= 20:
+            elif rng <= 35:
                 table = self.rareItems
-            elif rng <= 80:
+            elif rng <= 135:
                 table = self.uncommonItems
             elif rng <= 599:
                 table = self.commonItems
 
             # Roll for random value in table -- loot is a dictionary key
             loot = random.choice(list(table.keys()))
-            print("LOOT", loot)
 
             # Roll for random loot quantity from min/max in value for key [loot]
             lootQuantity = randint(table[loot][1], table[loot][2])
-            print(lootQuantity)
 
-            # If loot already exists, add to quantity, otherwise create a hash
             if self.lootArray.get(loot, None) != None:
                 self.lootArray[loot][0] = self.lootArray[loot][0] + lootQuantity
-                print("ADDING TO STORAGE", self.lootArray[loot])
-
             elif self.lootArray.get(loot, None) == None:
                 self.lootArray[loot] = [lootQuantity, table[loot][3]] #Stores the quantity and emoji for the item
-                print("NEW STORAGE", self.lootArray[loot])
 
         # Roll between 3 and 6 drops
         # Gives an additional roll to people that are a member of the main discord guild
         bonusRolls = 0
-
-        # Get the duel arena guild ID
-        duelArenaGuild = self.bot.get_guild(663113372580970509)
-
-        # Attempt to retrieve the member, if they don't exist, ignore
-        if duelArenaGuild.get_member(ctx.author.id) != None:
+        duelArenaGuild = bot.guilds.get('663113372580970509')
+        if duelArenaGuild.get_member(message.author.id) != None:
             bonusRolls = 1
+
 
         rollNum = randint(3, 6)
 
         for _ in range(0, rollNum):
             pickTable()
 
-        # If the user receives a bonus roll for being a part of our server
         if bonusRolls == 1:
             pickTable()
-    
-        # Return the loot array
+            
         return self.lootArray
 
-    # Dictionary loot tables
-    # Structured as {itemID: minPossible, maxPossible, CustomEmoji}
     superRareItems = {
                    2577: ["Ranger boots", 1, 1, ItemEmojis.MediumClues.rangerBoots],
                    2581: ["Robin hood hat", 1, 1, ItemEmojis.HardClues.robinHoodHat],
@@ -247,7 +186,7 @@ class PotentialItems(commands.Cog):
                    6918: ["Infinity hat", 1, 1, ItemEmojis.Infinity.infinityHat],
                    11802: ["Armadyl godsword", 1, 1, ItemEmojis.Armadyl.armadylGodsword],
                    11806: ["Saradomin godsword", 1, 1, ItemEmojis.Saradomin.saradominGodsword],
-                   11808: ["Zamorak godsword", 1, 1, ItemEmojis.Zamorak.zamorakGodword],
+                   11808: ["Zamorak godsword", 1, 1, ItemEmojis.Zamorak.zamorakGodsword],
                    11804: ["Bandos godsword", 1, 1, ItemEmojis.Bandos.bandosGodsword],
                    11826: ["Armadyl helmet", 1, 1, ItemEmojis.Armadyl.armadylHelm],
                    11828: ["Armadyl chestplate", 1, 1, ItemEmojis.Armadyl.armadylChestplate],
@@ -272,13 +211,16 @@ class PotentialItems(commands.Cog):
                    21006: ["Kodai wand", 1, 1, ItemEmojis.RaidsItems.kodaiWand],
                    21003: ["Elder maul", 1, 1, ItemEmojis.RaidsItems.elderMaul]
                   }
+    
     rareItems = {
                 4151: ["Abyssal whip", 1, 1, ItemEmojis.SlayerItems.abyssalWhip],
                 6585: ["Amulet of fury", 1, 1, ItemEmojis.Jewelry.amuletOfFury],
                 6571: ["Uncut onyx", 1, 1, ItemEmojis.RawMaterials.uncutOnyx],
                 11235: ["Dark bow", 1, 1, ItemEmojis.SlayerItems.darkBow],
                 12929: ["Serpentine helm", 1, 1, ItemEmojis.ZulrahItems.serpentineHelm],
-              }             
+                995: ["Coins", 500000, 1000000, ItemEmojis.Coins.coins],
+              }           
+    
     uncommonItems = {
                     1187: ["Dragon sq shield", 1, 1, ItemEmojis.DragonItems.dragonSqShield],
                     4087: ["Dragon platelegs", 1, 1, ItemEmojis.DragonItems.dragonPlatelegs],
@@ -309,7 +251,9 @@ class PotentialItems(commands.Cog):
                     4755: ["Verac's flail", 1, 1, ItemEmojis.Barrows.veracsFlail],
                     4757: ["Verac's brassard", 1, 1, ItemEmojis.Barrows.veracsBrassard],
                     4759: ["Verac's plateskirt", 1, 1, ItemEmojis.Barrows.veracsPlateskirt],
+                    995: ["Coins", 250000, 499999, ItemEmojis.Coins.coins]
                     }
+
     commonItems = {
                 385: ["Shark", 1, 16, ItemEmojis.Food.shark],
                 391: ["Manta ray", 1, 16, ItemEmojis.Food.mantaRay],
@@ -342,7 +286,11 @@ class PotentialItems(commands.Cog):
                 2436: ["Super attack(4)", 1, 2, ItemEmojis.Potions.superAttack],
                 12695: ["Super combat potion(4)", 1, 2, ItemEmojis.Potions.superCombat],
                 2444: ["Ranging potion(4)", 1, 2, ItemEmojis.Potions.ranging],
+                995: ["Coins", 30000, 249999, ItemEmojis.Coins.coins]
                 }
+
+    def randQuantity(min, max):
+        return randint(min, max)
 
 def setup(bot):
     bot.add_cog(PotentialItems(bot))

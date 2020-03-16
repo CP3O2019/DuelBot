@@ -1,11 +1,14 @@
 import os
+import json
+from osrsbox import items_api
+
 
 def init():
     global duels
     duels = {}
     global lastMessages
     lastMessages = {}
-
+    all_db_items = items_api.load()
 
 class DuelUser:
     hitpoints = 99

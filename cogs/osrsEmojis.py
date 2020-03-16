@@ -63,9 +63,9 @@ class ItemEmojis(commands.Cog):
         veracsFlail = '<:veracsflail:687939117392068630>'
 
         karilsLeathertop = '<:karilsleathertop:687939117551845404>'
-        karilsLeatherskirt = '<:karilsleatherskirt:687939117387874367>'
+        karilsLeatherskirt = '<:karilsleathertop:687939117551845404>'
         karilsCrossbow = '<:karilscrossbow:687939117530480640>'
-        karilsCoif = '<:karilscoif:687939117492731977>'
+        karilsCoif = '<:karilscrossbow:687939117530480640>'
 
     class DragonItems:
         dragonBoots = '<:dragonboots:688083206490030098>'
@@ -78,6 +78,7 @@ class ItemEmojis(commands.Cog):
         dragonDagger = '<:dragondagger:688083206490423348>'
         dragonBattleaxe = '<:dragonbattleaxe:688083206469058579>'
         dragonSqShield = '<:dragonsqshield:688083206490030154>'
+        dragonWarhammer = '<:dragonwarhammer:689046155333730341>'
 
     class RuneItems:
         runeFullHelm = '<:runefullhelm:688105227374952512>'
@@ -134,6 +135,7 @@ class ItemEmojis(commands.Cog):
 
     class ZulrahItems:
         serpentineHelm = '<:serpentinehelm:688093963671961686>'
+        toxicBlowpipe = '<:toxicblowpipe:689047304161722470>'
 
     class Infinity:
         infinityGloves = '<:infinitygloves:687878177590214674>'
@@ -158,7 +160,7 @@ class ItemEmojis(commands.Cog):
     class Zamorak:
         zamorakianSpear = '<:zamorakianspear:687878177015857229>'
         toxicStaff = '<:toxicstaff:687878176965263486>'
-        zamorakGodword = '<:zamorakgodsword:687878177468842025>'
+        zamorakGodsword = '<:zamorakgodsword:687878177468842025>'
 
     class Saradomin:
         saradominSword = '<:saradominsword:687878177468842002>'
