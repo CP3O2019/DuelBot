@@ -30,7 +30,9 @@ class Duel:
     turn = None
     turnCount = 0
     uuid = None
+    channel = None
 
-    def __init__(self, user, uuid):
+    def __init__(self, user, uuid, channelId):
         self.user_1 = user
         self.uuid = uuid
+        self.channel = channelId
