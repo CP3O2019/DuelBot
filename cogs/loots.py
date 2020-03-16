@@ -25,7 +25,7 @@ class PotentialItems(commands.Cog):
 
     async def generateLoot(self, message):
         lastmsg = await message.send('*Checking the loot pile...*')
-        loot = await PotentialItems(self.bot).rollLoot()
+        loot = await PotentialItems(self.bot).rollLoot(message)
 
         sql = f"""
         UPDATE duel_users 

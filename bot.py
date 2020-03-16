@@ -62,7 +62,8 @@ def createTables():
             _13576 integer NOT NULL,
             _12924 integer NOT NULL
             )
-        """
+        """,
+        """ALTER TABLE duel_users ALTER COLUMN gp BIGINT"""
     )
 
     conn = None

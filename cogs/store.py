@@ -380,6 +380,9 @@ class StoreCommands(commands.Cog):
 
     @commands.command()
     async def items(self, ctx):
+
+        await self.createPlayerItemTable(ctx.author.id)
+
         sql = f"""
                 SELECT 
                 _13652 dragon_claws,
