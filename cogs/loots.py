@@ -56,11 +56,18 @@ class PotentialItems(commands.Cog):
                     if item[3] > 1 and type(item[2]) != int:
                         each = ' each' 
 
+
+
                     lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
+
+                        
                     
             commaMoney = "{:,d}".format(loot[995][1])
             lootMessage += f"Total loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
-            await lastmsg.edit(content=lootMessage)
+
+            embed = discord.Embed(title="Loot", description=f"**{message.author.nick} received some loot from their kill:**", color=discord.Color.dark_teal())
+            embed.add_field(name="Loot", value=lootMessage)
+            await lastmsg.edit(embed=embed)
 
 
     #Returns dict of loot
@@ -158,7 +165,7 @@ class PotentialItems(commands.Cog):
         # Roll between 3 and 6 drops
         # Gives an additional roll to people that are a member of the main discord guild
         bonusRolls = 0
-        duelArenaGuild = bot.guilds.get('663113372580970509')
+        duelArenaGuild = self.bot.get_guild(663113372580970509)
         if duelArenaGuild.get_member(message.author.id) != None:
             bonusRolls = 1
 
