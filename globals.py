@@ -1,14 +1,15 @@
 import os
-import json
 from osrsbox import items_api
-
 
 def init():
     global duels
     duels = {}
     global lastMessages
     lastMessages = {}
+    global all_db_items
     all_db_items = items_api.load()
+
+
 
 class DuelUser:
     hitpoints = 99
@@ -29,9 +30,7 @@ class Duel:
     turn = None
     turnCount = 0
     uuid = None
-    channel = None
 
-    def __init__(self, user, uuid, channel):
+    def __init__(self, user, uuid):
         self.user_1 = user
         self.uuid = uuid
-        self.channel = channel
