@@ -631,7 +631,7 @@ class AttackCommands(commands.Cog):
         VALUES
         ({winner.id}, '{str(loser.nick)}', 1, 0, 0) 
         ON CONFLICT (user_id) DO UPDATE 
-        SET wins = duel_users.wins + 1, nick = '{str(loser.nick)}'
+        SET wins = duel_users.wins + 1, nick = '{str(winner.nick)}'
         """,
 
             f"""
