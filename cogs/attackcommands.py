@@ -627,19 +627,19 @@ class AttackCommands(commands.Cog):
         # gp included in case user has never had row created for them
         commands = (
             f"""
-        INSERT INTO duel_users (user_id, wins, losses, gp) 
+        INSERT INTO duel_users (user_id, nick, wins, losses, gp) 
         VALUES
-        ({winner.id}, 1, 0, 0) 
+        ({winner.id}, {loser.nick}, 1, 0, 0) 
         ON CONFLICT (user_id) DO UPDATE 
-        SET wins = duel_users.wins + 1 
+        SET wins = duel_users.wins + 1, nick = {loser.nick}
         """,
 
             f"""
-        INSERT INTO duel_users (user_id, wins, losses, gp) 
+        INSERT INTO duel_users (user_id, nick, wins, losses, gp) 
         VALUES 
-        ({loser.id}, 0, 1, 0) 
+        ({loser.id}, {loser.nick}, 0, 1, 0) 
         ON CONFLICT (user_id) DO UPDATE 
-        SET losses = duel_users.losses + 1 
+        SET losses = duel_users.losses + 1 , nick = {loser.nick}
         """
         )
 
