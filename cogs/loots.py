@@ -12,7 +12,7 @@ from random import randint
 import globals
 from discord.ext import commands
 
-# DATABASE_URL = os.environ['DATABASE_URL']
+DATABASE_URL = os.environ['DATABASE_URL']
 
 class PotentialItems(commands.Cog):
 
