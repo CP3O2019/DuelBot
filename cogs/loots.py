@@ -66,7 +66,7 @@ class PotentialItems(commands.Cog):
     #Returns dict of loot
     async def rollLoot(self, ctx):
 
-        lootDict = self.rollForLoot(self, ctx)
+        lootDict = self.rollForLoot(ctx)
 
         lootValueDict = {}
 
