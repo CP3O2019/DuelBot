@@ -259,7 +259,6 @@ class UserCommands(commands.Cog):
             if conn is not None:
                 conn.close()
 
-    @commands.is_owner()
     @commands.command()
     async def dice(self, message, *args):
         try:
