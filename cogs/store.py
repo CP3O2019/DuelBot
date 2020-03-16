@@ -236,12 +236,15 @@ class StoreCommands(commands.Cog):
 
         itemQuantity = 0
 
+
         # If the user does not enter a valid integer quantity of items to purchase
         try:
             itemQuantity = int(args[0])
         except TypeError:
             await ctx.send('Please enter a valid amount.')
             return
+        except ValueError:
+            await ctx.send('Proper syntax is *.buy [quantity] [item name].')
 
         itemList = {
             13652: "dragonclaws",  # Dragon claws

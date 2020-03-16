@@ -166,7 +166,7 @@ class PotentialItems(commands.Cog):
         # Gives an additional roll to people that are a member of the main discord guild
         bonusRolls = 0
         duelArenaGuild = self.bot.get_guild(663113372580970509)
-        if duelArenaGuild.get_member(message.author.id) != None:
+        if duelArenaGuild.get_member(ctx.author.id) != None:
             bonusRolls = 1
 
 
