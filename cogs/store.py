@@ -244,7 +244,7 @@ class StoreCommands(commands.Cog):
             await ctx.send('Please enter a valid amount.')
             return
         except ValueError:
-            await ctx.send('Proper syntax is *.buy [quantity] [item name].')
+            await ctx.send('Proper syntax is *.buy [quantity] [item name].*')
             return
 
         itemList = {
