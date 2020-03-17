@@ -4,6 +4,7 @@ import discord
 import psycopg2
 import uuid
 import random
+import math
 from random import randint
 from cogs.osrsEmojis import ItemEmojis
 from cogs.loots import PotentialItems
@@ -525,6 +526,81 @@ class UserCommands(commands.Cog):
 
         frontPageEmbed = discord.Embed(title="Wins highscores", description=description, color=discord.Color.gold())
         await msg.edit(embed=frontPageEmbed)
+
+    @commands.command()
+    @commands.cooldown(1, 60*20, commands.BucketType.user)
+    async def pk(self, ctx):
+        await ctx.send('You head out into the wilderness on a PK trip...')
+
+        await asyncio.sleep(60*20)
+
+        randSuccessInt = randint(0, 6)
+        
+        if randint == 0:
+                # USER DIED ON THEIR PKING TRIP
+                await ctx.send(f"{ctx.author.mention}, you died on your pking trip. Type .pk to re-gear and go on another trip.")
+                return
+
+        loot = await PotentialItems(self.bot).rollLoot(ctx, 2, 3)
+
+        sql = f"""
+        UPDATE duel_users 
+        SET gp = gp + {loot[995][1]} 
+        WHERE user_id = {ctx.author.id}
+        """
+        conn = None
+
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+            cur.execute(sql)
+            cur.close()
+            conn.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print("SOME ERROR 3", error)
+        finally:
+            if conn is not None:
+                conn.close()
+
+            lootMessage = ""
+
+            for item in loot.values():
+                if item[0] != 'Coins':
+                    
+                    each = ''
+
+                    if item[3] > 1 and type(item[2]) != int:
+                        each = ' each' 
+
+                    lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
+                    
+            commaMoney = "{:,d}".format(loot[995][1])
+            lootMessage += f"Total pking trip loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
+
+            embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.nick}:**", description=lootMessage)
+
+            await ctx.send(f"{ctx.author.mention} you have returned from your pking trip.", embed=embed)
+
+    @pk.error
+    async def daily_error(self, ctx, error):
+        def getTime(seconds):
+
+            seconds = int(seconds)
+            hours = math.floor(seconds / 3600)
+            minutes = math.floor((seconds / 60) % 60)
+            timeSeconds = math.ceil(seconds - (hours * 3600) - (minutes * 60))
+            
+            return [hours, minutes, timeSeconds]
+
+        if isinstance(error, commands.CommandOnCooldown):
+
+            timeValues = getTime(error.retry_after)
+
+            msg = f"You're already out on a pk trip. You should return in {timeValues[1]} minutes, and {timeValues[2]} seconds.".format(error.retry_after)
+            await ctx.send(msg)
+            return
+        else:
+            raise error
 
 def setup(bot):
     bot.add_cog(UserCommands(bot))
