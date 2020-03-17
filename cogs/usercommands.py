@@ -267,7 +267,8 @@ class UserCommands(commands.Cog):
             diceAmount = helper.numify(args[0])
 
             if diceAmount <= 0:
-                message.send("You can't dice less than 1 GP.")
+                await message.send("You can't dice less than 1 GP.")
+                return
 
             diceAmountString_lost = helper.shortNumify(diceAmount, 1)
             diceAmountString_winnings = helper.shortNumify(diceAmount, 1)
