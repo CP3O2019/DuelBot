@@ -265,6 +265,10 @@ class UserCommands(commands.Cog):
         try:
             helper = RSMathHelpers(self.bot)
             diceAmount = helper.numify(args[0])
+
+            if diceAmount <= 0:
+                message.send("You can't dice less than 1 GP.")
+
             diceAmountString_lost = helper.shortNumify(diceAmount, 1)
             diceAmountString_winnings = helper.shortNumify(diceAmount, 1)
 
@@ -577,12 +581,12 @@ class UserCommands(commands.Cog):
             commaMoney = "{:,d}".format(loot[995][1])
             lootMessage += f"Total pking trip loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
 
-            embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.nick}:**", description=lootMessage)
+            embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.nick}:**", description=lootMessage, thumbnail='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8')
 
-            await ctx.send(f"{ctx.author.mention} you have returned from your pking trip.", embed=embed)
+            await ctx.send(f"{ctx.author.mention} you have returned from your pking trip. Type .pk to go out again.", embed=embed)
 
     @pk.error
-    async def daily_error(self, ctx, error):
+    async def pk_error(self, ctx, error):
         def getTime(seconds):
 
             seconds = int(seconds)

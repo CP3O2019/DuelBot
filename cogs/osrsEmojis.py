@@ -194,6 +194,9 @@ class ItemEmojis(commands.Cog):
         coins = '<:coins:688107815365378051>'
 
 
+    class Misc:
+        skull = '<:pkskull:689309885359194150>'
+
 
 def setup(bot):
     bot.add_cog(ItemEmojis(bot))
