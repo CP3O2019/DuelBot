@@ -49,20 +49,19 @@ class UserCommands(commands.Cog):
         cmds = (
         f"""
         INSERT INTO duel_rares (
-        user_id,
-        red_partyhat,
-        blue_partyhat,
-        yellow_partyhat,
-        green_partyhat,
-        purple_partyhat,
-        white_partyhat,
-        christmas_cracker,
-        red_hween_mask,
-        blue_hween_mask,
-        green_hween_mask,
-        santa_hat,
-        pumpkin,
-        easter_egg) 
+        _1038 red_partyhat,
+            _1040,
+            _1042,
+            _1044,
+            _1046,
+            _1048,
+            _962,
+            _1057,
+            _1055,
+            _1053,
+            _1050,
+            _1959,
+            _1961) 
         VALUES 
         ({user.id}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         ON CONFLICT (user_id) DO NOTHING
@@ -131,19 +130,19 @@ class UserCommands(commands.Cog):
 
         cmds = f"""
         SELECT 
-            red_partyhat red_partyhat,
-            blue_partyhat blue_partyhat,
-            yellow_partyhat yellow_partyhat,
-            green_partyhat green_partyhat,
-            purple_partyhat purple_partyhat,
-            white_partyhat white_partyhat,
-            christmas_cracker christmas_cracker,
-            red_hween_mask red_hween_mask,
-            blue_hween_mask blue_hween_mask,
-            green_hween_mask green_hween_mask,
-            santa_hat santa_hat,
-            pumpkin pumpkin,
-            easter_egg easter_egg
+            _1038 red_partyhat,
+            _1040 yellow_partyhat,
+            _1042 blue_partyhat,
+            _1044 green_partyhat,
+            _1046 purple_partyhat,
+            _1048 white_partyhat,
+            _962 christmas_cracker,
+            _1057 red_hween_mask,
+            _1055 blue_hween_mask,
+            _1053 green_hween_mask,
+            _1050 santa_hat,
+            _1959 pumpkin,
+            _1961 easter_egg
 
         FROM duel_rares
         WHERE user_id = {message.author.id}"""

@@ -62,6 +62,58 @@ def createTables():
             _13576 integer NOT NULL,
             _12924 integer NOT NULL
             )
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN red_partyhat TO _1038
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN blue_partyhat TO _1042
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN yellow_partyhat TO _1040
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN green_partyhat TO _1044
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN purple_partyhat TO _1046
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN white_partyhat TO _1048
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN christmas_cracker TO _962
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN red_hween_mask TO _1057
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN blue_hween_mask TO _1055
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN green_hween_mask TO _1053
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN santa_hat TO _1050
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN pumpkin TO _1959
+        """,
+        """
+        ALTER TABLE duel_rares
+        RENAME COLUMN easter_egg TO _1961
         """
         )
 
