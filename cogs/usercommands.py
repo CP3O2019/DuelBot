@@ -261,6 +261,9 @@ class UserCommands(commands.Cog):
 
     @commands.command()
     async def dice(self, message, *args):
+
+        diceAmount = 0
+
         try:
             helper = RSMathHelpers(self.bot)
             diceAmount = helper.numify(args[0])
@@ -287,16 +290,16 @@ class UserCommands(commands.Cog):
                 diceDescription = f'You rolled a **{rand}** and lost {diceAmountString} GP.'
                 winStatus = "lost"
 
-            # If over 100M is diced, send it to the global notifications channel
-            if diceAmount >= 100000000:
-                notifChannel = await discord.get_channel(689313376286802026)
-                await notifChannel.send(f"{message.author.nick} has just diced **{diceAmountString_winnings}** and {winStatus}.")
-
             embed = discord.Embed(title='**Dice Roll**', description=diceDescription, color = discord.Color.orange())
             embed.set_thumbnail(url='https://vignette.wikia.nocookie.net/runescape2/images/f/f2/Dice_bag_detail.png/revision/latest?cb=20111120013858')
             await message.send(embed=embed)
         except:
             await message.send('You must dice a valid amount.')
+
+        # If over 100M is diced, send it to the global notifications channel
+        if diceAmount >= 100000000:
+                notifChannel = self.bot.get_channel(689313376286802026)
+                await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.nick} has just diced **{diceAmountString_winnings}** and **{winStatus}**.")
 
     async def createDuel(self, message):
 
