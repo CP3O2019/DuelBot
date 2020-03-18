@@ -79,7 +79,7 @@ class PotentialItems(commands.Cog):
     #Returns dict of loot
     async def rollLoot(self, ctx, minRolls, maxRolls):
 
-        lootDict = self.rollForLoot(ctx, minRolls, maxRolls)
+        lootDict = await self.rollForLoot(ctx, minRolls, maxRolls)
 
         lootValueDict = {}
 
@@ -140,8 +140,8 @@ class PotentialItems(commands.Cog):
 
         return self.lootArray
 
-    def rollForLoot(self, ctx, minRolls, maxRolls):
-        def pickTable():
+    async def rollForLoot(self, ctx, minRolls, maxRolls):
+        async def pickTable():
             # Pick a random number and assign it to the table
             rng = randint(0, 599)
 
@@ -168,13 +168,11 @@ class PotentialItems(commands.Cog):
             elif self.lootArray.get(loot, None) == None:
                 self.lootArray[loot] = [lootQuantity, table[loot][3]] #Stores the quantity and emoji for the item
 
-            # User his the super rare table, send notification
-            # if rng <= 5:
-            #     try:
-            #         itemPrice = await Economy.getItemValue(loot)
-            #         itemPriceString = RSMathHelpers.shortNumify(itemPrice, 1)
-            #         notifChannel = self.bot.get_channel(689313376286802026)
-            #         await notifChannel.send(f"{ItemEmojis.Coins.coins} **{message.author.nick}** hit the ultra rare drop table and won a **{table[loot][0]}** {table[loot[3]]} worth {itemPriceString} GP for winning a fight!")
+            if rng <= 5:
+                ultraItemPrice = await Economy(self.bot).getItemValue(int(loot))
+                itemPriceString = RSMathHelpers(self.bot).shortNumify(ultraItemPrice, 1)
+                notifChannel = self.bot.get_channel(689313376286802026)
+                await notifChannel.send(f"{ItemEmojis.Coins.coins} **{ctx.author.nick}** hit the ultra rare drop table and received a **{table[loot][0]}** {table[loot][3]} worth {itemPriceString} GP for winning a fight!")
 
         # Roll between 3 and 6 drops
         # Gives an additional roll to people that are a member of the main discord guild
