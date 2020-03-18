@@ -175,49 +175,6 @@ class Economy(commands.Cog):
             if conn is not None:
                 conn.close()
 
-    async def purchaseItem(self, userId, itemId, itemQuantity):
-
-        await self.createPlayerItemTable(userId)
-
-        # Get price of the item
-        itemPrice = await self.getItemValue(itemId)
-
-        # Calculate the price of the purchase
-        purchasePrice = itemPrice * itemQuantity
-
-        # Remove the funds
-        commands = (f"""
-        UPDATE duel_users 
-        SET gp = gp - {RSMathHelpers.numify(self, purchasePrice)}
-        WHERE user_id = {userId}
-        """,
-                    f"""
-        UPDATE pking_items 
-        SET _{itemId} = _{itemId} + {itemQuantity}
-        WHERE user_id = {userId}
-        """
-                    )
-
-        # Execute sequel commands.
-        # Return True if succeeds
-        # Return False if fails
-        # When using this command, return to a variable to ensure you can check for database failure
-        conn = None
-        try:
-            conn = psycopg2.connect(DATABASE_URL)
-            cur = conn.cursor()
-            for command in commands:
-                cur.execute(command)
-            cur.close()
-            conn.commit()
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
-            return False
-        finally:
-            if conn is not None:
-                conn.close()
-            return True
-
     @commands.command()
     async def buy(self, ctx, *args):
         
@@ -247,6 +204,7 @@ class Economy(commands.Cog):
                 for n in range(1, len(args)):
                     itemName += args[n]
 
+            itemName = itemName.lower()
             return itemName
 
         async def convertArgsToQuantity(arg):

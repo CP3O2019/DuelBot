@@ -48,6 +48,7 @@ class UserCommands(commands.Cog):
         cmds = (
         f"""
         INSERT INTO duel_rares (
+            user_id,
             _1038,
             _1040,
             _1042,
