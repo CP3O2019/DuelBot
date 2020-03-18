@@ -300,7 +300,7 @@ class UserCommands(commands.Cog):
         # If over 100M is diced, send it to the global notifications channel
         if diceAmount >= 100000000:
                 notifChannel = self.bot.get_channel(689313376286802026)
-                await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.nick} has just diced **{helper.shortNumify(self, diceAmount)}** and **{winStatus}**.")
+                await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.nick} has just diced **{helper.shortNumify(diceAmount, 1)}** and **{winStatus}**.")
 
     async def createDuel(self, message):
 
