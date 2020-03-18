@@ -46,7 +46,6 @@ class Dailies(commands.Cog):
         }
 
     @commands.command()
-    @commands.is_owner()
     @commands.cooldown(1, 60*60*12, commands.BucketType.user)
     async def daily(self, ctx):
         def triviaNum():
@@ -91,7 +90,7 @@ class Dailies(commands.Cog):
 
     async def giveDailyMoney(self, ctx, correct):
 
-        winnings = randint(500000, 2500000)
+        winnings = randint(2500000, 7500000)
         correctString = "You did not get the correct answer in time."
 
         if correct == True:

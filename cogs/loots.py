@@ -6,7 +6,9 @@ import math
 import psycopg2
 import json
 import requests
+from cogs.economy import Economy
 from cogs.osrsEmojis import ItemEmojis
+from cogs.mathHelpers import RSMathHelpers
 from osrsbox import items_api
 from random import randint
 import globals
@@ -166,13 +168,20 @@ class PotentialItems(commands.Cog):
             elif self.lootArray.get(loot, None) == None:
                 self.lootArray[loot] = [lootQuantity, table[loot][3]] #Stores the quantity and emoji for the item
 
+            # User his the super rare table, send notification
+            # if rng <= 5:
+            #     try:
+            #         itemPrice = await Economy.getItemValue(loot)
+            #         itemPriceString = RSMathHelpers.shortNumify(itemPrice, 1)
+            #         notifChannel = self.bot.get_channel(689313376286802026)
+            #         await notifChannel.send(f"{ItemEmojis.Coins.coins} **{message.author.nick}** hit the ultra rare drop table and won a **{table[loot][0]}** {table[loot[3]]} worth {itemPriceString} GP for winning a fight!")
+
         # Roll between 3 and 6 drops
         # Gives an additional roll to people that are a member of the main discord guild
         bonusRolls = 0
         duelArenaGuild = self.bot.get_guild(663113372580970509)
         if duelArenaGuild.get_member(ctx.author.id) != None:
             bonusRolls = 1
-
 
         rollNum = randint(3, 6)
 

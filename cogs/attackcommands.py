@@ -794,6 +794,10 @@ class AttackCommands(commands.Cog):
         # Send the message with info about hitting the rares table to the winner
         await message.send(f"*{message.author.nick} received {itemText} {itemEmoji} for winning!*")
 
+        try:
+            notifChannel = self.bot.get_channel(689313376286802026)
+            await notifChannel.send(f"{ItemEmojis.Misc.skull} **{message.author.nick}** has just received **{itemText}** {itemEmoji} for winning a fight!")
+
     # Creates the hitpoints image
     # Parameters:
         # Hipoints - int - how many hitpoints are left
