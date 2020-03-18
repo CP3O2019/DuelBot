@@ -40,7 +40,6 @@ class UserCommands(commands.Cog):
         """)
 
     async def createTablesForUser(self, user):
-        print("Creating data tables for user", user.id)
 
         global DATABASE_URL
 
@@ -49,7 +48,7 @@ class UserCommands(commands.Cog):
         cmds = (
         f"""
         INSERT INTO duel_rares (
-        _1038 red_partyhat,
+            _1038,
             _1040,
             _1042,
             _1044,
