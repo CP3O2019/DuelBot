@@ -323,7 +323,7 @@ class Economy(commands.Cog):
                 if itemQuantity > 0:
                     return itemQuantity
                 else:
-                    await ctx.send('You must buy at least one item.')
+                    await ctx.send('You must sell at least one item.')
                     return
 
             except TypeError:
@@ -341,6 +341,7 @@ class Economy(commands.Cog):
 
         # Get the string of the items, formatted without spaces
         # i.e. redpartyhat
+
         itemName = await convertArgsToItemString(args)
 
         # Get the quantity of the item, formatted as int
@@ -370,6 +371,12 @@ class Economy(commands.Cog):
 
         if itemPrice == None:
             await ctx.send("There was an error fetching the item price. Please try again.")
+            return
+
+        playerQuantity = await self.getNumberOfItem(ctx.author.id, table, f"_{itemId}")
+
+        if itemQuantity > playerQuantity:
+            await ctx.send(f"You do not have {itemQuantity}x {itemString} to sell.")
             return
 
         totalSalePrice = math.floor(itemPrice * itemQuantity * 0.8)
