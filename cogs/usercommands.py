@@ -273,7 +273,7 @@ class UserCommands(commands.Cog):
                 await message.send("You can't dice less than 1 GP.")
                 return
 
-            diceAmountStrings = helper.shortNumify(diceAmount, 1)
+            diceAmountString = helper.shortNumify(diceAmount, 1)
 
             hasMoney = await helper.removeGPFromUser(message, message.author.id, diceAmount)
 
