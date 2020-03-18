@@ -263,9 +263,10 @@ class UserCommands(commands.Cog):
     async def dice(self, message, *args):
 
         diceAmount = 0
+        helper = RSMathHelpers(self.bot)
+
 
         try:
-            helper = RSMathHelpers(self.bot)
             diceAmount = helper.numify(args[0])
 
             if diceAmount <= 0:
@@ -299,7 +300,7 @@ class UserCommands(commands.Cog):
         # If over 100M is diced, send it to the global notifications channel
         if diceAmount >= 100000000:
                 notifChannel = self.bot.get_channel(689313376286802026)
-                await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.nick} has just diced **{diceAmountString}** and **{winStatus}**.")
+                await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.nick} has just diced **{helper.shortNumify(self, diceAmount)}** and **{winStatus}**.")
 
     async def createDuel(self, message):
 
