@@ -160,8 +160,8 @@ class UserCommands(commands.Cog):
             for row in rows:
                 embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.blurple())
                 embed.add_field(name="**Red partyhat**", value=row[0])
-                embed.add_field(name="**Blue partyhat**", value=row[1])
-                embed.add_field(name="**Yellow partyhat**", value=row[2])
+                embed.add_field(name="**Yellow partyhat**", value=row[1])
+                embed.add_field(name="**Blue partyhat**", value=row[2])
                 embed.add_field(name="**Green partyhat**", value=row[3])
                 embed.add_field(name="**Purple partyhat**", value=row[4])
                 embed.add_field(name="**White partyhat**", value=row[5])

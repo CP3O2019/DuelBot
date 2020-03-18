@@ -54,6 +54,17 @@ class StoreCommands(commands.Cog):
             if conn is not None:
                 conn.close()
 
+    async def getItemData(self, itemId):
+        url = f'http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={itemId}'
+
+        try:
+            response = requests.get(url)
+            jsonResponse = response.json()
+            return jsonResponse
+        except:
+            print(f"Err fetching item {itemId} from Database.")
+            return None
+
     @commands.command()
     async def items(self, ctx):
 
@@ -106,7 +117,7 @@ class StoreCommands(commands.Cog):
                 conn.close()
 
     @commands.command()
-    async def price(self, ctx *args):
+    async def price(self, ctx, *args):
         def get_key(val, itemDict):
             for key, value in itemDict.items():
                 if val == value:
@@ -117,6 +128,7 @@ class StoreCommands(commands.Cog):
             for item in globals.all_db_items:
                 if item.id == itemId:
                     return item.name
+
         # Convert the arguments to a string usable for other searches
         async def convertArgsToItemString(args):
 
@@ -142,7 +154,7 @@ class StoreCommands(commands.Cog):
         itemPrice = None
         itemId = None
         itemString = None
-        table = None
+        isCustom = False
 
         # Find item in one of the dictionaries
         if itemName in Economy.rareIDs.keys():
@@ -150,25 +162,44 @@ class StoreCommands(commands.Cog):
             itemId = Economy.rareIDs[itemName][0]
             itemPrice = Economy.rareIDs[itemName][1]
             itemString = Economy.rareIDs[itemName][2]
-            table = "duel_rares"
-        elif itemName in self.itemList.values():
-            # if the item is a regular item
-            itemId = get_key(itemName, Economy.itemList)
-            itemPrice = await Economy.getItemValue(self, itemId)
-            itemString = getFullItemName(itemId)
-            table = "pking_items"
+            isCustom = True
         else:
-            await ctx.send("I don't buy that item.")
-            return
+
+            # Find the item in the global database of items
+            for item in globals.all_db_items:
+                # If the item name matches the queried item
+                if item.name.replace(' ', '').lower() == itemName:
+                    # If the item is tradable on the G/
+                    if item.tradeable_on_ge == True:
+                        itemPrice = await Economy.getItemValue(self, item.id)
+                        itemId = item.id
+                        break
+                else:
+                    pass
 
         if itemPrice == None:
             await ctx.send("There was an error fetching the item price. Please try again.")
             return
 
-        commaMoney = "{:,d}".format(itemPrice)
-        embed = disord.Embed(title=itemString)
+        itemJSON = await self.getItemData(itemId)
+        print(itemJSON)
 
-        await ctx.send(f"Each {itemString} costs {commaMoney} GP to buy.")
+        if itemJSON == None:
+            await ctx.send("There was an error fetching the item data. Please try again.")
+
+        commaMoney = "{:,d}".format(itemPrice)
+        embed = discord.Embed(title=itemJSON['item']['name'], description=f"*{itemJSON['item']['description']}*")
+        embed.set_thumbnail(url=itemJSON['item']['icon'])
+
+        embedDescription = f"{commaMoney} GP"
+        
+        if isCustom == True:
+            embedDescription += "\n *This price is customized for this bot.*"
+
+        embed.add_field(name="Price", value = embedDescription)
+
+
+        await ctx.send(embed=embed)
         return
 
 
