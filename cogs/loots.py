@@ -184,10 +184,10 @@ class PotentialItems(commands.Cog):
         rollNum = randint(3, 6)
 
         for _ in range(0, rollNum):
-            pickTable()
+            await pickTable()
 
         if bonusRolls == 1:
-            pickTable()
+            await pickTable()
             
         return self.lootArray
 
