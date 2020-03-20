@@ -160,19 +160,19 @@ class UserCommands(commands.Cog):
 
             for row in rows:
                 embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.blurple())
-                embed.add_field(name="**Red partyhat**", value=row[0])
-                embed.add_field(name="**Yellow partyhat**", value=row[1])
-                embed.add_field(name="**Blue partyhat**", value=row[2])
-                embed.add_field(name="**Green partyhat**", value=row[3])
-                embed.add_field(name="**Purple partyhat**", value=row[4])
-                embed.add_field(name="**White partyhat**", value=row[5])
-                embed.add_field(name="**Christmas cracker**", value=row[6])
-                embed.add_field(name="**Red halloween mask**", value=row[7])
-                embed.add_field(name="**Blue halloween mask**", value=row[8])
-                embed.add_field(name="**Green halloween mask**", value=row[9])
-                embed.add_field(name="**Santa hat**", value=row[10])
-                embed.add_field(name="**Pumpkin**", value=row[11])
-                embed.add_field(name="**Easter egg**", value=row[12])
+                embed.add_field(name=f"**Red partyhat** {ItemEmojis.Rares.redPartyhat}", value=row[0])
+                embed.add_field(name=f"**Yellow partyhat** {ItemEmojis.Rares.yellowPartyhat}", value=row[1])
+                embed.add_field(name=f"**Blue partyhat** {ItemEmojis.Rares.bluePartyhat}", value=row[2])
+                embed.add_field(name=f"**Green partyhat** {ItemEmojis.Rares.greenPartyhat}", value=row[3])
+                embed.add_field(name=f"**Purple partyhat** {ItemEmojis.Rares.purplePartyhat}", value=row[4])
+                embed.add_field(name=f"**White partyhat** {ItemEmojis.Rares.whitePartyhat}", value=row[5])
+                embed.add_field(name=f"**Christmas cracker** {ItemEmojis.Rares.chrismasCracker}", value=row[6])
+                embed.add_field(name=f"**Red halloween mask** {ItemEmojis.Rares.redHween}", value=row[7])
+                embed.add_field(name=f"**Blue halloween mask** {ItemEmojis.Rares.blueHween}", value=row[8])
+                embed.add_field(name=f"**Green halloween mask** {ItemEmojis.Rares.redHween}", value=row[9])
+                embed.add_field(name=f"**Santa hat** {ItemEmojis.Rares.santaHat}", value=row[10])
+                embed.add_field(name=f"**Pumpkin** {ItemEmojis.Rares.pumpkin}", value=row[11])
+                embed.add_field(name=f"**Easter egg** {ItemEmojis.Rares.easterEgg}", value=row[12])
 
                 await message.send(embed=embed)
 
@@ -812,7 +812,7 @@ class UserCommands(commands.Cog):
             await msg.edit(embed=errorEmbed)
 
         for n in range(0, len(frontPage)):
-            description += f"**{frontPage[n][0]}**: {frontPage[n][1]} \n"
+            description += f"{n} - **{frontPage[n][0]}**: {frontPage[n][1]} wins | {frontPage[n][2]} losses | {round((frontPage[n][1]/frontPage[n][2]), 2)} KDA \n"
 
         frontPageEmbed = discord.Embed(title="Wins highscores", description=description, color=discord.Color.gold())
         await msg.edit(embed=frontPageEmbed)
