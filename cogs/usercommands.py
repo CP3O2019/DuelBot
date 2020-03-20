@@ -769,7 +769,7 @@ class UserCommands(commands.Cog):
 
         async def getWinsHighscores(ctx):
             sql = f"""
-            SELECT nick, wins
+            SELECT nick, wins, losses
             FROM duel_users
             ORDER BY wins DESC
             """
