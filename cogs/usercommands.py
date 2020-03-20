@@ -166,7 +166,7 @@ class UserCommands(commands.Cog):
                 embed.add_field(name=f"**Green partyhat** {ItemEmojis.Rares.greenPartyhat}", value=row[3])
                 embed.add_field(name=f"**Purple partyhat** {ItemEmojis.Rares.purplePartyhat}", value=row[4])
                 embed.add_field(name=f"**White partyhat** {ItemEmojis.Rares.whitePartyhat}", value=row[5])
-                embed.add_field(name=f"**Christmas cracker** {ItemEmojis.Rares.chrismasCracker}", value=row[6])
+                embed.add_field(name=f"**Christmas cracker** {ItemEmojis.Rares.christmasCracker}", value=row[6])
                 embed.add_field(name=f"**Red halloween mask** {ItemEmojis.Rares.redHween}", value=row[7])
                 embed.add_field(name=f"**Blue halloween mask** {ItemEmojis.Rares.blueHween}", value=row[8])
                 embed.add_field(name=f"**Green halloween mask** {ItemEmojis.Rares.redHween}", value=row[9])
