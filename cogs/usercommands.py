@@ -214,7 +214,7 @@ class UserCommands(commands.Cog):
                 embed = discord.Embed(title=f"K/D for {message.author.nick}", color = discord.Color.green())
                 embed.add_field(name="**Wins**", value=row[1])
                 embed.add_field(name="**Losses**", value=row[2])
-                embed.add_field(name="**KDA**", value=math.round(row[1]/row[2]))
+                embed.add_field(name="**KDA**", value=round(row[1]/row[2]), 2)
 
                 await message.send(embed=embed)
 
