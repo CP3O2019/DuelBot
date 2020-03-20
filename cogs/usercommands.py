@@ -501,11 +501,10 @@ class UserCommands(commands.Cog):
 
         if channelDuel != None:
             if len(args[0]) > 0:
-
-                if args[0][0] != channelDuel.shortQuantity and channelDuel.stakeItem == 'gp':
-                    await message.send(f'Please type **.fight {channelDuel.shortQuantity} to enter this duel.')
+                if str(args[0][0]).lower() != str(channelDuel.shortQuantity).lower() and channelDuel.stakeItem == 'gp':
+                    await message.send(f'Please type **.fight {channelDuel.shortQuantity}** to enter this duel.')
                     return
-                elif args[0][0] != channelDuel.shortQuantity and channelDuel.stakeItem != 'gp' and stakeParams[0] != channelDuel.itemLongName.replace(' ', '').lower():
+                elif str(args[0][0]).lower() != str(channelDuel.shortQuantity).lower() and channelDuel.stakeItem != 'gp' and stakeParams[0] != channelDuel.itemLongName.replace(' ', '').lower():
                     await message.send(f'Please type **.fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
                     return
                 else:
