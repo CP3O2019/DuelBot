@@ -214,6 +214,7 @@ class UserCommands(commands.Cog):
                 embed = discord.Embed(title=f"K/D for {message.author.nick}", color = discord.Color.green())
                 embed.add_field(name="**Wins**", value=row[1])
                 embed.add_field(name="**Losses**", value=row[2])
+                embed.add_field(name="**KDA**", value=f"({:0.2f]}".format(row[1]/row[2]))
 
                 await message.send(embed=embed)
 
@@ -608,8 +609,11 @@ class UserCommands(commands.Cog):
             startingUser = channelDuel.user_2
             channelDuel.turn = channelDuel.user_2
 
+        try:
+            del globals.lastMessages[message.channel.id]
+        except:
+            pass
 
-        del globals.lastMessages[message.channel.id]
         await message.send(f"Beginning duel between {channelDuel.user_1.user.nick} and {channelDuel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
 
         if channelDuel.user_1 != None and channelDuel.user_2 != None:
@@ -848,7 +852,7 @@ class UserCommands(commands.Cog):
         
         if randint == 0:
                 # USER DIED ON THEIR PKING TRIP
-                await ctx.send(f"{ctx.author.mention}, you died on your pking trip. Type .pk to re-gear and go on another trip.")
+                await ctx.send(f"{ctx.author.mention}, you died on your pking trip. Type .pk to re-gear and go on another trip. You should be back in about 20 minutes.")
                 return
 
         loot = await PotentialItems(self.bot).rollLoot(ctx, 2, 3)
@@ -887,7 +891,7 @@ class UserCommands(commands.Cog):
             commaMoney = "{:,d}".format(loot[995][1])
             lootMessage += f"Total pking trip loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
 
-            embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.nick}:**", description=lootMessage, thumbnail='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8')
+            embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.nick}:**", description=lootMessage, thumbnail='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8', color=discord.Color.blurple())
 
             await ctx.send(f"{ctx.author.mention} you have returned from your pking trip. Type .pk to go out again.", embed=embed)
 
