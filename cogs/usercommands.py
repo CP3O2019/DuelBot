@@ -471,10 +471,14 @@ class UserCommands(commands.Cog):
             elif _userQuantity >= _itemQuantity:
                 return True
 
-        user1HasItem = await checkUsersItemQuantity(message.author)
 
-        if user1HasItem == False:
-            return
+
+        if len(args[0]) != 0:
+            user1HasItem = await checkUsersItemQuantity(message.author)
+
+            if user1HasItem == False:
+                return
+
         # Returns an array that details 
         # where the user should have their info pulled to/written to
         # i.e. ['gp', 'duel_users'] or ['_1040', 'duel_rares']
