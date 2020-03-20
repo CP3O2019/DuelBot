@@ -598,6 +598,8 @@ class UserCommands(commands.Cog):
 
             await Economy(self.bot).removeItemFromUser(channelDuel.user_1.user.id, channelDuel.table, channelDuel.stakeItem, channelDuel.stakeQuantity)
             await Economy(self.bot).removeItemFromUser(channelDuel.user_2.user.id, channelDuel.table, channelDuel.stakeItem, channelDuel.stakeQuantity)
+        elif channelDuel.stakeItem == None:
+            channelDuel.user_2 = globals.DuelUser(message.author)
 
         # Randomly pick a starting user
         startingUserBool = bool(random.getrandbits(1))
