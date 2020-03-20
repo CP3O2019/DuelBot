@@ -812,7 +812,7 @@ class UserCommands(commands.Cog):
             await msg.edit(embed=errorEmbed)
 
         for n in range(0, len(frontPage)):
-            description += f"{n} - **{frontPage[n][0]}**: {frontPage[n][1]} wins | {frontPage[n][2]} losses | {round((frontPage[n][1]/frontPage[n][2]), 2)} KDA \n"
+            description += f"{n + 1} - **{frontPage[n][0]}**: {frontPage[n][1]} wins | {frontPage[n][2]} losses | {round((frontPage[n][1]/frontPage[n][2]), 2)} KDA \n"
 
         frontPageEmbed = discord.Embed(title="Wins highscores", description=description, color=discord.Color.gold())
         await msg.edit(embed=frontPageEmbed)
