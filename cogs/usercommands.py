@@ -420,9 +420,7 @@ class UserCommands(commands.Cog):
 
         # Determine if the user has enough of the item
         async def checkUsersItemQuantity(user):
-            print("Checking user items quantity")
-            print('params0', stakeParams[0])
-            print('params1', stakeParams[1])
+
             if channelDuel != None and stakeParams[1] == None:
                 if channelDuel.stakeItem == 'gp':
                     await message.send(f"You don't have {channelDuel.shortQuantity} GP to stake.")
@@ -430,7 +428,10 @@ class UserCommands(commands.Cog):
                     if len(args[0]) == 0:
                         return True
                     else:
-                        await message.send(f"You don't have {channelDuel.shortQuantity} {channelDuel.itemLongName} to stake.")
+                        if stakeParams[0] != channelDuel.itemLongName.replace(' ', '').lower():
+                            await message.send(f'Please type **.fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
+                        elif stakeParams[0] == channelDuel.itemLongName.replace(' ', '').lower():
+                            await message.send(f"You don't have {channelDuel.shortQuantity} {channelDuel.itemLongName} to stake.")
                 return False
 
             # Sort out values
