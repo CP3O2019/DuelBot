@@ -6,8 +6,8 @@ import math
 import psycopg2
 import json
 import requests
-from cogs.economy import Economy
 from cogs.osrsEmojis import ItemEmojis
+from cogs.economy import Economy
 from cogs.mathHelpers import RSMathHelpers
 from osrsbox import items_api
 from random import randint
@@ -130,7 +130,6 @@ class PotentialItems(commands.Cog):
             if type(itemPrice) == int:
                 value = int(itemPrice)
 
-            print('LOOT VALUES:', lootDict[itemKey])
             # 0 is the name of the item, 1 is the GP (int) value of the item, 2 is the item price shortened, 3 is the number of the item, 4 is the emoji
             self.lootArray[itemKey] = [jsonResponse['item']['name'], value, itemPrice, lootDict[itemKey][0], lootDict[itemKey][1]]
         
@@ -168,6 +167,8 @@ class PotentialItems(commands.Cog):
             elif self.lootArray.get(loot, None) == None:
                 self.lootArray[loot] = [lootQuantity, table[loot][3]] #Stores the quantity and emoji for the item
 
+                # User his the super rare table, send notification
+
             if rng <= 5:
                 ultraItemPrice = await Economy(self.bot).getItemValue(int(loot))
                 itemPriceString = RSMathHelpers(self.bot).shortNumify(ultraItemPrice, 1)
@@ -180,6 +181,7 @@ class PotentialItems(commands.Cog):
         duelArenaGuild = self.bot.get_guild(663113372580970509)
         if duelArenaGuild.get_member(ctx.author.id) != None:
             bonusRolls = 1
+
 
         rollNum = randint(3, 6)
 

@@ -11,6 +11,7 @@ from cogs.loots import PotentialItems
 import globals
 from globals import Duel, DuelUser
 from cogs.mathHelpers import RSMathHelpers
+from cogs.economy import Economy
 from discord.ext import commands
 from bot import duels, lastMessages
 
@@ -91,9 +92,9 @@ class UserCommands(commands.Cog):
 
     # begin a duel command
     @commands.command()
-    async def fight(self, message):
+    async def fight(self, message, *args):
 
-        await self.createDuel(message)
+        await self.createDuel(message, args)
 
         channelDuel = globals.duels.get(message.channel.id, None)
 
@@ -261,12 +262,11 @@ class UserCommands(commands.Cog):
 
     @commands.command()
     async def dice(self, message, *args):
-
         diceAmount = 0
         helper = RSMathHelpers(self.bot)
-
-
+        winStatus = ""
         try:
+            helper = RSMathHelpers(self.bot)
             diceAmount = helper.numify(args[0])
 
             if diceAmount <= 0:
@@ -282,7 +282,7 @@ class UserCommands(commands.Cog):
 
             rand = randint(1, 100)
             diceDescription = ''
-            winStatus = ""
+
             if rand >= 55:
                 await helper.giveGPToUser(message, message.author.id, diceAmount * 2)
                 diceDescription = f'You rolled a **{rand}** and won {diceAmountString} GP'
@@ -302,17 +302,256 @@ class UserCommands(commands.Cog):
                 notifChannel = self.bot.get_channel(689313376286802026)
                 await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.nick} has just diced **{helper.shortNumify(diceAmount, 1)}** and **{winStatus}**.")
 
-    async def createDuel(self, message):
+    async def createDuel(self, message, *args):
 
+        async def convertArgsToItemString(args):
+
+            itemName = ""
+            itemQuantity = 0
+            try:
+                try:
+                    # Test if the argument is an integer
+                    itemQuantity = int(args[0])
+                except:
+                    # Test if the argument is a string
+                    try:
+                        placeholderQuantity = int(RSMathHelpers.numify(self, args[0]))
+                        if type(placeholderQuantity) == int:
+                            itemQuantity = placeholderQuantity
+                    except:
+                        itemQuantity = None
+                #If the first argument is an integer, 
+                if type(itemQuantity) != int:
+                    await message.send('Please enter a valid quantity.')
+                    return None            
+            except:
+                await message.send('Please enter a quantity to stake.')
+                return None
+
+            if len(args) == 1:  # If the user didn't include an item to purchase, but did include a quantity (is staking GP)
+                itemName = "GP"
+            elif len(args) == 2:  # If the args was two values long, including an integer 
+                itemName = args[1]
+            else:  # If the args was more than two words long, concatenate
+                for n in range(1, len(args)):
+                    itemName += args[n]
+                    print(itemName)
+
+            # Cast the itemName to its lowercase version
+            itemName = itemName.lower()
+            # Return [name of item, quantity to stake]
+            return [itemName, itemQuantity]
+
+        def get_key(val, itemDict):
+            for key, value in itemDict.items():
+                if val == value:
+                    return key
+            return None
+
+        async def getStakeType():
+            print("ARGS", args)
+            stakeType = ""
+            arguments = args[0]
+            itemLongName = ""
+            itemId = None
+            if len(arguments) == 0:
+                return None
+            # If there is only one argument
+            if len(arguments) == 1:
+                
+                # Try to convert the argument into a number, because the stake should be GP
+                value = RSMathHelpers.numify(self, arguments[0])
+                try:
+                    # If the number did not successfully convert to a number, this will throw an exception when int(value) is called
+                    # If it is successful, it will return "gp" to indicate a monetary stake
+                    intValue = int(value)
+                    stakeType = "gp"
+                    return [stakeType, arguments[0]]
+                except:
+                    print("1")
+                    return None
+            
+            # If there are two arguments (could be "[quantity] [text]" or "[text] [text]")
+            if len(arguments) == 2 or len(arguments) == 3:
+                try:
+                    # Try to convert the arguments into a a [name, quantity] array
+                    # This will fail if the 
+                    stakeVals = await convertArgsToItemString(arguments)
+                    if stakeVals == None:
+                        return    
+                    # Check to see if the name of the item is in either of the item dictionaries
+                    if stakeVals[0] in Economy(self.bot).rareIDs.keys():
+                        stakeType = "rares"
+                        itemLongName = Economy(self.bot).rareIDs[stakeVals[0]][2]
+                        itemId = Economy(self.bot).rareIDs[stakeVals[0]][0]
+                        return [stakeType, itemLongName, itemId]
+                    elif stakeVals[0] in Economy(self.bot).itemList.values():
+                        stakeType = "items"
+                        itemId = get_key(stakeVals[0], Economy(self.bot).itemList)
+                        itemLongName = Economy(self.bot).getItemName(itemId)
+                        return [stakeType, itemLongName, itemId]
+                    else:
+                        await message.send("Couldn't find that item, please try again.")
+                        return
+                except:
+                    await message.send("Couldn't find that item, please try again.")
+                    return
+            else:
+                await message.send("Something went wrong.")
+                return None
+
+        # Returns [stake type, full name, itemId]
+            # Stake type can be 'items', 'rares', or 'gp'
+            # i.e. ['rares', 'Christmas cracker', 962]
+        stakeType = await getStakeType()
+
+        # Get the item quantity and itemName for the stake
+        # Returned as [itemName, itemQuantity]
+        # i.e. ['christmasCracker', 1]
+        stakeParams = None
+        if stakeType == None:
+            #If the duel is just a regular old duel
+            stakeParams = [None, None]
+        else:
+            stakeParams = await convertArgsToItemString(args[0])
+
+        # Get the global duel
         channelDuel = globals.duels.get(message.channel.id, None)
+
+        # Determine if the user has enough of the item
+        async def checkUsersItemQuantity(user):
+            print("Checking user items quantity")
+            print('params0', stakeParams[0])
+            print('params1', stakeParams[1])
+            if channelDuel != None and stakeParams[1] == None:
+                if channelDuel.stakeItem == 'gp':
+                    await message.send(f"You don't have {channelDuel.shortQuantity} GP to stake.")
+                else:
+                    if len(args[0]) == 0:
+                        return True
+                    else:
+                        await message.send(f"You don't have {channelDuel.shortQuantity} {channelDuel.itemLongName} to stake.")
+                return False
+
+            # Sort out values
+            _itemType = stakeType[0]
+            _fullItemName = stakeType[1]
+            _itemId = None
+            _shortItemName = stakeParams[0]
+            _itemQuantity = stakeParams[1]
+            _table = None
+
+            if _itemType == 'gp':
+                _table = 'duel_users'
+                _itemId = 'gp'
+            elif _itemType == 'rares':
+                _table = 'duel_rares'
+                _itemId = f"_{stakeType[2]}"
+            elif _itemType == 'items':
+                _table = 'pking_items'
+                _itemId = f"_{stakeType[2]}"
+
+            _userQuantity = await Economy(self.bot).getNumberOfItem(user.id, _table, f"{_itemId}")
+
+            if _userQuantity < _itemQuantity:
+                if _itemType == 'gp':
+                    if message.author.id == user.id:
+                        await message.send(f"You don't have {_shortItemName} to stake.")
+                    else:
+                        await message.send(f"{user.nick} does not {_shortItemName} to stake.")
+                else:
+                    shortQuantity = RSMathHelpers(self.bot).shortNumify(_itemQuantity, 1)
+
+                    if message.author.id == user.id:
+                        await message.send(f"You don't have {shortQuantity} {_fullItemName} to stake.")
+                    else:
+                        await message.send(f"{user.nick} does not have {shortQuantity} {_fullItemName} to stake")
+                return False
+            elif _userQuantity >= _itemQuantity:
+                return True
+
+        user1HasItem = await checkUsersItemQuantity(message.author)
+
+        if user1HasItem == False:
+            return
+        # Returns an array that details 
+        # where the user should have their info pulled to/written to
+        # i.e. ['gp', 'duel_users'] or ['_1040', 'duel_rares']
+        def returnTableColumn():
+            # Sort out values
+            _itemType = None
+            if stakeType != None:
+                _itemType = stakeType[0]
+            _itemId = None
+            _table = None
+
+            if _itemType == 'gp':
+                _table = 'duel_users'
+                _itemId = 'gp'
+            elif _itemType == 'rares':
+                _table = 'duel_rares'
+                _itemId = f"_{stakeType[2]}"
+            elif _itemType == 'items':
+                _table = 'pking_items'
+                _itemId = f"_{stakeType[2]}"
+
+
+            return [_itemId, _table]
+
+        if channelDuel != None:
+            if len(args[0]) > 0:
+                if args[0][0] != channelDuel.shortQuantity and channelDuel.stakeItem == 'gp':
+                    await message.send(f'Please type **.fight {channelDuel.shortQuantity} to enter this duel.')
+                    return
+                elif args[0][0] != channelDuel.shortQuantity and channelDuel.stakeItem != 'gp' and stakeParams[0] != channelDuel.itemLongName.replace(' ', '').lower():
+                    await message.send(f'Please type **.fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
+                    return
+                else:
+                    pass
+
+            if channelDuel.stakeItem != None:
+                userHasQuantity = await checkUsersItemQuantity(message.author)
+
+                if userHasQuantity == False:
+                    return
 
         # Check to see if a duel exists in the channel
         if channelDuel == None:
-            globals.duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id)
-            channelDuel = globals.duels.get(message.channel.id, None)
-            globals.lastMessages[message.channel.id] = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
-            await self.startCancelCountdown(message, channelDuel.uuid)
-            return
+            if len(args[0]) == 0:
+                # If the duel is not for any particular amount of money
+                globals.duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id, None, None, None, None, None)
+                channelDuel = globals.duels.get(message.channel.id, None)
+                globals.lastMessages[message.channel.id] = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
+                await self.startCancelCountdown(message, channelDuel.uuid)
+                return
+            elif args != None:
+                # If the stake has a value attached to it
+                table = returnTableColumn()
+
+                # print("Item", table[0])
+                # print("Quantity", stakeParams[1])
+                # print("Table", table[1])
+                # print("Longname", stakeType[1])
+                # print("Short quantity", RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1))
+                if stakeParams[1] < 0:
+                    await message.send("You cannot stake less than 1 of an item.")
+                    return
+
+                globals.duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id, table[0], stakeParams[1], table[1], stakeType[1], RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1))  
+                channelDuel = globals.duels.get(message.channel.id, None)
+                if stakeType[0] == 'gp':
+                    globals.lastMessages[message.channel.id] = await message.send(f"**{message.author.nick}** has started a duel for **{args[0][0]} GP**. Type **.fight {args[0][0]}** to duel them.")
+                else:
+                    globals.lastMessages[message.channel.id] = await message.send(f"**{message.author.nick}** has started a duel for **{args[0][0]} {stakeType[1]}**. Type **.fight {RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1)} {stakeType[1]}** to duel them.")
+
+                await self.startCancelCountdown(message, channelDuel.uuid)
+                return
+        else:
+            if channelDuel.stakeItem != None:
+                userHasQuantity = await checkUsersItemQuantity(message.author)
+
+                if userHasQuantity == False:
+                    return
 
         # Check to see if the person is dueling themselves
         if self.check(message.author, message.channel.id) == False:
@@ -324,8 +563,35 @@ class UserCommands(commands.Cog):
             await message.send("There are already two people dueling.")
             return
 
-        # If it passed the other checks, add duel user 2 to the fight
-        channelDuel.user_2 = globals.DuelUser(message.author)
+        # Check to see if player 2 has the required items to participate in the stake
+        player2HasQuantity = await checkUsersItemQuantity(message.author)
+        if player2HasQuantity == False:
+            return
+
+        # # If it passed the other checks, add duel user 2 to the fight
+        # channelDuel.user_2 = globals.DuelUser(message.author)
+
+        if channelDuel.stakeItem != None and channelDuel.stakeQuantity != None:
+            tableValues = returnTableColumn()
+
+            if len(args[0]) == 0:
+                await message.send(f'Please type **.fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
+                return
+            if stakeType[1].replace(' ', '').lower() == channelDuel.itemLongName.replace(' ', '').lower():
+                player1HasQuantityStill = await checkUsersItemQuantity(channelDuel.user_1.user)
+                if player1HasQuantityStill == False:
+                    await message.send(f"Cancelling the duel because {channelDuel.user_1.user.nick} no longer has {RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1)} {stakeType[1]}.")
+                    del globals.duels[message.channel.id]
+                    return
+            elif stakeType[1].replace(' ', '').lower() != channelDuel.itemLongName.replace(' ', '').lower():
+                await message.send(f"The current duel is not for {stakeType[1]}.")
+                return
+
+             # If it passed the other checks, add duel user 2 to the fight
+            channelDuel.user_2 = globals.DuelUser(message.author)
+
+            await Economy(self.bot).removeItemFromUser(channelDuel.user_1.user.id, channelDuel.table, channelDuel.stakeItem, channelDuel.stakeQuantity)
+            await Economy(self.bot).removeItemFromUser(channelDuel.user_2.user.id, channelDuel.table, channelDuel.stakeItem, channelDuel.stakeQuantity)
 
         # Randomly pick a starting user
         startingUserBool = bool(random.getrandbits(1))
@@ -415,7 +681,6 @@ class UserCommands(commands.Cog):
             elif channelDuel.uuid == duel.uuid and channelDuel.turnCount == duel.turnCount:
                 turnUser = channelDuel.user_2
                 notTurn = channelDuel.user_1
-            print("Cancelling duel from inside of beginFightTurnChecker in usercommands.py")
             await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
             await self.updateDB(notTurn.user, turnUser.user)
             globals.duels[message.channel.id] = None
@@ -486,7 +751,6 @@ class UserCommands(commands.Cog):
     async def test(self, message):
         await PotentialItems.generateLoot(self, message)
 
-
     @commands.command()
     async def hs(self, ctx):
         placeholderEmbed = discord.Embed(title="Wins highscores", description = "Checking the highscores...", color=discord.Color.gold())
@@ -543,79 +807,32 @@ class UserCommands(commands.Cog):
         await msg.edit(embed=frontPageEmbed)
 
     @commands.command()
-    @commands.cooldown(1, 60*20, commands.BucketType.user)
-    async def pk(self, ctx):
-        await ctx.send('You head out into the wilderness on a PK trip...')
+    @commands.is_owner()
+    async def givegp(self, ctx, *args):
+        print(args)
+        quantity = args[1]
+        print(quantity)
+        quantity = RSMathHelpers(self.bot).numify(args[1])
+        print(quantity)
+        print(type(quantity))
+        shortQuant = RSMathHelpers(self.bot).shortNumify(quantity, 1)
+        print(shortQuant)
 
-        await asyncio.sleep(60*20)
-
-        randSuccessInt = randint(0, 6)
-        
-        if randint == 0:
-                # USER DIED ON THEIR PKING TRIP
-                await ctx.send(f"{ctx.author.mention}, you died on your pking trip. Type .pk to re-gear and go on another trip.")
-                return
-
-        loot = await PotentialItems(self.bot).rollLoot(ctx, 2, 3)
-
-        sql = f"""
-        UPDATE duel_users 
-        SET gp = gp + {loot[995][1]} 
-        WHERE user_id = {ctx.author.id}
-        """
-        conn = None
-
-        try:
-            conn = psycopg2.connect(DATABASE_URL)
-            cur = conn.cursor()
-            cur.execute(sql)
-            cur.close()
-            conn.commit()
-        except (Exception, psycopg2.DatabaseError) as error:
-            print("SOME ERROR 3", error)
-        finally:
-            if conn is not None:
-                conn.close()
-
-            lootMessage = ""
-
-            for item in loot.values():
-                if item[0] != 'Coins':
-                    
-                    each = ''
-
-                    if item[3] > 1 and type(item[2]) != int:
-                        each = ' each' 
-
-                    lootMessage += f"*{item[3]}x {item[4]} {item[0]} worth {item[2]} GP{each}* \n"
-                    
-            commaMoney = "{:,d}".format(loot[995][1])
-            lootMessage += f"Total pking trip loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
-
-            embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.nick}:**", description=lootMessage, thumbnail='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8')
-
-            await ctx.send(f"{ctx.author.mention} you have returned from your pking trip. Type .pk to go out again.", embed=embed)
-
-    @pk.error
-    async def pk_error(self, ctx, error):
-        def getTime(seconds):
-
-            seconds = int(seconds)
-            hours = math.floor(seconds / 3600)
-            minutes = math.floor((seconds / 60) % 60)
-            timeSeconds = math.ceil(seconds - (hours * 3600) - (minutes * 60))
-            
-            return [hours, minutes, timeSeconds]
-
-        if isinstance(error, commands.CommandOnCooldown):
-
-            timeValues = getTime(error.retry_after)
-
-            msg = f"You're already out on a pk trip. You should return in {timeValues[1]} minutes, and {timeValues[2]} seconds.".format(error.retry_after)
-            await ctx.send(msg)
+        if type(quantity) != int:
+            await ctx.send('Please enter a valid number.')
             return
-        else:
-            raise error
+
+        person = args[0].replace('@', '').replace('>','').replace('<','').replace('!', '')
+
+        print(person)
+        print(quantity)
+        print(shortQuant)
+
+        await Economy(self.bot).giveItemToUser(person, 'duel_users', 'gp', quantity)
+        await ctx.send(f"You gave {shortQuant} to <@!{person}>")
+        return
+
+
 
 def setup(bot):
     bot.add_cog(UserCommands(bot))

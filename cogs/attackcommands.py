@@ -6,6 +6,8 @@ import math
 import psycopg2
 from cogs.loots import PotentialItems
 from cogs.osrsEmojis import ItemEmojis
+from cogs.economy import Economy
+from cogs.mathHelpers import RSMathHelpers
 from random import randint
 import globals
 from discord.ext import commands
@@ -183,11 +185,22 @@ class AttackCommands(commands.Cog):
 
         # winning message
         if leftoverHitpoints <= 0:
-            await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
+            await message.send(content=f'{sending} \n**{message.author.nick}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
-            await self.rollForRares(message, sendingUser.user)
             del globals.duels[message.channel.id]
-            await PotentialItems.generateLoot(self, message)
+
+            if channelDuel.stakeItem == None:
+                await PotentialItems.generateLoot(self, message)
+                await self.rollForRares(message, sendingUser.user)
+            else:
+                itemToWin = channelDuel.stakeItem
+                numberToWin = channelDuel.stakeQuantity * 2
+                table = channelDuel.table
+                if channelDuel.stakeItem == 'gp':
+                    await message.send(f"**{message.author.nick}** has won {channelDuel.shortQuantity} GP.")
+                else:
+                    await message.send(f"**{message.author.nick}** has won {numberToWin} {channelDuel.itemLongName}.")
+                await Economy(self.bot).giveItemToUser(message.author.id, table, itemToWin, numberToWin)
             return
 
         # calculates special energy remaining and adds to message
@@ -326,25 +339,24 @@ class AttackCommands(commands.Cog):
         if len(hitArray) == 1:
             sending += f'{message.author.nick} uses **{weapon}** and hits a **{hitArray[0]}** on {receivingUser.user.nick}.'
 
-        # If the receivingUser is dead
+        # winning message
         if leftoverHitpoints <= 0:
-
-            # Send message with info about winning, attach image of HP
-            await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
-            
-            # Update database with winner and loser
+            await message.send(content=f'{sending} \n**{message.author.nick}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
-
-            # Roll for a chance on the rares table
-            await self.rollForRares(message, sendingUser.user)
-
-            # Delete the duel from the duel dict
             del globals.duels[message.channel.id]
 
-            # Generate loot and send the message to the channel
-            # Purposefully after deleting the duel because it can throw errors from the G/E API
-            await PotentialItems.generateLoot(self, message)
-
+            if channelDuel.stakeItem == None:
+                await PotentialItems.generateLoot(self, message)
+                await self.rollForRares(message, sendingUser.user)
+            else:
+                itemToWin = channelDuel.stakeItem
+                numberToWin = channelDuel.stakeQuantity * 2
+                table = channelDuel.table
+                if channelDuel.stakeItem == 'gp':
+                    await message.send(f"**{message.author.nick}** has won {channelDuel.shortQuantity} GP.")
+                else:
+                    await message.send(f"**{message.author.nick}** has won {numberToWin} {channelDuel.itemLongName}.")
+                await Economy(self.bot).giveItemToUser(message.author.id, table, itemToWin, numberToWin)
             return
 
         # Calculates special energy remaining and adds to message
@@ -487,11 +499,22 @@ class AttackCommands(commands.Cog):
 
         # winning message
         if leftoverHitpoints <= 0:
-            await message.send(content=f'{sending} \n{message.author.nick} has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
+            await message.send(content=f'{sending} \n**{message.author.nick}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
-            await self.rollForRares(message, sendingUser.user)
             del globals.duels[message.channel.id]
-            await PotentialItems.generateLoot(self, message)
+
+            if channelDuel.stakeItem == None:
+                await PotentialItems.generateLoot(self, message)
+                await self.rollForRares(message, sendingUser.user)
+            else:
+                itemToWin = channelDuel.stakeItem
+                numberToWin = channelDuel.stakeQuantity * 2
+                table = channelDuel.table
+                if channelDuel.stakeItem == 'gp':
+                    await message.send(f"**{message.author.nick}** has won {channelDuel.shortQuantity} GP.")
+                else:
+                    await message.send(f"**{message.author.nick}** has won {numberToWin} {channelDuel.itemLongName}.")
+                await Economy(self.bot).giveItemToUser(message.author.id, table, itemToWin, numberToWin)
             return
 
         # calculates special energy remaining and adds to message
@@ -794,16 +817,11 @@ class AttackCommands(commands.Cog):
         # Send the message with info about hitting the rares table to the winner
         await message.send(f"*{message.author.nick} received {itemText} {itemEmoji} for winning!*")
 
-        # try:
-        #     notifChannel = self.bot.get_channel(689313376286802026)
-        #     await notifChannel.send(f"{ItemEmojis.Misc.skull} **{message.author.nick}** has just received **{itemText}** {itemEmoji} for winning a fight!")
-
     # Creates the hitpoints image
     # Parameters:
         # Hipoints - int - how many hitpoints are left
         # Freeze - bool - is the user frozen
         # Poison - bool - is the user poisoned
-
     def makeImage(self, hitpoints, freeze, poison):
        
         # Red background
