@@ -389,7 +389,7 @@ class UserCommands(commands.Cog):
                         print("8")
                         return
 
-                    for value in Economy(self.bot).itemList.values()
+                    for value in Economy(self.bot).itemList.values():
                         print('VALUE', value) 
 
                     print("STAKE VALS,", stakeVals)   
