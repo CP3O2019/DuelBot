@@ -237,8 +237,7 @@ class PotentialItems(commands.Cog):
                 6585: ["Amulet of fury", 1, 1, ItemEmojis.Jewelry.amuletOfFury],
                 6571: ["Uncut onyx", 1, 1, ItemEmojis.RawMaterials.uncutOnyx],
                 11235: ["Dark bow", 1, 1, ItemEmojis.SlayerItems.darkBow],
-                12929: ["Serpentine helm", 1, 1, ItemEmojis.ZulrahItems.serpentineHelm],
-                995: ["Coins", 500000, 1000000, ItemEmojis.Coins.coins],
+                12929: ["Serpentine helm", 1, 1, ItemEmojis.ZulrahItems.serpentineHelm]
               }           
     
     uncommonItems = {
@@ -270,8 +269,7 @@ class PotentialItems(commands.Cog):
                     4753: ["Verac's helm", 1, 1, ItemEmojis.Barrows.veracsHelm],
                     4755: ["Verac's flail", 1, 1, ItemEmojis.Barrows.veracsFlail],
                     4757: ["Verac's brassard", 1, 1, ItemEmojis.Barrows.veracsBrassard],
-                    4759: ["Verac's plateskirt", 1, 1, ItemEmojis.Barrows.veracsPlateskirt],
-                    995: ["Coins", 250000, 499999, ItemEmojis.Coins.coins]
+                    4759: ["Verac's plateskirt", 1, 1, ItemEmojis.Barrows.veracsPlateskirt]
                     }
 
     commonItems = {
@@ -305,8 +303,7 @@ class PotentialItems(commands.Cog):
                 2442: ["Super defence(4)", 1, 2, ItemEmojis.Potions.superDefence],
                 2436: ["Super attack(4)", 1, 2, ItemEmojis.Potions.superAttack],
                 12695: ["Super combat potion(4)", 1, 2, ItemEmojis.Potions.superCombat],
-                2444: ["Ranging potion(4)", 1, 2, ItemEmojis.Potions.ranging],
-                995: ["Coins", 30000, 249999, ItemEmojis.Coins.coins]
+                2444: ["Ranging potion(4)", 1, 2, ItemEmojis.Potions.ranging]
                 }
 
     def randQuantity(min, max):

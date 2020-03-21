@@ -30,7 +30,7 @@ class UserCommands(commands.Cog):
     async def invite(self, ctx):
         await ctx.send("""
         Click the link below to add the DuelBot to your server! \n
-        https://cutt.ly/lthupdh
+        https://discordapp.com/oauth2/authorize?client_id=684592148284571670&permissions=387136&scope=bot
         """)
 
     @commands.command() 
@@ -355,6 +355,7 @@ class UserCommands(commands.Cog):
             arguments = args[0]
             itemLongName = ""
             itemId = None
+
             if len(arguments) == 0:
                 return None
             # If there is only one argument
@@ -378,8 +379,11 @@ class UserCommands(commands.Cog):
                     # Try to convert the arguments into a a [name, quantity] array
                     # This will fail if the 
                     stakeVals = await convertArgsToItemString(arguments)
+
                     if stakeVals == None:
-                        return    
+                        return 
+
+                    print("STAKE VALS," stakeVals)   
                     # Check to see if the name of the item is in either of the item dictionaries
                     if stakeVals[0] in Economy(self.bot).rareIDs.keys():
                         stakeType = "rares"
@@ -390,6 +394,7 @@ class UserCommands(commands.Cog):
                         stakeType = "items"
                         itemId = get_key(stakeVals[0], Economy(self.bot).itemList)
                         itemLongName = Economy(self.bot).getItemName(itemId)
+                        print('LONG NAME', itemLongName, itemId)
                         return [stakeType, itemLongName, itemId]
                     else:
                         await message.send("Couldn't find that item, please try again.")
@@ -422,11 +427,14 @@ class UserCommands(commands.Cog):
         # Determine if the user has enough of the item
         async def checkUsersItemQuantity(user):
 
+            print('params1', stakeParams[0], stakeParams[1])
+
             if channelDuel != None and stakeParams[1] == None:
                 if channelDuel.stakeItem == 'gp':
                     await message.send(f"You don't have {channelDuel.shortQuantity} GP to stake.")
                 else:
                     if len(args[0]) == 0:
+                        print('ARGS FOR DUEL', args[0])
                         return True
                     else:
                         if stakeParams[0] != channelDuel.itemLongName.replace(' ', '').lower():
@@ -534,11 +542,6 @@ class UserCommands(commands.Cog):
                 # If the stake has a value attached to it
                 table = returnTableColumn()
 
-                # print("Item", table[0])
-                # print("Quantity", stakeParams[1])
-                # print("Table", table[1])
-                # print("Longname", stakeType[1])
-                # print("Short quantity", RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1))
                 if stakeParams[1] < 0:
                     await message.send("You cannot stake less than 1 of an item.")
                     return
@@ -743,7 +746,7 @@ class UserCommands(commands.Cog):
 
     async def startCancelCountdown(self, message, saved_uuid):
 
-        await asyncio.sleep(60.0)
+        await asyncio.sleep(30.0)
 
         channelDuel = globals.duels.get(message.channel.id, None)
 
