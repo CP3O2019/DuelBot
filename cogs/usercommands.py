@@ -358,31 +358,39 @@ class UserCommands(commands.Cog):
             itemId = None
 
             if len(arguments) == 0:
+                print("1")
                 return None
             # If there is only one argument
             if len(arguments) == 1:
-                
+                print("2")
                 # Try to convert the argument into a number, because the stake should be GP
                 value = RSMathHelpers.numify(self, arguments[0])
                 try:
+                    print("3")
                     # If the number did not successfully convert to a number, this will throw an exception when int(value) is called
                     # If it is successful, it will return "gp" to indicate a monetary stake
                     intValue = int(value)
                     stakeType = "gp"
                     return [stakeType, arguments[0]]
                 except:
-                    print("1")
+                    print("4")
                     return None
             
             # If there are two arguments (could be "[quantity] [text]" or "[text] [text]")
             if len(arguments) == 2 or len(arguments) == 3:
+                print("5")
                 try:
+                    print("6")
                     # Try to convert the arguments into a a [name, quantity] array
                     # This will fail if the 
                     stakeVals = await convertArgsToItemString(arguments)
-
+                    print("7")
                     if stakeVals == None:
-                        return 
+                        print("8")
+                        return
+
+                    for value in Economy(self.bot).itemList.values()
+                        print('VALUE', value) 
 
                     print("STAKE VALS,", stakeVals)   
                     # Check to see if the name of the item is in either of the item dictionaries
@@ -394,6 +402,7 @@ class UserCommands(commands.Cog):
                     elif stakeVals[0] in Economy(self.bot).itemList.values():
                         stakeType = "items"
                         itemId = get_key(stakeVals[0], Economy(self.bot).itemList)
+                        print("KEY")
                         itemLongName = Economy(self.bot).getItemName(itemId)
                         print('LONG NAME', itemLongName, itemId)
                         return [stakeType, itemLongName, itemId]
