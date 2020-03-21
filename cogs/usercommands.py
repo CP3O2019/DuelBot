@@ -383,7 +383,7 @@ class UserCommands(commands.Cog):
                     if stakeVals == None:
                         return 
 
-                    print("STAKE VALS," stakeVals)   
+                    print("STAKE VALS,", stakeVals)   
                     # Check to see if the name of the item is in either of the item dictionaries
                     if stakeVals[0] in Economy(self.bot).rareIDs.keys():
                         stakeType = "rares"
