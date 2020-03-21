@@ -142,6 +142,11 @@ class Economy(commands.Cog):
             print(f"Err fetching item {itemId} from Database.")
             return None
 
+    # Returns the name of an item based on its ID
+    def getItemName(self, itemId):
+        for item in globals.all_db_items:
+            if item.id == itemId:
+                return item.name
     # Creates the appropriate item tables for users when using item commands
     async def createPlayerItemTable(self, userId):
         sql = f"""

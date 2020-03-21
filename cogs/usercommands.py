@@ -44,8 +44,6 @@ class UserCommands(commands.Cog):
 
         global DATABASE_URL
 
-        print(user.nick)
-
         cmds = (
         f"""
         INSERT INTO duel_rares (
@@ -153,7 +151,6 @@ class UserCommands(commands.Cog):
         try:
             conn = psycopg2.connect(DATABASE_URL)
             cur = conn.cursor()
-            print(DATABASE_URL)
             cur.execute(cmds)
 
             rows = cur.fetchall()
@@ -187,7 +184,6 @@ class UserCommands(commands.Cog):
 
     @commands.command()
     async def kd(self, message):
-        print("author", message.author.id)
         await self.createTablesForUser(message.author)
 
         sql = f"""
@@ -336,65 +332,48 @@ class UserCommands(commands.Cog):
             else:  # If the args was more than two words long, concatenate
                 for n in range(1, len(args)):
                     itemName += args[n]
-                    print(itemName)
 
             # Cast the itemName to its lowercase version
             itemName = itemName.lower()
             # Return [name of item, quantity to stake]
-            print('ITEMNAME AND QUANT', itemName, itemQuantity)
             return [itemName, itemQuantity]
 
         def get_key(val, itemDict):
-            print("VAL", val)
             for key, value in itemDict.items():
-                print('KEY-VAL,', key, value)
                 if val == value:
                     return key
             return None
 
         async def getStakeType():
-            print("ARGS", args)
             stakeType = ""
             arguments = args[0]
             itemLongName = ""
             itemId = None
 
             if len(arguments) == 0:
-                print("1")
                 return None
             # If there is only one argument
             if len(arguments) == 1:
-                print("2")
                 # Try to convert the argument into a number, because the stake should be GP
                 value = RSMathHelpers.numify(self, arguments[0])
                 try:
-                    print("3")
                     # If the number did not successfully convert to a number, this will throw an exception when int(value) is called
                     # If it is successful, it will return "gp" to indicate a monetary stake
                     intValue = int(value)
                     stakeType = "gp"
                     return [stakeType, arguments[0]]
                 except:
-                    print("4")
                     return None
             
             # If there are two arguments (could be "[quantity] [text]" or "[text] [text]")
             if len(arguments) == 2 or len(arguments) == 3:
-                print("5")
                 try:
-                    print("6")
                     # Try to convert the arguments into a a [name, quantity] array
                     # This will fail if the 
                     stakeVals = await convertArgsToItemString(arguments)
-                    print("7")
                     if stakeVals == None:
-                        print("8")
                         return
 
-                    for value in Economy(self.bot).itemList.values():
-                        print('VALUE', value) 
-
-                    print("STAKE VALS,", stakeVals)   
                     # Check to see if the name of the item is in either of the item dictionaries
                     if stakeVals[0] in Economy(self.bot).rareIDs.keys():
                         stakeType = "rares"
@@ -404,9 +383,7 @@ class UserCommands(commands.Cog):
                     elif stakeVals[0] in Economy(self.bot).itemList.values():
                         stakeType = "items"
                         itemId = get_key(stakeVals[0], Economy(self.bot).itemList)
-                        print("KEY")
                         itemLongName = Economy(self.bot).getItemName(itemId)
-                        print('LONG NAME', itemLongName, itemId)
                         return [stakeType, itemLongName, itemId]
                     else:
                         await message.send("Couldn't find that item, please try again.")
@@ -429,10 +406,8 @@ class UserCommands(commands.Cog):
         stakeParams = None
         if stakeType == None:
             #If the duel is just a regular old duel
-            print('HERE WE ARE')
             stakeParams = [None, None]
         else:
-            print('JK WERE OVER HERE')
             stakeParams = await convertArgsToItemString(args[0])
 
         # Get the global duel
@@ -441,14 +416,11 @@ class UserCommands(commands.Cog):
         # Determine if the user has enough of the item
         async def checkUsersItemQuantity(user):
 
-            print('params1', stakeParams[0], stakeParams[1])
-
             if channelDuel != None and stakeParams[1] == None:
                 if channelDuel.stakeItem == 'gp':
                     await message.send(f"You don't have {channelDuel.shortQuantity} GP to stake.")
                 else:
                     if len(args[0]) == 0:
-                        print('ARGS FOR DUEL', args[0])
                         return True
                     else:
                         if stakeParams[0] != channelDuel.itemLongName.replace(' ', '').lower():
@@ -693,7 +665,6 @@ class UserCommands(commands.Cog):
 
         except asyncio.TimeoutError:
             # called when it times out
-            print(f'Duel in channel {message.channel.id} timed out.')
 
             turnUser = None
             notTurn = None
@@ -837,24 +808,16 @@ class UserCommands(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def givegp(self, ctx, *args):
-        print(args)
         quantity = args[1]
-        print(quantity)
         quantity = RSMathHelpers(self.bot).numify(args[1])
-        print(quantity)
-        print(type(quantity))
+
         shortQuant = RSMathHelpers(self.bot).shortNumify(quantity, 1)
-        print(shortQuant)
 
         if type(quantity) != int:
             await ctx.send('Please enter a valid number.')
             return
 
         person = args[0].replace('@', '').replace('>','').replace('<','').replace('!', '')
-
-        print(person)
-        print(quantity)
-        print(shortQuant)
 
         await Economy(self.bot).giveItemToUser(person, 'duel_users', 'gp', quantity)
         await ctx.send(f"You gave {shortQuant} to <@!{person}>")
