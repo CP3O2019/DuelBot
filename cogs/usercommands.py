@@ -341,6 +341,7 @@ class UserCommands(commands.Cog):
             # Cast the itemName to its lowercase version
             itemName = itemName.lower()
             # Return [name of item, quantity to stake]
+            print('ITEMNAME AND QUANT', itemName, itemQuantity)
             return [itemName, itemQuantity]
 
         def get_key(val, itemDict):
@@ -417,8 +418,10 @@ class UserCommands(commands.Cog):
         stakeParams = None
         if stakeType == None:
             #If the duel is just a regular old duel
+            print('HERE WE ARE')
             stakeParams = [None, None]
         else:
+            print('JK WERE OVER HERE')
             stakeParams = await convertArgsToItemString(args[0])
 
         # Get the global duel
