@@ -345,7 +345,9 @@ class UserCommands(commands.Cog):
             return [itemName, itemQuantity]
 
         def get_key(val, itemDict):
+            print("VAL", val)
             for key, value in itemDict.items():
+                print('KEY-VAL,', key, value)
                 if val == value:
                     return key
             return None
