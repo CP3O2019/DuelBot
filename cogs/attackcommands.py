@@ -29,7 +29,7 @@ class AttackCommands(commands.Cog):
     # Dragon claws are currently an owner-only command
     @commands.command()
     async def tickle(self, message):
-        await self.useAttack(mesage, "tickly fingers", 0, 1, 1, 0, 0)
+        await self.useAttack(message, "tickly fingers", 0, 1, 1, 0, 0)
 
     @commands.command()
     async def dds(self, message):
