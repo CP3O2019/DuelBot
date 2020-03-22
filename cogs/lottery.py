@@ -115,7 +115,7 @@ class Lottery(commands.Cog):
         schedthread.start()
 
         # Works off of UTC --> 5PM PST is 0:00,  7PM is 02:00
-        schedule.every().day.at("1:00").do(bot.loop.call_soon_threadsafe, self.runPickWinnerThread)
+        schedule.every().day.at("01:00").do(bot.loop.call_soon_threadsafe, self.runPickWinnerThread)
         schedule.every().day.at("13:00").do(bot.loop.call_soon_threadsafe, self.runPickWinnerThread)
 
     @commands.command()
