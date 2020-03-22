@@ -8,7 +8,6 @@ import json
 import requests
 import time
 from datetime import datetime, timedelta
-from osrs_highscores import Highscores
 from cogs.osrsEmojis import ItemEmojis
 from cogs.mathHelpers import RSMathHelpers
 from osrsbox import items_api
