@@ -28,6 +28,10 @@ class AttackCommands(commands.Cog):
     # Freezing spells pull from 'freezeAttack()'
     # Dragon claws are currently an owner-only command
     @commands.command()
+    async def tickle(self, message):
+        await self.useAttack(mesage, "tickly fingers", 0, 1, 1, 0, 0)
+
+    @commands.command()
     async def dds(self, message):
         await self.useAttack(message, "DDS", 25, 2, 18, 0, True)
 
