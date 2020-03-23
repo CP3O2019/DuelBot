@@ -19,66 +19,31 @@ duels = {}
 lastMessages = {}
 DATABASE_URL = os.environ['DATABASE_URL']
 
-# def createTables():
+def createTables():
 
-    #     commands = (
-    #     """
-    #     CREATE TABLE IF NOT EXISTS duel_users (
-    #         user_id BIGINT PRIMARY KEY,
-    #         nick TEXT,
-    #         wins integer NOT NULL,
-    #         losses integer NOT NULL,
-    #         gp BIGINT NOT NULL
-    #     )
-    #     """,
-    #     """
-    #     CREATE TABLE IF NOT EXISTS duel_rares (
-    #         user_id BIGINT PRIMARY KEY,
-    #         red_partyhat integer NOT NULL,
-    #         blue_partyhat integer NOT NULL,
-    #         yellow_partyhat integer NOT NULL,
-    #         green_partyhat integer NOT NULL,
-    #         purple_partyhat integer NOT NULL,
-    #         white_partyhat integer NOT NULL,
-    #         christmas_cracker integer NOT NULL,
-    #         red_hween_mask integer NOT NULL,
-    #         blue_hween_mask integer NOT NULL,
-    #         green_hween_mask integer NOT NULL,
-    #         santa_hat integer NOT NULL,
-    #         pumpkin integer NOT NULL,
-    #         easter_egg integer NOT NULL
-    #         )
-    #     """,
-    #     """
-    #         CREATE TABLE IF NOT EXISTS pking_items (
-    #             user_id BIGINT PRIMARY KEY,
-    #             _13652 integer NOT NULL,
-    #             _11802 integer NOT NULL,
-    #             _11804 integer NOT NULL,
-    #             _11806 integer NOT NULL,
-    #             _11808 integer NOT NULL,
-    #             _11838 integer NOT NULL,
-    #             _4153 integer NOT NULL,
-    #             _13576 integer NOT NULL,
-    #             _12924 integer NOT NULL
-    #             )
-    #         """,
-            
-    #         )
+        commands = (
+                """
+        CREATE TABLE IF NOT EXISTS lottery (
+        user_id BIGINT PRIMARY KEY,
+        nick TEXT,
+        numTickets integer NOT NULL
+        )
+        """   
+            )
 
-    #     conn = None
-    #     try:
-    #         conn = psycopg2.connect(DATABASE_URL)
-    #         cur = conn.cursor()
-    #         for command in commands:
-    #             cur.execute(command)
-    #         cur.close()
-    #         conn.commit()
-    #     except (Exception, psycopg2.DatabaseError) as error:
-    #         print(error)
-    #     finally:
-    #         if conn is not None:
-    #             conn.close()
+        conn = None
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+            for command in commands:
+                cur.execute(command)
+            cur.close()
+            conn.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if conn is not None:
+                conn.close()
 
 if __name__ == '__main__':
     print("booting up")
