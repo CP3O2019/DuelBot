@@ -288,10 +288,6 @@ class Lottery(commands.Cog):
             """
 
             await ctx.send(message)
-           
-    @commands.command()
-    async def pickwinner(self, ctx):
-        await self.pickWinner()
 
 
 def setup(bot):
