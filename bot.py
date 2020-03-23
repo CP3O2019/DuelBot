@@ -21,22 +21,19 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 def createTables():
 
-        commands = (
-                """
+        command = """
         CREATE TABLE IF NOT EXISTS lottery (
         user_id BIGINT PRIMARY KEY,
         nick TEXT,
         numTickets integer NOT NULL
         )
         """   
-            )
 
         conn = None
         try:
             conn = psycopg2.connect(DATABASE_URL)
             cur = conn.cursor()
-            for command in commands:
-                cur.execute(command)
+            cur.execute(command)
             cur.close()
             conn.commit()
         except (Exception, psycopg2.DatabaseError) as error:
