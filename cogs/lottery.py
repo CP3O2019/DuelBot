@@ -242,7 +242,7 @@ class Lottery(commands.Cog):
                 if conn is not None:
                     conn.close()
                 await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', numTicks * 10000000)
-                await ctx.send(f'{ItemEmojis.Misc.ticket} You have purchased {numTicks} lottery tickets.')
+                await ctx.send(f'{ItemEmojis.Misc.ticket} You have purchased {numTicks} lottery tickets {ItemEmojis.Misc.ticket}')
 
 
         if len(args) == 0:

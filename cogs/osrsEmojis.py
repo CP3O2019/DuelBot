@@ -196,6 +196,7 @@ class ItemEmojis(commands.Cog):
 
     class Misc:
         skull = '<:pkskull:689309885359194150>'
+        ticket = '<:Castlewarsticket:691371392037552178>'
 
 
 def setup(bot):
