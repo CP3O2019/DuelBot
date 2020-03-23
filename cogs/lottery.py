@@ -212,7 +212,7 @@ class Lottery(commands.Cog):
                 quantity = int(numTicks)
             except:
                 await ctx.send('You must purchase a whole number of tickets.')
-                return
+                return False
 
             # SQL query
             sql = f"""
@@ -237,13 +237,13 @@ class Lottery(commands.Cog):
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
                 await ctx.send('Your tickets could not be purchased.')
-                break
+                return False
             finally:
                 if conn is not None:
                     conn.close()
-                await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', numTicks * 10000000)
-                await ctx.send(f'{ItemEmojis.Misc.ticket} You have purchased {numTicks} lottery tickets {ItemEmojis.Misc.ticket}')
-
+            await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', numTicks * 10000000)
+            await ctx.send(f'You have purchased {numTicks} lottery tickets {ItemEmojis.Misc.ticket}')
+            return True
 
         if len(args) == 0:
             await getNumTickets()
@@ -256,7 +256,9 @@ class Lottery(commands.Cog):
             # Verify the user has enough gp to make the purchase
             if userGP >= quantity * 10000000:
                 # Attempt to purchase the ticket if the user has enough gp
-                await purchaseTicket(quantity)
+                success = await purchaseTicket(quantity)
+                if success == False:
+                    return
             else:
                 # Return a message saying the user doesn't have enough gp
                 cost = RSMathHelpers(self.bot).shortNumify(quantity * 10000000, 1)
