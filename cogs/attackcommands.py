@@ -76,7 +76,7 @@ class AttackCommands(commands.Cog):
         await self.useAttack(message, "Saradomin godsword", 50, 1, 37, 50, False)
 
     @commands.command()
-    @commands.is_owner()
+    # @commands.is_owner()
     async def dclaws(self, message):
 
         sendingUser = None
