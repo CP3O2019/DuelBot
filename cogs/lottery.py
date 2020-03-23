@@ -237,7 +237,7 @@ class Lottery(commands.Cog):
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
                 await ctx.send('Your tickets could not be purchased.')
-                return
+                break
             finally:
                 if conn is not None:
                     conn.close()

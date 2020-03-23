@@ -46,6 +46,7 @@ class Dailies(commands.Cog):
         }
 
     @commands.command()
+    @commands.is_owner()
     @commands.cooldown(1, 60*60*12, commands.BucketType.user)
     async def daily(self, ctx):
         def triviaNum():

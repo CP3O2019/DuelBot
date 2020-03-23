@@ -47,7 +47,7 @@ def createTables():
 
 if __name__ == '__main__':
     print("booting up")
-    # createTables()
+    createTables()
     
 def check(user, channelId):
 
