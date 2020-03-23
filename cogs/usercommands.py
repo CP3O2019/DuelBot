@@ -836,7 +836,7 @@ class UserCommands(commands.Cog):
 
         person = args[0].replace('@', '').replace('>','').replace('<','').replace('!', '')
 
-        await Economy(self.bot).removeItemFromUser(person, 'duel_users', 'gp', quantity)
+        await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', quantity)
         await Economy(self.bot).giveItemToUser(person, 'duel_users', 'gp', quantity)
         await ctx.send(f"You give {shortQuant} to <@!{person}>")
         return
