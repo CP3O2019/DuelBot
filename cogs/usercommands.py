@@ -822,6 +822,24 @@ class UserCommands(commands.Cog):
         await Economy(self.bot).giveItemToUser(person, 'duel_users', 'gp', quantity)
         await ctx.send(f"You gave {shortQuant} to <@!{person}>")
         return
+    
+    @commands.command()
+    async def pay(self, ctx, *args):
+        quantity = args[1]
+        quantity = RSMathHelpers(self.bot).numify(args[1])
+
+        shortQuant = RSMathHelpers(self.bot).shortNumify(quantity, 1)
+
+        if type(quantity) != int:
+            await ctx.send('Please enter a valid number.')
+            return
+
+        person = args[0].replace('@', '').replace('>','').replace('<','').replace('!', '')
+
+        await Economy(self.bot).removeItemFromUser(person, 'duel_users', 'gp', quantity)
+        await Economy(self.bot).giveItemToUser(person, 'duel_users', 'gp', quantity)
+        await ctx.send(f"You give {shortQuant} to <@!{person}>")
+        return
 
     @commands.command()
     @commands.cooldown(1, 60*20, commands.BucketType.user)
