@@ -269,6 +269,8 @@ class UserCommands(commands.Cog):
             if diceAmount <= 0:
                 await message.send("You can't dice less than 1 GP.")
                 return
+            elif diceAmount > 5000000000:
+                await message.send("You can only dice up to 5B at once.")
 
             diceAmountString = helper.shortNumify(diceAmount, 1)
 
@@ -295,7 +297,7 @@ class UserCommands(commands.Cog):
             await message.send('You must dice a valid amount.')
 
         # If over 100M is diced, send it to the global notifications channel
-        if diceAmount >= 100000000:
+        if diceAmount >= 500000000:
                 notifChannel = self.bot.get_channel(689313376286802026)
                 await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.nick} has just diced **{helper.shortNumify(diceAmount, 1)}** and **{winStatus}**.")
 
@@ -832,6 +834,12 @@ class UserCommands(commands.Cog):
 
         if type(quantity) != int:
             await ctx.send('Please enter a valid number.')
+            return
+
+        usersQuantity = await Economy(self.bot).getNumberOfItem(ctx.author.id, 'duel_users', 'gp')
+
+        if usersQuantity < quantity:
+            await ctx.send('You do not have enough gp to do that.')
             return
 
         person = args[0].replace('@', '').replace('>','').replace('<','').replace('!', '')
