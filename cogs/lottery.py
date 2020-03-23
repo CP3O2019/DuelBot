@@ -133,10 +133,19 @@ class Lottery(commands.Cog):
             def timeUntilNoon():
                 now = datetime.now()
                 today = datetime.now()
-                lottoEnd = datetime(year=today.year, month=today.month, 
-                                    day=today.day, hour=1, minute=0, second=0)
+                lottoEndPM = datetime(year=today.year, month=today.month, day=today.day, hour=1, minute=0, second=0)
                                     
-                delta = lottoEnd - now
+                lottoEndAM = datetime(year=today.year, month=today.month, day=today.day, hour=13, minute=0, second=0)
+
+                delta = None
+
+                pmDelta = lottoEndPM - now
+                amDelta = lottoEndAM - now
+
+                if pmDelta.seconds < amDelta.seconds:
+                    delta = pmDelta
+                else:
+                    delta = amDelta
 
                 seconds = delta.seconds
                 hours = math.floor(seconds / 3600)
@@ -242,7 +251,8 @@ class Lottery(commands.Cog):
                 if conn is not None:
                     conn.close()
             await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', numTicks * 10000000)
-            await ctx.send(f'You have purchased {numTicks} lottery tickets {ItemEmojis.Misc.ticket}')
+            cost = RSMathHelpers(self.bot).shortNumify(numTicks * 10000000, 1)
+            await ctx.send(f'You have purchased {numTicks} lottery tickets {ItemEmojis.Misc.ticket} for {cost} gp')
             return True
 
         if len(args) == 0:
