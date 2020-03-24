@@ -124,7 +124,7 @@ class AttackCommands(commands.Cog):
         hit = randint(0, 21)
 
         # if first hit 10 or higher, keep it. If it's lower, scrap it.
-        if hit >= 10:
+        if hit >= 4:
             hitArray.append(hit)  # First hit does full
             # Second hit does half of the first hit
             hitArray.append(math.floor(hit/2))
