@@ -94,7 +94,7 @@ class Lottery(commands.Cog):
 
         # Send notification to the #notifications channel of the lottery winner
         notifChannel = self.bot.get_channel(689313376286802026)
-        await notifChannel.send(f"**{winnerList[1]}** has won the lottery worth **{totalPrize}**! \n The next lottery will be in 12 hours. Use *.lottery buy (quantity)* to buy tickets for 10m each.")
+        await notifChannel.send(f"**{winnerList[1]}** has won the lottery worth **{totalPrize}**! \n The next lottery will be in 12 hours. Use *.lottery buy (quantity)* to buy tickets for 5m each.")
 
         # Empty the lottery DB
         clearWinnerDB()
