@@ -575,9 +575,9 @@ class Wilderness(commands.Cog):
 
         loot = None
         if args[0] == 'revs' or args[0] == 'lavas' or args[0] == 'mb':
-            loot = await PotentialItems(self.bot).rollLoot(ctx, 2, 3, 1)
+            loot = await PotentialItems(self.bot).rollLoot(ctx, 3, 5, 1)
         else:
-            loot = await PotentialItems(self.bot).rollLoot(ctx, 2, 3, 0)
+            loot = await PotentialItems(self.bot).rollLoot(ctx, 3, 5, 0)
 
         sql = f"""
         UPDATE duel_users 
