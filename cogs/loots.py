@@ -130,7 +130,7 @@ class PotentialItems(commands.Cog):
 
         return self.lootArray
 
-    async def rollForLoot(self, ctx, minRolls, maxRolls):
+    async def rollForLoot(self, ctx, minRolls, maxRolls, modifier):
         async def pickTable():
             # Pick a random number and assign it to the table
             rng = randint(0, 599)
