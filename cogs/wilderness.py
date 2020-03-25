@@ -150,9 +150,6 @@ class Wilderness(commands.Cog):
             if conn is not None:
                 conn.close()
 
-    def endTripLocal(self, userId, location):
-        self.locations[location]['players'].remove(userId)
-
     async def stealOpponentsLoot(self, winner, loser):
         sql = f"""
             SELECT
@@ -266,7 +263,6 @@ class Wilderness(commands.Cog):
                     # Index 1
                     # Steal between 0 and 1/10th of the player's GP net worth
                     rolledItem = [0, randint(0, math.floor(coins * 0.1)), 'duel_users']
-
 
             # Formatted as [index, quantity, table]
             # e.g. [5, 1, 'pking_items']
@@ -471,14 +467,8 @@ class Wilderness(commands.Cog):
                     # Update SQL status for the winner
                     await self.endTripSQL(winner)
 
-                    # Remove winner from location player array
-                    self.endTripLocal(ctx.author.id, winner)
-
                     # Update SQL status for the lower
                     await self.endTripSQL(loser)
-
-                    # Remove loser from location play array
-                    self.endTripLocal(ctx.author.id, loser)
 
                     # Return successful player kill attempt
                     return True
@@ -487,6 +477,7 @@ class Wilderness(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands.cooldown(2)
     async def pk(self, ctx, *args):
 
         async def scry():
@@ -621,7 +612,6 @@ class Wilderness(commands.Cog):
             self.endTripLocal(ctx.author.id, args[0])
 
             def timeoutCheck(message):
-                print('Doing a timeout check', message.content.lower(), message.author.id, ctx.author.id)
                 return message.content.lower() == 'y' and message.author.id == ctx.author.id
 
             try:
@@ -630,9 +620,10 @@ class Wilderness(commands.Cog):
                 print("Ctx", ctx, " | args", args)
                 await self.pk(ctx, args[0])
             except Exception as e:
-                print("ERROR", e)
-                await ctx.send('Didnt redo')
                 pass
+
+    @pk.error():
+
 
 
 def setup(bot):
