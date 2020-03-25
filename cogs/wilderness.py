@@ -622,9 +622,6 @@ class Wilderness(commands.Cog):
             except Exception as e:
                 pass
 
-    @pk.error():
-
-
 
 def setup(bot):
     bot.add_cog(Wilderness(bot))
