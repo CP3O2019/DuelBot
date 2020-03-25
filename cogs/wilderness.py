@@ -509,10 +509,11 @@ class Wilderness(commands.Cog):
         commandList = ['wests', 'easts', 'mb', 'edge', 'lavas', 'revs', 'scry']
 
         if len(args) == 0 or args[0].lower() not in commandList:
-            description = """**Pking has been revamped!** use .pk (region) to select a region to PK in.
+            description = """**Pking has been revamped!**
+            Use .pk (region) to select a region to PK in.
             If there are other players in your region, there is a chance to pk them for their items, rares, or GP.
             You receive **extra loot** for pking at revs, lavas, and the mage bank.
-            *example: ".pk revs*"""
+            *example: ".pk revs"*"""
             embed = discord.Embed(title='PKing commands', description=description, color=discord.Color.greyple())
             embed.set_thumbnail(url='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8')
             embed.add_field(name='Regions', value= '**wests** | **easts** | **mb** | **edge** | **lavas** | **revs**', inline=False)
