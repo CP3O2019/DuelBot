@@ -25,15 +25,6 @@ class PotentialItems(commands.Cog):
         self.lootArray = {995: [0, ItemEmojis.Coins.coins]}
         self.totalPrice = 0
 
-    # async def pkLootFromUser(self, ctx, winner, loser):
-    #     def getLoserInventory(loserId):
-    #         sql = f"""
-    #         SELECT FROM
-    #         pking_items
-    #         WHERE user_id = {loserId}
-    #         """
-    
-
     async def generateLoot(self, message):
         lastmsg = await message.send('*Checking the loot pile...*')
         loot = await PotentialItems(self.bot).rollLoot(message, 3, 6)
