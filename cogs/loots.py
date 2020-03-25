@@ -25,18 +25,9 @@ class PotentialItems(commands.Cog):
         self.lootArray = {995: [0, ItemEmojis.Coins.coins]}
         self.totalPrice = 0
 
-    # async def pkLootFromUser(self, ctx, winner, loser):
-    #     def getLoserInventory(loserId):
-    #         sql = f"""
-    #         SELECT FROM
-    #         pking_items
-    #         WHERE user_id = {loserId}
-    #         """
-    
-
     async def generateLoot(self, message):
         lastmsg = await message.send('*Checking the loot pile...*')
-        loot = await PotentialItems(self.bot).rollLoot(message, 3, 6)
+        loot = await PotentialItems(self.bot).rollLoot(message, 3, 6, 0)
 
         sql = f"""
         UPDATE duel_users 
@@ -77,9 +68,9 @@ class PotentialItems(commands.Cog):
             await lastmsg.edit(embed=embed)
 
     #Returns dict of loot
-    async def rollLoot(self, ctx, minRolls, maxRolls):
+    async def rollLoot(self, ctx, minRolls, maxRolls, modifier):
 
-        lootDict = await self.rollForLoot(ctx, minRolls, maxRolls)
+        lootDict = await self.rollForLoot(ctx, minRolls, maxRolls, modifier)
 
         lootValueDict = {}
 
@@ -183,7 +174,7 @@ class PotentialItems(commands.Cog):
             bonusRolls = 1
 
 
-        rollNum = randint(3, 6)
+        rollNum = randint(minRolls + modifier, maxRolls + modifier)
 
         for _ in range(0, rollNum):
             await pickTable()
