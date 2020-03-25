@@ -173,7 +173,7 @@ class PotentialItems(commands.Cog):
                 ultraItemPrice = await Economy(self.bot).getItemValue(int(loot))
                 itemPriceString = RSMathHelpers(self.bot).shortNumify(ultraItemPrice, 1)
                 notifChannel = self.bot.get_channel(689313376286802026)
-                await notifChannel.send(f"{ItemEmojis.Coins.coins} **{ctx.author.nick}** hit the ultra rare drop table and received a **{table[loot][0]}** {table[loot][3]} worth {itemPriceString} GP for winning a fight!")
+                await notifChannel.send(f"{ItemEmojis.Coins.coins} **{ctx.author.nick}** hit the ultra rare drop table and received a **{table[loot][0]}** {table[loot][3]} worth {itemPriceString} GP.")
 
         # Roll between 3 and 6 drops
         # Gives an additional roll to people that are a member of the main discord guild

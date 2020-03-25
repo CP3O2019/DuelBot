@@ -116,7 +116,7 @@ class Lottery(commands.Cog):
 
         # Works off of UTC --> 5PM PST is 0:00,  7PM is 02:00
         schedule.every().day.at("01:00").do(bot.loop.call_soon_threadsafe, self.runPickWinnerThread)
-        schedule.every().day.at("13:00").do(bot.loop.call_soon_threadsafe, self.runPickWinnerThread)
+        # schedule.every().day.at("13:00").do(bot.loop.call_soon_threadsafe, self.runPickWinnerThread)
 
     @commands.command()
     async def lottery(self, ctx, *args):
@@ -135,17 +135,9 @@ class Lottery(commands.Cog):
                 today = datetime.now()
                 lottoEndPM = datetime(year=today.year, month=today.month, day=today.day, hour=1, minute=0, second=0)
                                     
-                lottoEndAM = datetime(year=today.year, month=today.month, day=today.day, hour=13, minute=0, second=0)
-
-                delta = None
-
                 pmDelta = lottoEndPM - now
-                amDelta = lottoEndAM - now
 
-                if pmDelta.seconds < amDelta.seconds:
-                    delta = pmDelta
-                else:
-                    delta = amDelta
+                delta = pmDelta
 
                 seconds = delta.seconds
                 hours = math.floor(seconds / 3600)

@@ -695,7 +695,7 @@ class AttackCommands(commands.Cog):
         itemText = None
         itemEmoji = None
 
-        tableRoll = randint(0, 99)
+        tableRoll = randint(0, 75)
 
         # Winner hits the rares table
         # Effective rates are as follows:
@@ -819,7 +819,11 @@ class AttackCommands(commands.Cog):
                 conn.close()
 
         # Send the message with info about hitting the rares table to the winner
-        await message.send(f"*{message.author.nick} received {itemText} {itemEmoji} for winning!*")
+        await message.send(f"**{message.author.nick} received {itemText} {itemEmoji} for winning!**")
+
+        notifChannel = self.bot.get_channel(689313376286802026)
+        await notifChannel.send(f"{message.author.nick} has received {itemText} {itemEmoji} for winning a duel!")
+
 
     # Creates the hitpoints image
     # Parameters:
