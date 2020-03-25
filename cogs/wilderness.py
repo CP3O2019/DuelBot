@@ -444,8 +444,10 @@ class Wilderness(commands.Cog):
 
                     # Remove the attacked player from the regional player list
                     # The attacking player was removed earlier when we ceated playerListMinusCurrent
+                    print("START: Attempting to remove players from list", data["players"])
                     data["players"].remove(player)
                     data["players"].remove(attackedPlayer)
+                    print("END: Attempting to remove players from list", data["players"])
 
                     loser = None
 
@@ -608,6 +610,9 @@ class Wilderness(commands.Cog):
 
             await ctx.send(f"{ctx.author.mention} you have returned from your pking trip. Type **y** to go out again.", embed=embed)
             await self.endTripSQL(ctx.author.id)
+            print('START: Attempting to remove player from locations', self.locations[args[0]]["players"])
+            self.locations[args[0].lower()]["players"].remove(ctx.author.id)
+            print('END: Attempting to remove player from locations', self.locations[args[0]]["players"])
 
             def timeoutCheck(message):
                 return message.content.lower() == 'y' and message.author.id == ctx.author.id
