@@ -477,7 +477,6 @@ class Wilderness(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    @commands.cooldown(2)
     async def pk(self, ctx, *args):
 
         async def scry():
