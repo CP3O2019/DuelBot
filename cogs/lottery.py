@@ -84,13 +84,13 @@ class Lottery(commands.Cog):
         winnerList = pickWinnerFromArray()
 
         # Calculate the prize money
-        totalPrize = RSMathHelpers(self.bot).shortNumify(totalTickets * 9000000, 1)
+        totalPrize = RSMathHelpers(self.bot).shortNumify((totalTickets * 4500000) + 100000000, 1)
 
         # Log that someone won the lottery
         print(f"Lottery winner chosen! {winnerList[0]} wins {totalPrize}")
 
         # Give the winner their prize money
-        await Economy(self.bot).giveItemToUser(winnerList[0], 'duel_users', 'gp', totalTickets * 9000000)
+        await Economy(self.bot).giveItemToUser(winnerList[0], 'duel_users', 'gp', (totalTickets * 4500000) + 100000000)
 
         # Send notification to the #notifications channel of the lottery winner
         notifChannel = self.bot.get_channel(689313376286802026)
@@ -169,7 +169,7 @@ class Lottery(commands.Cog):
                 if conn is not None:
                     conn.close()
 
-            totalPrize = RSMathHelpers(self.bot).shortNumify(totalTickets * 9000000, 1)
+            totalPrize = RSMathHelpers(self.bot).shortNumify((totalTickets * 4500000) + 100000000, 1)
             timeLeft = timeUntilNoon()
 
 
@@ -242,8 +242,8 @@ class Lottery(commands.Cog):
             finally:
                 if conn is not None:
                     conn.close()
-            await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', numTicks * 10000000)
-            cost = RSMathHelpers(self.bot).shortNumify(numTicks * 10000000, 1)
+            await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', numTicks * 5000000)
+            cost = RSMathHelpers(self.bot).shortNumify(numTicks * 5000000, 1)
             await ctx.send(f'You have purchased {numTicks} lottery tickets {ItemEmojis.Misc.ticket} for {cost} gp')
             return True
 
@@ -256,14 +256,14 @@ class Lottery(commands.Cog):
             userGP = await Economy(self.bot).getNumberOfItem(ctx.author.id, 'duel_users', 'gp')
 
             # Verify the user has enough gp to make the purchase
-            if userGP >= quantity * 10000000:
+            if userGP >= quantity * 5000000:
                 # Attempt to purchase the ticket if the user has enough gp
                 success = await purchaseTicket(quantity)
                 if success == False:
                     return
             else:
                 # Return a message saying the user doesn't have enough gp
-                cost = RSMathHelpers(self.bot).shortNumify(quantity * 10000000, 1)
+                cost = RSMathHelpers(self.bot).shortNumify(quantity * 5000000, 1)
                 await ctx.send(f"You need {cost} gp to purchase {quantity} lottery tickets.")
                 return
             
@@ -275,7 +275,7 @@ class Lottery(commands.Cog):
         elif args[0] == 'help':
             message = """
             ```Lottery commands
-            .lottery buy (number) - buys lottery tickets for 10m gp each
+            .lottery buy (number) - buys lottery tickets for 5m gp each
             .lottery or .lottery info - shows information about the current lottery```
             """
 
