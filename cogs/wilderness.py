@@ -416,13 +416,13 @@ class Wilderness(commands.Cog):
                 numPlayersInRegion = len(playerListMinusCurrent)
 
                 # Base chance of running into another player in the region
-                modifier = 32
+                modifier = 128
 
                 # Calculate chance of running into another player
-                if numPlayersInRegion < 28:
+                if numPlayersInRegion < 96:
                     modifier = modifier - numPlayersInRegion
                 else:
-                    modifier = 4
+                    modifier = 32
 
                 # Roll the chance of finding another player
                 # 0 means that another player is found
@@ -608,7 +608,6 @@ class Wilderness(commands.Cog):
 
             await ctx.send(f"{ctx.author.mention} you have returned from your pking trip. Type **y** to go out again.", embed=embed)
             await self.endTripSQL(ctx.author.id)
-            self.endTripLocal(ctx.author.id, args[0])
 
             def timeoutCheck(message):
                 return message.content.lower() == 'y' and message.author.id == ctx.author.id
