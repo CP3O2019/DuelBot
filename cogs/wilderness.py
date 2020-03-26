@@ -578,6 +578,7 @@ class Wilderness(commands.Cog):
 
                 if savedTime != activityInfo:
                     onCurrentTrip = False
+                    return
 
                 # If they're still pking
                 if activityInfo[0] == 'pking':
