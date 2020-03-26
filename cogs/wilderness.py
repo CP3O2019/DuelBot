@@ -564,7 +564,7 @@ class Wilderness(commands.Cog):
 
         await ctx.send(f'You head out on a PK trip to {convertToLongName(args[0])}. You should return in 20 minutes or less.')
 
-        onCurrentTrip == True
+        onCurrentTrip = True
         # Every 4 min, 59 secs attempt to pk another player
         for n in range(1, 4):
             while onCurrentTrip == True:
@@ -577,7 +577,7 @@ class Wilderness(commands.Cog):
                 activityInfo = await self.checkTripTime(ctx.author.id)
 
                 if savedTime != activityInfo:
-                    onCurrentTrip =
+                    onCurrentTrip = False
 
                 # If they're still pking
                 if activityInfo[0] == 'pking':
