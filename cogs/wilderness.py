@@ -131,6 +131,9 @@ class Wilderness(commands.Cog):
                 conn.close()
 
     async def endTripSQL(self, userId):
+
+        print(f"Ending pking trip for {userId}")
+
         sql = f"""
         UPDATE duel_users
         SET 
@@ -426,8 +429,8 @@ class Wilderness(commands.Cog):
 
                 # Roll the chance of finding another player
                 # 0 means that another player is found
-                # Minimum chance: 3.125% (for 1 other player)
-                # Maximum chance: 25% (for 31+ other players)
+                # Minimum chance: 0.78% (for 1 other player)
+                # Maximum chance: 3.125% (for 96+ other players)
                 roll = randint(0, modifier)
 
                 # If the player found another opponent in the wilderness
@@ -457,6 +460,12 @@ class Wilderness(commands.Cog):
                     elif winner == attackedPlayer:
                         loser = player
 
+                    # Update SQL status for the winner
+                    await self.endTripSQL(winner)
+
+                    # Update SQL status for the lower
+                    await self.endTripSQL(loser)
+
                     # Steal the item
                     stolenItem = await self.stealOpponentsLoot(winner, loser) 
 
@@ -466,11 +475,6 @@ class Wilderness(commands.Cog):
                     # Send message notifying person that their item has been stolem
                     await ctx.send(f"<@!{winner}> has killed <@!{loser}> for **{quant} {stolenItem['itemName']}** {stolenItem['emoji']}")
 
-                    # Update SQL status for the winner
-                    await self.endTripSQL(winner)
-
-                    # Update SQL status for the lower
-                    await self.endTripSQL(loser)
 
                     # Return successful player kill attempt
                     return True
@@ -547,8 +551,9 @@ class Wilderness(commands.Cog):
             else:
                 return short
 
-        await ctx.send(f'You head out into the wilderness on a PK trip to {convertToLongName(args[0])}. You should return in 20 minutes or less.')
+        await ctx.send(f'You head out on a PK trip to {convertToLongName(args[0])}. You should return in 20 minutes or less.')
 
+        # Every 4 min, 59 secs attempt to pk another player
         for n in range(1, 4):
             
             # Wait 4 minutes, 55 seconds
@@ -578,6 +583,7 @@ class Wilderness(commands.Cog):
         """
         conn = None
 
+        # Give the user their gold
         try:
             conn = psycopg2.connect(DATABASE_URL)
             cur = conn.cursor()
@@ -590,8 +596,8 @@ class Wilderness(commands.Cog):
             if conn is not None:
                 conn.close()
 
+            # Create the message that details the loot that the user received
             lootMessage = ""
-
             for item in loot.values():
                 if item[0] != 'Coins':
 
@@ -604,23 +610,24 @@ class Wilderness(commands.Cog):
 
             commaMoney = "{:,d}".format(loot[995][1])
             lootMessage += f"Total pking trip loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
-
             embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.nick}:**", description=lootMessage,
                                   thumbnail='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8')
 
-            await ctx.send(f"{ctx.author.mention} you have returned from your pking trip. Type **y** to go out again.", embed=embed)
+            # End the user's trip in the database
             await self.endTripSQL(ctx.author.id)
-            print('START: Attempting to remove player from locations', self.locations[args[0]]["players"])
-            self.locations[args[0].lower()]["players"].remove(ctx.author.id)
-            print('END: Attempting to remove player from locations', self.locations[args[0]]["players"])
 
+            # Send a message to the server stating 
+            await ctx.send(f"{ctx.author.mention} you have returned from your pking trip. Type **y** to go out again.", embed=embed)
+
+            self.locations[args[0].lower()]["players"].remove(ctx.author.id)
+
+            # Check the timeout to see if the user wants to run another trip
             def timeoutCheck(message):
                 return message.content.lower() == 'y' and message.author.id == ctx.author.id
 
+            # Async timeout check
             try:
                 await self.bot.wait_for('message', check=timeoutCheck, timeout=60)
-                print('Attempting to pk')
-                print("Ctx", ctx, " | args", args)
                 await self.pk(ctx, args[0])
             except Exception as e:
                 pass

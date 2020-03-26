@@ -695,7 +695,7 @@ class AttackCommands(commands.Cog):
         itemText = None
         itemEmoji = None
 
-        tableRoll = randint(0, 75)
+        tableRoll = randint(0, 74)
 
         # Winner hits the rares table
         # Effective rates are as follows:
@@ -800,7 +800,7 @@ class AttackCommands(commands.Cog):
             SET {item} = duel_rares.{item} + 1 
             """
         else:
-            print(f"{message.author.nick} did not hit the rares table")
+            print(f"{message.author.nick} did not hit the rares table ({tableRoll/75})")
             return
 
         conn = None
