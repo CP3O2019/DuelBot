@@ -800,7 +800,7 @@ class AttackCommands(commands.Cog):
             SET {item} = duel_rares.{item} + 1 
             """
         else:
-            print(f"{message.author.nick} did not hit the rares table ({tableRoll/75})")
+            print(f"{message.author.nick} did not hit the rares table ({tableRoll}/75)")
             return
 
         conn = None

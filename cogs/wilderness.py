@@ -224,9 +224,10 @@ class Wilderness(commands.Cog):
             if coins == 0:
                 choices = list(filter(lambda x: x == coins, choices))
 
+            print('Length of choices:', len(choices), " ||| ", choices)
             if len(choices) == 0:
                 # All options were removed, user has no gp, rares, or items
-                return None
+                return False
 
             tableRoll = random.choice(choices)
 
@@ -235,7 +236,6 @@ class Wilderness(commands.Cog):
             # Roll until you hit a number in the array that isn't 0
             def rollForItem(myList, listName):
                 roll = randint(0, len(myList)-1)
-
                 if myList[roll] == 0:
                     rollForItem(myList, listName)
                 else:
@@ -413,7 +413,6 @@ class Wilderness(commands.Cog):
                 dataCopy = data["players"].copy()
                 dataCopy.remove(player)
                 playerListMinusCurrent = dataCopy
-                print("Available players to attack:", playerListMinusCurrent)
 
                 # Number of players in the region
                 numPlayersInRegion = len(playerListMinusCurrent)
@@ -475,6 +474,18 @@ class Wilderness(commands.Cog):
                     # Send message notifying person that their item has been stolem
                     await ctx.send(f"<@!{winner}> has killed <@!{loser}> for **{quant} {stolenItem['itemName']}** {stolenItem['emoji']}")
 
+                    # Get the nicknames of the winner and loser
+                    guildList = {}
+                    for guild in self.bot.guilds:
+                        if guild.get_member(winner) != None:
+                            guildList['winner'] = guild.get_member(winner)
+
+                        if guild.get_member(loser) != None:
+                            guildList['loser'] = guild.get_member(loser)
+
+                    # Send a notification to the notifications channel
+                    notifChannel = self.bot.get_channel(689313376286802026)
+                    await notifChannel.send(f"**{guildList['winner'].nick}** has killed **{guildlist['loser'].nick}** for **{stolenItem['quantity']} {stolenItem['itemName']}** {stolenItem['emoji']}
 
                     # Return successful player kill attempt
                     return True
