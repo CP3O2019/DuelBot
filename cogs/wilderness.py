@@ -485,6 +485,12 @@ class Wilderness(commands.Cog):
 
                     # Send a notification to the notifications channel
                     notifChannel = self.bot.get_channel(689313376286802026)
+                    i = guildList['winner'].nick
+                    j = guildlist['loser'].nick
+                    k = stolenItem['quantity']
+                    l = stolenItem['itemName']
+                    m = stolenItem['emoji']
+                    print(i, j, k, l, m)
                     await notifChannel.send(f"**{guildList['winner'].nick}** has killed **{guildlist['loser'].nick}** for **{stolenItem['quantity']} {stolenItem['itemName']}** {stolenItem['emoji']}
 
                     # Return successful player kill attempt
