@@ -564,14 +564,19 @@ class Wilderness(commands.Cog):
 
         await ctx.send(f'You head out on a PK trip to {convertToLongName(args[0])}. You should return in 20 minutes or less.')
 
+        onCurrentTrip == True
         # Every 4 min, 59 secs attempt to pk another player
-        for n in range(1, 4):
-            
+        for n in range(1, 4) and while onCurrentTrip == True:
+            savedTime = await self.checkTripTime(ctx.author.id)
+
             # Wait 4 minutes, 55 seconds
             await asyncio.sleep(4 * 59)
 
             # Grab the user's status (were they pked?)
             activityInfo = await self.checkTripTime(ctx.author.id)
+
+            if savedTime != activityInfo:
+                onCurrentTrip = False
 
             # If they're still pking
             if activityInfo[0] == 'pking':
