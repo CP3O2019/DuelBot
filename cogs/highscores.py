@@ -7,7 +7,6 @@ import psycopg2
 import json
 import requests
 import time
-from osrs_highscores import Highscores
 from cogs.osrsEmojis import ItemEmojis
 from cogs.mathHelpers import RSMathHelpers
 from osrsbox import items_api
@@ -111,7 +110,7 @@ class Highscores(commands.Cog):
             rogue = {}
             lms = {}
 
-    async def getUserData(self, username):
+    async def getUserData(self, username, ctx):
         url = f'https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player={username}'
 
         hsObject = self.HighscoresUser()
@@ -231,18 +230,24 @@ class Highscores(commands.Cog):
 
         except:
             print(f"Err fetching item {username} from Database.")
+            embed=discord.Embed(title="Error finding player", color=discord.Color.gold())
+            embed.set_thumbnail(url='https://oldschool.runescape.wiki/images/8/8c/HiScores_icon.png?99743')
+            await ctx.edit(embed=embed)
             return None
 
         return hsObject
 
     @commands.command()
-    async def lookup(self, ctx, user):
+    async def stats(self, ctx, user):
 
         placeholderEmbed = discord.Embed(title="Searching for player...", color=discord.Color.gold())
         placeholderEmbed.set_thumbnail(url='https://oldschool.runescape.wiki/images/8/8c/HiScores_icon.png?99743')
         message = await ctx.send(embed=placeholderEmbed)
 
-        userData = await self.getUserData(user)
+        userData = await self.getUserData(user, ctx)
+
+        if userData == None:
+            return
         
 
         embed = discord.Embed(title=f"**{user.capitalize()}**", description="Stats", color=discord.Color.gold())
@@ -417,6 +422,13 @@ class Highscores(commands.Cog):
                 await message.clear_reaction(ItemEmojis.Skills.total)
 
         await waitForReaction()
+
+    @stats.error()
+    async def stats_handler():
+         if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == 'inp':
+                await ctx.send("To search for a player, type *.stats [playerName]*")
+
 
 
 def setup(bot):
