@@ -423,12 +423,6 @@ class Highscores(commands.Cog):
 
         await waitForReaction()
 
-    @stats.error(self.stats)
-    async def stats_handler(self, ctx, error):
-         if isinstance(error, commands.MissingRequiredArgument):
-            if error.param.name == 'inp':
-                await ctx.send("To search for a player, type *.stats [playerName]*")
-
 
 
 def setup(bot):
