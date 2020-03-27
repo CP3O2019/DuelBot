@@ -423,7 +423,7 @@ class Highscores(commands.Cog):
 
         await waitForReaction()
 
-    @stats.error()
+    @stats.error(self.stats)
     async def stats_handler(self, ctx, error):
          if isinstance(error, commands.MissingRequiredArgument):
             if error.param.name == 'inp':
