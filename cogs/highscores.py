@@ -253,7 +253,7 @@ class Highscores(commands.Cog):
         embed = discord.Embed(title=f"**{user.capitalize()}**", description="Stats", color=discord.Color.gold())
         embed.set_thumbnail(url='https://oldschool.runescape.wiki/images/8/8c/HiScores_icon.png?99743')
 
-        skills_column_1 = f"""{ItemEmojis.Skills.attack}: {userData.Skills.attack['level']}
+        skills_column_1 = f"""{ItemEmojis.Skills.attack} {userData.Skills.attack['level']}
         {ItemEmojis.Skills.strength} {userData.Skills.strength['level']}
         {ItemEmojis.Skills.defence} {userData.Skills.defence['level']}
         {ItemEmojis.Skills.ranged} {userData.Skills.ranged['level']}
@@ -273,14 +273,14 @@ class Highscores(commands.Cog):
         {ItemEmojis.Skills.hunter} {userData.Skills.hunter['level']}
         """
 
-        skills_column_3 = f"""{ItemEmojis.Skills.mining}: {userData.Skills.mining['level']}
-        {ItemEmojis.Skills.smithing}: {userData.Skills.smithing['level']}
-        {ItemEmojis.Skills.fishing}: {userData.Skills.fishing['level']}
-        {ItemEmojis.Skills.cooking}: {userData.Skills.cooking['level']}
-        {ItemEmojis.Skills.firemaking}: {userData.Skills.firemaking['level']}
-        {ItemEmojis.Skills.woodcutting}: {userData.Skills.woodcutting['level']}
-        {ItemEmojis.Skills.farming}: {userData.Skills.farming['level']}
-        {ItemEmojis.Skills.total}: {userData.Skills.total['level']}
+        skills_column_3 = f"""{ItemEmojis.Skills.mining} {userData.Skills.mining['level']}
+        {ItemEmojis.Skills.smithing} {userData.Skills.smithing['level']}
+        {ItemEmojis.Skills.fishing} {userData.Skills.fishing['level']}
+        {ItemEmojis.Skills.cooking} {userData.Skills.cooking['level']}
+        {ItemEmojis.Skills.firemaking} {userData.Skills.firemaking['level']}
+        {ItemEmojis.Skills.woodcutting} {userData.Skills.woodcutting['level']}
+        {ItemEmojis.Skills.farming} {userData.Skills.farming['level']}
+        {ItemEmojis.Skills.total} {userData.Skills.total['level']}
         """
 
         def calculateCombatLevel():
