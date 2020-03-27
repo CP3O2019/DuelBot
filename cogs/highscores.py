@@ -423,7 +423,7 @@ class Highscores(commands.Cog):
 
         await waitForReaction()
 
-    @stats.error
+    @search.error
     async def stats_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send('To look up a player, type *.search [playerName]*')
