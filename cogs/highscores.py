@@ -238,7 +238,7 @@ class Highscores(commands.Cog):
         return hsObject
 
     @commands.command()
-    async def stats(self, ctx, user):
+    async def search(self, ctx, user):
 
         placeholderEmbed = discord.Embed(title="Searching for player...", color=discord.Color.gold())
         placeholderEmbed.set_thumbnail(url='https://oldschool.runescape.wiki/images/8/8c/HiScores_icon.png?99743')
@@ -426,7 +426,7 @@ class Highscores(commands.Cog):
     @stats.error
     async def stats_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('To look up a player, type *.stats [playerName]*')
+            await ctx.send('To look up a player, type *.search [playerName]*')
 
 def setup(bot):
     bot.add_cog(Highscores(bot))
