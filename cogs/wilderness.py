@@ -485,7 +485,7 @@ class Wilderness(commands.Cog):
 
                     # Send a notification to the notifications channel
                     notifChannel = self.bot.get_channel(689313376286802026)
-                    await notifChannel.send(f"**{guildList['winner'].nick}** has killed **{guildlist['loser'].nick}** for **{stolenItem['quantity']} {stolenItem['itemName']}** {stolenItem['emoji']}")
+                    await notifChannel.send(f"**{guildList['winner'].nick}** has killed **{guildList['loser'].nick}** for **{stolenItem['quantity']} {stolenItem['itemName']}** {stolenItem['emoji']}")
 
                     # Return successful player kill attempt
                     return True
@@ -544,8 +544,13 @@ class Wilderness(commands.Cog):
         elif timeStatus[0] != 'idle':
             timeDiff = math.floor(time.time()) - timeStatus[1]
             minutes = 20 - math.floor(timeDiff/60)
-            await ctx.send(f"You are currently out {timeStatus[0]}. You should be back in around {minutes} minutes or less.")
-            return
+            if minutes <= 0:
+                await self.endTripSQL(ctx.author.id)
+                await ctx.send(f"You are currently out {timeStatus[0]}. You should be back in less than a minute.")
+                return
+            else:
+                await ctx.send(f"You are currently out {timeStatus[0]}. You should be back in around {minutes} minutes or less.")
+                return
 
         self.locations[args[0].lower()]['players'].append(ctx.author.id)
 
