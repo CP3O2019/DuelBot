@@ -293,6 +293,13 @@ class Skilling(commands.Cog):
             if amount < 200:
                 await ctx.send('You must purchase at least 1 xp. Each experience point costs 200 gp.')
                 return
+
+            userGP = await Economy(self.bot).getNumberOfItem(ctx.author.id, 'duel_users', 'gp')
+
+            if amount > userGP:
+                await ctx.send("You don't have that much GP.")
+                return
+
             shortAmount = RSMathHelpers(self.bot).shortNumify(amount, 1)
             prayerXP = math.floor(amount/200)
             shortPrayerXP = RSMathHelpers(self.bot).shortNumify(prayerXP, 1)
@@ -380,6 +387,13 @@ class Skilling(commands.Cog):
             if amount < 200:
                 await ctx.send('You must purchase at least 1 xp. Each experience point costs 350 gp.')
                 return
+
+            userGP = await Economy(self.bot).getNumberOfItem(ctx.author.id, 'duel_users', 'gp')
+
+            if amount > userGP:
+                await ctx.send("You don't have that much GP.")
+                return
+            
 
             shortAmount = RSMathHelpers(self.bot).shortNumify(amount, 1)
             herbXP = math.floor(amount/350)
