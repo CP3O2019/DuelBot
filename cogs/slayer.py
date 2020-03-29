@@ -869,6 +869,9 @@ class Slayer(commands.Cog):
         await addTripTime(ctx, math.floor(1800 * (numberKilled/maxKills)))
 
         # HERE BEGINS THE DATABASE WRITING STUFF
+
+        await ctx.send(f"You begin slaying {taskMonster.name}s. You should return in about {math.ceil(1800 * (numberKilled/maxKills))} minutes.")
+
         await asyncio.sleep(math.floor(1800 * (numberKilled/maxKills)))
 
         # Remove the monsters from the task monster count
