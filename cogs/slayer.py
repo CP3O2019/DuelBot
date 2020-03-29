@@ -865,7 +865,7 @@ class Slayer(commands.Cog):
                 pointMessage = f"and gained **{points}** slayer points"
 
             taskMessage = f"You have finished your task {pointMessage}. Type *.slay task* to get a new one."
-
+        print("Num", numberKilled/maxKills, 1800 * (numberKilled/maxKills))
         await addTripTime(ctx, math.floor(1800 * (numberKilled/maxKills)))
 
         # HERE BEGINS THE DATABASE WRITING STUFF
