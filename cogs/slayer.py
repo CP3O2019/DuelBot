@@ -1184,7 +1184,7 @@ class Slayer(commands.Cog):
             description = f"""**.slay task** - pick up a new slayer task
             **.slay** - kill monsters in current task
             **.slay master** - view current slayer master
-            **.slay master (new master) - switch to a new slayer master. Requires appropriate combat level.
+            **.slay master (new master)** - switch to a new slayer master. Requires appropriate combat level.
             **.switch** (attack/strength/defence) - switch to training a different skill
             **.stats** - view current stats
             **.buyherb** (GP amount) - buy {ItemEmojis.Skills.herblore} Herblore XP for 350 gp/xp
