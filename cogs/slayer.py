@@ -9,7 +9,6 @@ import requests
 import time
 import datetime
 from datetime import datetime, timedelta
-from osrs_highscores import Highscores
 from cogs.osrsEmojis import ItemEmojis
 from cogs.mathHelpers import RSMathHelpers
 from cogs.usercommands import UserCommands

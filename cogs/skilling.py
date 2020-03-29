@@ -7,7 +7,6 @@ import psycopg2
 import json
 import requests
 import time
-from osrs_highscores import Highscores
 from cogs.osrsEmojis import ItemEmojis
 from cogs.usercommands import UserCommands
 from cogs.mathHelpers import RSMathHelpers
