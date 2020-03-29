@@ -70,12 +70,6 @@ class UserCommands(commands.Cog):
         VALUES 
         ({user.id}, '{user.nick}', 0, 0, 0)
         ON CONFLICT (user_id) DO NOTHING
-        """,
-        f"""
-        INSERT INTO user_skills (user_id)
-        VALUES
-        ({user.id})
-        ON CONFLICT (user_id) DO NOTHING
         """
         )
 

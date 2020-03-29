@@ -1004,7 +1004,7 @@ class Slayer(commands.Cog):
     @commands.command()
     async def slay(self, ctx, *args):
 
-        await UserCommands(self.bot).createTablesForUser(ctx.author.id)
+        await Skilling(self.bot).createSkillTable(ctx.author.id)
 
         if len(args) == 0:
             # Kill monster on task
@@ -1199,7 +1199,7 @@ class Slayer(commands.Cog):
     @commands.command()
     async def switch(self, ctx, style):
 
-        await UserCommands(self.bot).createTablesForUser(ctx.author.id)
+        await Skilling(self.bot).createSkillTable(ctx.author.id)
 
         styles = ["attack", "strength", "defence"]
 
@@ -1232,7 +1232,7 @@ class Slayer(commands.Cog):
     @commands.command()
     async def stats(self, ctx):
 
-        await UserCommands(self.bot).createTablesForUser(ctx.author.id)
+        await Skilling(self.bot).createSkillTable(ctx.author.id)
 
         attack = await Skilling(self.bot).getLevel(ctx.author.id, 'attack')
         strength = await Skilling(self.bot).getLevel(ctx.author.id, 'strength')

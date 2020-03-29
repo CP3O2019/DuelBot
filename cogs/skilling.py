@@ -8,7 +8,6 @@ import json
 import requests
 import time
 from cogs.osrsEmojis import ItemEmojis
-from cogs.usercommands import UserCommands
 from cogs.mathHelpers import RSMathHelpers
 from cogs.economy import Economy
 from osrsbox import items_api
@@ -22,6 +21,26 @@ class Skilling(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+
+    async def createSkillTable(user):
+        f"""
+        INSERT INTO user_skills (user_id)
+        VALUES
+        ({user})
+        ON CONFLICT (user_id) DO NOTHING
+        """
+
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+            cur.execute(sql)
+            cur.close()
+            conn.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print("SOME ERROR SETTING UP TABLES", error)
+        finally:
+            if conn is not None:
+                conn.close()
 
     def xpToLevel(self, experience): 
         experienceTable = [
@@ -233,7 +252,7 @@ class Skilling(commands.Cog):
 
     @commands.command()
     async def buybones(self, ctx, amount):
-        await UserCommands(self.bot).createTablesForUser(ctx.author.id)
+        await self.createSkillTable(ctx.author.id)
 
         if amount == 'info':
             # Display info about prayer
@@ -322,7 +341,7 @@ class Skilling(commands.Cog):
     @commands.command()
     async def buyherb(self, ctx, amount):
 
-        await UserCommands(self.bot).createTablesForUser(ctx.author.id)
+        await self.createSkillTable(ctx.author.id)
 
         if amount == 'info':
             # Display info about prayer
