@@ -11,7 +11,6 @@ import datetime
 from datetime import datetime, timedelta
 from cogs.osrsEmojis import ItemEmojis
 from cogs.mathHelpers import RSMathHelpers
-from cogs.usercommands import UserCommands
 from cogs.skilling import Skilling
 from osrsbox import monsters_api
 from random import randint
