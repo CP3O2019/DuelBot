@@ -23,7 +23,7 @@ class Skilling(commands.Cog):
         self.bot = bot
 
     async def createSkillTable(self, user):
-        f"""
+        sql = f"""
         INSERT INTO user_skills (user_id)
         VALUES
         ({user})
