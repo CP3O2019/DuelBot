@@ -870,7 +870,7 @@ class Slayer(commands.Cog):
 
         # HERE BEGINS THE DATABASE WRITING STUFF
 
-        await ctx.send(f"You begin slaying {taskMonster.name}s. You should return in about {math.ceil(1800 * (numberKilled/maxKills))} minutes.")
+        await ctx.send(f"You begin slaying {taskMonster.name}s. You should return in about {math.ceil(30 * (numberKilled/maxKills))} minutes.")
 
         await asyncio.sleep(math.floor(1800 * (numberKilled/maxKills)))
 
