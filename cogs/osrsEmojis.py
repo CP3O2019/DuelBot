@@ -87,7 +87,6 @@ class ItemEmojis(commands.Cog):
         runePlatebody = '<:runeplatebody:688105227383210072>'
         runeScimitar = '<:runescimitar:688105227353850013>'
 
-
     class Food:
         shark = '<:rsshark:688084604049031171>'
         mantaRay = '<:mantaray:688084603939979331>'
@@ -119,13 +118,32 @@ class ItemEmojis(commands.Cog):
 
     class Potions:
         superCombat = '<:supercombat:688088003876487176>'
-        prayer = '<:supercombat:688088003876487176>'
+        prayer = '<:prayerpotion:688088003511582755>'
         superRestore = '<:superrestore:688088003402662059>'
         superAttack = '<:superattack:688088003675160616>'
         superStrength = '<:superstrength:688088003108798512>'
         superDefence = '<:superdefence:688088003092021273>'
         saradominBrew = '<:saradominbrew:688088003444342862>'
         ranging = '<:rangingpotion:688088003381428224>'
+        attack = '<:attackpotion:693810045279928371>'
+        strength = '<:strengthpotion:693810045309419610>'
+        defence = '<:defencepotion:693810045388849172>'
+        divineSuperStrength = '<:divinesuperstrength:693810045275602944>'
+        divineSuperCombat = '<:divinesupercombat:693810045254893588>'
+
+    class Prayers:
+        thickSkin = '<:ThickSkin:693810076997255239>'
+        burstOfStrength = '<:BurstofStrength:693810077240524891>'
+        clarityOfThought = '<:ClarityofThought:693810076850323472>'
+        rockSkin = '<:RockSkin:693810076846129224>'
+        superhumanStrength = '<:SuperhumanStrength:693810077047717969>'
+        improvedReflexes = '<:ImprovedReflexes:693810077252976640>'
+        steelSkin = '<:SteelSkin:693810077181804564>'
+        ultimateStrength = '<:UltimateStrength:693810077185998928>'
+        incredibleReflexes = '<:IncredibleReflexes:693810077219684372>'
+        chivalry = '<:Chivalry:693810076825288735>'
+        piety = '<:Piety:693810076779151461>'
+
 
     class RawMaterials:
         uncutOnyx = '<:uncutonyx:688088003469639728>'

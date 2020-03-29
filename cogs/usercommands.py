@@ -70,6 +70,12 @@ class UserCommands(commands.Cog):
         VALUES 
         ({user.id}, '{user.nick}', 0, 0, 0)
         ON CONFLICT (user_id) DO NOTHING
+        """,
+        f"""
+        INSERT INTO user_skills (user_id)
+        VALUES
+        ({user.id})
+        ON CONFLICT (user_id) DO NOTHING
         """
         )
 
@@ -269,8 +275,9 @@ class UserCommands(commands.Cog):
             if diceAmount <= 0:
                 await message.send("You can't dice less than 1 GP.")
                 return
-            elif diceAmount > 5000000000:
-                await message.send("You can only dice up to 5B at once.")
+            elif diceAmount > 2000000000:
+                await message.send("You can only dice up to 2B at once.")
+                return
 
             diceAmountString = helper.shortNumify(diceAmount, 1)
 
