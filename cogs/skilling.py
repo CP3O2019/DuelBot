@@ -297,15 +297,19 @@ class Skilling(commands.Cog):
             userGP = await Economy(self.bot).getNumberOfItem(ctx.author.id, 'duel_users', 'gp')
 
             if amount > userGP:
+                print("Here!")
                 await ctx.send("You don't have that much GP.")
                 return
 
+            print("Didn't make it here")
             shortAmount = RSMathHelpers(self.bot).shortNumify(amount, 1)
             prayerXP = math.floor(amount/200)
             shortPrayerXP = RSMathHelpers(self.bot).shortNumify(prayerXP, 1)
 
             if type(amount) != int:
+
                 await ctx.send("Please enter a valid amount.")
+                
             else:
                 userGP = await Economy(self.bot).getNumberOfItem(ctx.author.id, 'duel_users', 'gp')
 
@@ -391,17 +395,21 @@ class Skilling(commands.Cog):
             userGP = await Economy(self.bot).getNumberOfItem(ctx.author.id, 'duel_users', 'gp')
 
             if amount > userGP:
+                print("Here!")
                 await ctx.send("You don't have that much GP.")
                 return
             
-
+            print("Didn't make it here herb")
             shortAmount = RSMathHelpers(self.bot).shortNumify(amount, 1)
             herbXP = math.floor(amount/350)
             shortHerbXp = RSMathHelpers(self.bot).shortNumify(herbXP, 1)
 
             if type(amount) != int:
+
                 await ctx.send("Please enter a valid amount.")
+
             else:
+
                 userGP = await Economy(self.bot).getNumberOfItem(ctx.author.id, 'duel_users', 'gp')
 
                 if userGP >= amount:
