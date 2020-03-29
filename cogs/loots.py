@@ -189,7 +189,7 @@ class PotentialItems(commands.Cog):
                    2581: ["Robin hood hat", 1, 1, ItemEmojis.HardClues.robinHoodHat],
                    19994: ["Ranger gloves", 1, 1, ItemEmojis.EliteClues.rangerGloves],
                    23249: ["Rangers' tights ", 1, 1, ItemEmojis.EliteClues.rangersTights],
-                   12569: ["Ranger's tunic", 1, 1, ItemEmojis.EliteClues.rangersTunic],
+                   12596: ["Ranger's tunic", 1, 1, ItemEmojis.EliteClues.rangersTunic],
                    6916: ["Infinity top", 1, 1, ItemEmojis.Infinity.infinityTop],
                    6924: ["Infinity bottoms", 1, 1, ItemEmojis.Infinity.infinityBottoms],
                    6922: ["Infinity boots", 1, 1, ItemEmojis.Infinity.infinityBoots],

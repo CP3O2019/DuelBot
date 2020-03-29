@@ -844,6 +844,9 @@ class Slayer(commands.Cog):
         # Default to max kills...
         numberKilled = maxKills
 
+        if numberKilled < 3:
+            numberKilled = 3
+
         taskMessage = f"You have **{amountLeft - numberKilled} {taskMonster.name}** left on your task."
 
         # But if the max amount of kills is greater than the amount left, just make it the amount left

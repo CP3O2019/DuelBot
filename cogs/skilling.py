@@ -317,33 +317,15 @@ class Skilling(commands.Cog):
 
                     await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', amount)
 
-                    sql = f"""
-                    UPDATE duel_users
-                    SET gp = gp - {amount}
-                    WHERE user_id = {ctx.author.id}
-                    """
+                    startLevel = await self.getLevel(ctx.author.id, 'prayer')
+                    await self.addExperienceToStat(ctx.author.id, 'prayer', prayerXP)
+                    endLevel = await self.getLevel(ctx.author.id, 'prayer')
 
-                    try:
-                        conn = psycopg2.connect(DATABASE_URL)
-                        cur = conn.cursor()
-                        cur.execute(sql)
-                        cur.close()
-                        conn.commit()
-                    except (Exception, psycopg2.DatabaseError) as error:
-                        print("SOME ERROR 9310", error)
-                    finally:
-                        if conn is not None:
-                            conn.close()
-
-                        startLevel = await self.getLevel(ctx.author.id, 'prayer')
-                        await self.addExperienceToStat(ctx.author.id, 'prayer', prayerXP)
-                        endLevel = await self.getLevel(ctx.author.id, 'prayer')
-
-                        levelUpMessage = ""
-                        if endLevel > startLevel:
-                            levelUpMessage = f"Your prayer level is now {endLevel}."
-                        
-                        await ctx.send(f"{ItemEmojis.Skills.prayer} You have purchased {shortPrayerXP} prayer experience for {shortAmount} GP. {levelUpMessage}")
+                    levelUpMessage = ""
+                    if endLevel > startLevel:
+                        levelUpMessage = f"Your prayer level is now {endLevel}."
+                    
+                    await ctx.send(f"{ItemEmojis.Skills.prayer} You have purchased {shortPrayerXP} prayer experience for {shortAmount} GP. {levelUpMessage}")
 
     @buybones.error
     async def buyBonesError(self, ctx, error):
@@ -416,33 +398,15 @@ class Skilling(commands.Cog):
 
                     await Economy(self.bot).removeItemFromUser(ctx.author.id, 'duel_users', 'gp', amount)
 
-                    sql = f"""
-                    UPDATE duel_users
-                    SET gp = gp - {amount}
-                    WHERE user_id = {ctx.author.id}
-                    """
+                    startLevel = await self.getLevel(ctx.author.id, 'herblore')
+                    await self.addExperienceToStat(ctx.author.id, 'herblore', herbXP)
+                    endLevel = await self.getLevel(ctx.author.id, 'herblore')
 
-                    try:
-                        conn = psycopg2.connect(DATABASE_URL)
-                        cur = conn.cursor()
-                        cur.execute(sql)
-                        cur.close()
-                        conn.commit()
-                    except (Exception, psycopg2.DatabaseError) as error:
-                        print("SOME ERROR 3113", error)
-                    finally:
-                        if conn is not None:
-                            conn.close()
+                    levelUpMessage = ""
+                    if endLevel > startLevel:
+                        levelUpMessage = f"Your prayer level is now {endLevel}."
 
-                        startLevel = await self.getLevel(ctx.author.id, 'herblore')
-                        await self.addExperienceToStat(ctx.author.id, 'herblore', herbXP)
-                        endLevel = await self.getLevel(ctx.author.id, 'herblore')
-
-                        levelUpMessage = ""
-                        if endLevel > startLevel:
-                            levelUpMessage = f"Your prayer level is now {endLevel}."
-
-                        await ctx.send(f"{ItemEmojis.Skills.herblore} You have purchased {shortHerbXp} herblore experience for {shortAmount} GP. {levelUpMessage}")
+                    await ctx.send(f"{ItemEmojis.Skills.herblore} You have purchased {shortHerbXp} herblore experience for {shortAmount} GP. {levelUpMessage}")
 
     @buyherb.error
     async def buyBonesError(self, ctx, error):
