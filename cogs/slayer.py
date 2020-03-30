@@ -1088,13 +1088,8 @@ class Slayer(commands.Cog):
                     timeDiff = finishTime - math.floor(time.time())
                     minutes = math.floor(timeDiff/60)
                     if minutes > 0:
-                        taskMonster = None
-                        for monster in self.all_db_monsters:
-                            if monster.id == monsterId:
-                                taskMonster = monster
-                                break
 
-                        await ctx.send(f"You are currently slaying {taskMonster.name}s. You will be done in about {minutes} minutes.")
+                        await ctx.send(f"You are currently slaying. You will be done in about {minutes} minutes.")
                         return
                     else:
                         # Number of monsters 
