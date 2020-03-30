@@ -58,7 +58,7 @@ class Dailies(commands.Cog):
 
         def timeoutCheck(ctx):
             message = ctx.content.replace("'", '')
-            return message.lower() in daily[1]
+            return message.lower() in daily[1] and ctx.author == message.author
 
         await ctx.send(daily[0])
 
@@ -91,7 +91,7 @@ class Dailies(commands.Cog):
 
     async def giveDailyMoney(self, ctx, correct):
 
-        winnings = randint(2500000, 7500000)
+        winnings = randint(2500000, 5000000)
         correctString = "You did not get the correct answer in time."
 
         if correct == True:

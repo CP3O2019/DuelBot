@@ -404,7 +404,7 @@ class Skilling(commands.Cog):
 
                     levelUpMessage = ""
                     if endLevel > startLevel:
-                        levelUpMessage = f"Your prayer level is now {endLevel}."
+                        levelUpMessage = f"Your herblore level is now {endLevel}."
 
                     await ctx.send(f"{ItemEmojis.Skills.herblore} You have purchased {shortHerbXp} herblore experience for {shortAmount} GP. {levelUpMessage}")
 

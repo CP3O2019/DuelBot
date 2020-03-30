@@ -41,12 +41,12 @@ class Slayer(commands.Cog):
                 "Cave Slimes": {"min": 10, "max": 20, "req": 17, "weight": 8, "id": 480},
                 "Cows": {"min": 15, "max": 50, "req": 1, "weight": 8, "id":2790  },
                 "Crawling Hands": {"min": 15, "max": 50, "req": 5, "weight": 8, "id": 448},
-                "Dogs": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 114  },
+                "Dogs": {"min": 15, "max": 50, "req": 30, "weight": 7, "id": 114  },
                 "Dwarves": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 290  },
                 "Ghosts": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 85  },
                 "Goblins": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 655  },
                 "Icefiends": {"min": 15, "max": 50, "req": 1, "weight": 8, "id": 3140  },
-                "Kalphites": {"min": 15, "max": 50, "req": 1, "weight": 6, "id": 95  },
+                "Kalphites": {"min": 15, "max": 50, "req": 25, "weight": 6, "id": 95  },
                 "Lizards": {"min": 15, "max": 50, "req": 22, "weight": 8, "id": 458  },
                 "Minotaurs": {"min": 10, "max": 20, "req": 1, "weight": 7, "id": 2481  },
                 "Monkeys": {"min": 15, "max": 50, "req": 1, "weight": 6, "id": 1038  },
@@ -54,7 +54,7 @@ class Slayer(commands.Cog):
                 "Scorpions": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 2479  },
                 "Skeletons": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 70  },
                 "Spiders": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 2478  },
-                "Wolves": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 106  },
+                "Wolves": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 2490  },
                 "Zombies": {"min": 15, "max": 50, "req": 1, "weight": 7, "id": 26  }
             },
             "points": 0
@@ -97,59 +97,59 @@ class Slayer(commands.Cog):
         "vannaka": {
             "req": 40,
             "tasks": {
-                'Aberrantspectre': {'min':40, 'max':80, 'req':7, 'weight':7, 'id': 2},
-                'Abyssaldemon': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 415},
+                'Aberrantspectre': {'min':40, 'max':80, 'req':60, 'weight':7, 'id': 2},
+                'Abyssaldemon': {'min':60, 'max':120, 'req':85, 'weight':8, 'id': 415},
                 'Ankou': {'min':60, 'max':120, 'req':5, 'weight':5, 'id': 2514},
-                'Banshee': {'min':25, 'max':35, 'req':7, 'weight':7, 'id': 414},
-                'Basiliskknight': {'min':60, 'max':120, 'req':6, 'weight':6, 'id': 9293},
-                'Bloodveld': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 484},
-                'Bluedragon': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 265},
+                'Banshee': {'min':25, 'max':35, 'req':15, 'weight':7, 'id': 414},
+                'Basiliskknight': {'min':60, 'max':120, 'req':60, 'weight':6, 'id': 9293},
+                'Bloodveld': {'min':60, 'max':120, 'req':60, 'weight':8, 'id': 484},
+                'Bluedragon': {'min':60, 'max':120, 'req':50, 'weight':8, 'id': 265},
                 'Brinerat': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 4501},
-                'Bronzedragon': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 270},
-                'Cavebug': {'min':10, 'max':20, 'req':7, 'weight':7, 'id': 481},
-                'Cavecrawler': {'min':10, 'max':20, 'req':7, 'weight':7, 'id': 406},
-                'Caveslime': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 480},
-                'Cockatrice': {'min':10, 'max':20, 'req':7, 'weight':7, 'id': 419},
-                'CrawlingHand': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 448},
+                'Bronzedragon': {'min':60, 'max':120, 'req':60, 'weight':7, 'id': 270},
+                'Cavebug': {'min':10, 'max':20, 'req':1, 'weight':7, 'id': 481},
+                'Cavecrawler': {'min':10, 'max':20, 'req':5, 'weight':7, 'id': 406},
+                'Caveslime': {'min':60, 'max':120, 'req':10, 'weight':7, 'id': 480},
+                'Cockatrice': {'min':10, 'max':20, 'req':40, 'weight':7, 'id': 419},
+                'CrawlingHand': {'min':60, 'max':120, 'req':5, 'weight':8, 'id': 448},
                 'Crocodile': {'min':60, 'max':120, 'req':6, 'weight':6, 'id': 4184},
-                'Dagannoth': {'min':60, 'max':120, 'req':6, 'weight':6, 'id': 970},
-                'Dustdevil': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 423},
-                'Earthwarrior': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 2840},
-                'Elfwarrior': {'min':40, 'max':80, 'req':6, 'weight':6, 'id': 5293},
-                'Feverspider': {'min':40, 'max':100, 'req':7, 'weight':7, 'id': 626},
-                'Firegiant': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 2075},
-                'Gargoyle': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 412},
+                'Dagannoth': {'min':60, 'max':120, 'req':40, 'weight':6, 'id': 970},
+                'Dustdevil': {'min':60, 'max':120, 'req':65, 'weight':7, 'id': 423},
+                'Earthwarrior': {'min':60, 'max':120, 'req':1, 'weight':8, 'id': 2840},
+                'Elfwarrior': {'min':40, 'max':80, 'req':1, 'weight':6, 'id': 5293},
+                'Feverspider': {'min':40, 'max':100, 'req':40, 'weight':7, 'id': 626},
+                'Firegiant': {'min':60, 'max':120, 'req':1, 'weight':7, 'id': 2075},
+                'Gargoyle': {'min':60, 'max':120, 'req':75, 'weight':7, 'id': 412},
                 'Ghoul': {'min':60, 'max':120, 'req':5, 'weight':5, 'id': 289},
-                'Greendragon': {'min':10, 'max':40, 'req':7, 'weight':7, 'id': 260},
-                'HarpieBugSwarm': {'min':40, 'max':80, 'req':6, 'weight':6, 'id': 464},
-                'Hellhound': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 104},
-                'HillGiant': {'min':40, 'max':80, 'req':7, 'weight':7, 'id': 2098},
-                'Hobgoblin': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 2241},
-                'Icegiant': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 2085},
-                'Icewarrior': {'min':40, 'max':80, 'req':7, 'weight':7, 'id': 2841},
-                'InfernalMage': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 443},
-                'Jelly': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 437},
-                'Junglehorror': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 1042},
-                'KalphiteGuardian': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 959},
+                'Greendragon': {'min':10, 'max':40, 'req':1, 'weight':7, 'id': 260},
+                'HarpieBugSwarm': {'min':40, 'max':80, 'req':33, 'weight':6, 'id': 464},
+                'Hellhound': {'min':60, 'max':120, 'req':1, 'weight':8, 'id': 104},
+                'HillGiant': {'min':40, 'max':80, 'req':1, 'weight':7, 'id': 2098},
+                'Hobgoblin': {'min':60, 'max':120, 'req':1, 'weight':7, 'id': 2241},
+                'Icegiant': {'min':60, 'max':120, 'req':1, 'weight':7, 'id': 2085},
+                'Icewarrior': {'min':40, 'max':80, 'req':1, 'weight':7, 'id': 2841},
+                'InfernalMage': {'min':60, 'max':120, 'req':55, 'weight':7, 'id': 443},
+                'Jelly': {'min':60, 'max':120, 'req':8, 'weight':62, 'id': 437},
+                'Junglehorror': {'min':60, 'max':120, 'req':53, 'weight':8, 'id': 1042},
+                'KalphiteGuardian': {'min':60, 'max':120, 'req':1, 'weight':8, 'id': 959},
                 'Killerwatt': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 469},
-                'Kurask': {'min':30, 'max':80, 'req':6, 'weight':6, 'id': 410},
-                'Lizard': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 458},
-                'Lesserdemon': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 2005},
-                'Mogre': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 2592},
-                'Molanisk': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 1},
-                'Mossgiant': {'min':39, 'max':50, 'req':7, 'weight':7, 'id': 2090},
-                'Nechryael': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 8},
-                'Ogre': {'min':60, 'max':120, 'req':5, 'weight':5, 'id': 136},
-                'Otherworldlybeing': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 2843},
-                'Pyrefiend': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 433},
-                'Rockslug': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 421},
-                'Shade': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 5633},
-                'Seasnakeyoung': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 1097},
-                'Shadowwarrior': {'min':60, 'max':120, 'req':6, 'weight':6, 'id': 2853},
-                'spiritualmage': {'min':40, 'max':80, 'req':8, 'weight':8, 'id': 2212},
-                'Terrordog': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 6473},
-                'Icetroll': {'min':20, 'max':45, 'req':6, 'weight':6, 'id': 648},
-                'Turoth': {'min':60, 'max':120, 'req':7, 'weight':7, 'id': 426},
+                'Kurask': {'min':30, 'max':80, 'req':70, 'weight':6, 'id': 410},
+                'Lizard': {'min':60, 'max':120, 'req':20, 'weight':7, 'id': 458},
+                'Lesserdemon': {'min':60, 'max':120, 'req':1, 'weight':7, 'id': 2005},
+                'Mogre': {'min':60, 'max':120, 'req':1, 'weight':7, 'id': 2592},
+                'Molanisk': {'min':60, 'max':120, 'req':30, 'weight':7, 'id': 1},
+                'Mossgiant': {'min':39, 'max':50, 'req':1, 'weight':7, 'id': 2090},
+                'Nechryael': {'min':60, 'max':120, 'req':80, 'weight':7, 'id': 8},
+                'Ogre': {'min':60, 'max':120, 'req':1, 'weight':5, 'id': 136},
+                'Otherworldlybeing': {'min':60, 'max':120, 'req':1, 'weight':7, 'id': 2843},
+                'Pyrefiend': {'min':60, 'max':120, 'req':1, 'weight':8, 'id': 433},
+                'Rockslug': {'min':60, 'max':120, 'req':20, 'weight':8, 'id': 421},
+                'Shade': {'min':60, 'max':120, 'req':1, 'weight':7, 'id': 5633},
+                'Seasnakeyoung': {'min':60, 'max':120, 'req':1, 'weight':8, 'id': 1097},
+                'Shadowwarrior': {'min':60, 'max':120, 'req':1, 'weight':6, 'id': 2853},
+                'spiritualmage': {'min':40, 'max':80, 'req':83, 'weight':8, 'id': 2212},
+                'Terrordog': {'min':60, 'max':120, 'req':42, 'weight':8, 'id': 6473},
+                'Icetroll': {'min':20, 'max':45, 'req':1, 'weight':6, 'id': 648},
+                'Turoth': {'min':60, 'max':120, 'req':60, 'weight':7, 'id': 426},
                 'Vampyrejuvenile': {'min':60, 'max':120, 'req':8, 'weight':8, 'id': 3692}
             },
             "points": 4
@@ -157,55 +157,55 @@ class Slayer(commands.Cog):
         "chaeldar": {
             "req": 70,
             "tasks": {
-                'Aberrantspectre': {'min':60, 'max':120, 'req':6, 'weight':6, 'id': 2},
-                'Abyssaldemon': {'min':110, 'max':170, 'req':8, 'weight':8, 'id': 415},
-                'Aviansie': {'min':110, 'max':170, 'req':12, 'weight':12, 'id': 3169},
+                'Aberrantspectre': {'min':60, 'max':120, 'req':60, 'weight':6, 'id': 2},
+                'Abyssaldemon': {'min':110, 'max':170, 'req':85, 'weight':8, 'id': 415},
+                'Aviansie': {'min':110, 'max':170, 'req':1, 'weight':12, 'id': 3169},
                 'Banshee': {'min':110, 'max':170, 'req':9, 'weight':9, 'id': 414},
-                'Basiliskknight': {'min':110, 'max':170, 'req':5, 'weight':5, 'id': 9293},
-                'Blackdemon': {'min':110, 'max':170, 'req':7, 'weight':7, 'id': 240},
-                'Bloodveld': {'min':110, 'max':170, 'req':10, 'weight':10, 'id': 484},
-                'Bluedragon': {'min':110, 'max':170, 'req':8, 'weight':8, 'id': 265},
-                'Brinerat': {'min':110, 'max':170, 'req':8, 'weight':8, 'id': 4501},
-                'Bronzedragon': {'min':110, 'max':170, 'req':7, 'weight':7, 'id': 270},
-                'Cavecrawler': {'min':10, 'max':20, 'req':11, 'weight':11, 'id': 406},
-                'Cavehorror': {'min':110, 'max':170, 'req':5, 'weight':5, 'id': 1047},
-                'Cavekraken': {'min':110, 'max':170, 'req':10, 'weight':10, 'id': 492},
-                'Caveslime': {'min':30, 'max':50, 'req':12, 'weight':12, 'id': 480},
-                'Cockatrice': {'min':10, 'max':20, 'req':6, 'weight':6, 'id': 419},
-                'Dagannoth': {'min':110, 'max':170, 'req':6, 'weight':6, 'id': 970},
-                'Dustdevil': {'min':110, 'max':170, 'req':11, 'weight':11, 'id': 423},
-                'Elfwarrior': {'min':110, 'max':170, 'req':9, 'weight':9, 'id': 5293},
-                'Feverspider': {'min':110, 'max':170, 'req':8, 'weight':8, 'id': 626},
-                'Firegiant': {'min':110, 'max':170, 'req':7, 'weight':7, 'id': 2075},
-                'Talonedwyvern': {'min':110, 'max':170, 'req':12, 'weight':12, 'id': 7793},
-                'Gargoyle': {'min':10, 'max':20, 'req':7, 'weight':7, 'id': 412},
-                'Greaterdemon': {'min':110, 'max':170, 'req':11, 'weight':11, 'id': 2025},
-                'HarpieBugSwarm': {'min':110, 'max':170, 'req':9, 'weight':9, 'id': 464},
-                'Hellhound': {'min':110, 'max':170, 'req':6, 'weight':6, 'id': 104},
-                'InfernalMage': {'min':110, 'max':170, 'req':9, 'weight':9, 'id': 443},
-                'Irondragon': {'min':110, 'max':170, 'req':7, 'weight':7, 'id': 272},
-                'Jelly': {'min':25, 'max':45, 'req':12, 'weight':12, 'id': 437},
-                'Junglehorror': {'min':110, 'max':170, 'req':10, 'weight':10, 'id': 1042},
-                'Kalphitesoldier': {'min':110, 'max':170, 'req':10, 'weight':10, 'id': 957},
-                'Kurask': {'min':110, 'max':170, 'req':11, 'weight':11, 'id': 410},
-                'Lesserdemon': {'min':110, 'max':170, 'req':12, 'weight':12, 'id': 2005},
-                'LizardmanShaman': {'min':110, 'max':170, 'req':9, 'weight':9, 'id': 6766},
-                'Lizard': {'min':70, 'max':90, 'req':8, 'weight':8, 'id': 458},
-                'Mogre': {'min':110, 'max':170, 'req':5, 'weight':5, 'id': 2592},
-                'Molanisk': {'min':110, 'max':170, 'req':6, 'weight':6, 'id': 1},
-                'Zygomite': {'min':39, 'max':50, 'req':6, 'weight':6, 'id': 537},
-                'Nechryael': {'min':8, 'max':15, 'req':7, 'weight':7, 'id': 8},
-                'Pyrefiend': {'min':110, 'max':170, 'req':12, 'weight':12, 'id': 433},
-                'Rockslug': {'min':110, 'max':170, 'req':6, 'weight':6, 'id': 421},
-                'Shadowwarrior': {'min':110, 'max':170, 'req':5, 'weight':5, 'id': 2853},
-                'SkeletalWyvern': {'min':110, 'max':170, 'req':8, 'weight':8, 'id': 465},
-                'Spiritualwarrior': {'min':10, 'max':20, 'req':7, 'weight':7, 'id': 2210},
-                'Steeldragon': {'min':110, 'max':170, 'req':12, 'weight':12, 'id': 274},
-                'Icetroll': {'min':10, 'max':20, 'req':9, 'weight':9, 'id': 648},
-                'Turoth': {'min':110, 'max':170, 'req':11, 'weight':11, 'id': 426},
-                'TzHaar-ket': {'min':110, 'max':170, 'req':10, 'weight':10, 'id': 2173},
-                'Wallbeast': {'min':90, 'max':150, 'req':8, 'weight':8, 'id': 476},
-                'Wyrm': {'min':10, 'max':20, 'req':6, 'weight':6, 'id': 8610}
+                'Basiliskknight': {'min':110, 'max':170, 'req':60, 'weight':5, 'id': 9293},
+                'Blackdemon': {'min':110, 'max':170, 'req':50, 'weight':7, 'id': 240},
+                'Bloodveld': {'min':110, 'max':170, 'req':55, 'weight':10, 'id': 484},
+                'Bluedragon': {'min':110, 'max':170, 'req':20, 'weight':8, 'id': 265},
+                'Brinerat': {'min':110, 'max':170, 'req':1, 'weight':8, 'id': 4501},
+                'Bronzedragon': {'min':110, 'max':170, 'req':60, 'weight':7, 'id': 270},
+                'Cavecrawler': {'min':10, 'max':20, 'req':10, 'weight':11, 'id': 406},
+                'Cavehorror': {'min':110, 'max':170, 'req':58, 'weight':5, 'id': 1047},
+                'Cavekraken': {'min':110, 'max':170, 'req':87, 'weight':10, 'id': 492},
+                'Caveslime': {'min':30, 'max':50, 'req':10, 'weight':12, 'id': 480},
+                'Cockatrice': {'min':10, 'max':20, 'req':40, 'weight':6, 'id': 419},
+                'Dagannoth': {'min':110, 'max':170, 'req':30, 'weight':6, 'id': 970},
+                'Dustdevil': {'min':110, 'max':170, 'req':65, 'weight':11, 'id': 423},
+                'Elfwarrior': {'min':110, 'max':170, 'req':40, 'weight':9, 'id': 5293},
+                'Feverspider': {'min':110, 'max':170, 'req':40, 'weight':8, 'id': 626},
+                'Firegiant': {'min':110, 'max':170, 'req':40, 'weight':7, 'id': 2075},
+                'Talonedwyvern': {'min':110, 'max':170, 'req':70, 'weight':12, 'id': 7793},
+                'Gargoyle': {'min':10, 'max':20, 'req':7, 'weight':75, 'id': 412},
+                'Greaterdemon': {'min':110, 'max':170, 'req':20, 'weight':11, 'id': 2025},
+                'HarpieBugSwarm': {'min':110, 'max':170, 'req':33, 'weight':9, 'id': 464},
+                'Hellhound': {'min':110, 'max':170, 'req':50, 'weight':6, 'id': 104},
+                'InfernalMage': {'min':110, 'max':170, 'req':55, 'weight':9, 'id': 443},
+                'Irondragon': {'min':110, 'max':170, 'req':60, 'weight':7, 'id': 272},
+                'Jelly': {'min':25, 'max':45, 'req':12, 'weight':40, 'id': 437},
+                'Junglehorror': {'min':110, 'max':170, 'req':53, 'weight':10, 'id': 1042},
+                'Kalphitesoldier': {'min':110, 'max':170, 'req':30, 'weight':10, 'id': 957},
+                'Kurask': {'min':110, 'max':170, 'req':11, 'weight':70, 'id': 410},
+                'Lesserdemon': {'min':110, 'max':170, 'req':20, 'weight':12, 'id': 2005},
+                'LizardmanShaman': {'min':110, 'max':170, 'req':1, 'weight':9, 'id': 6766},
+                'Lizard': {'min':70, 'max':90, 'req':10, 'weight':20, 'id': 458},
+                'Mogre': {'min':110, 'max':170, 'req':1, 'weight':1, 'id': 2592},
+                'Molanisk': {'min':110, 'max':170, 'req':30, 'weight':30, 'id': 1},
+                'Zygomite': {'min':39, 'max':50, 'req':50, 'weight':57, 'id': 537},
+                'Nechryael': {'min':8, 'max':15, 'req':80, 'weight':80, 'id': 8},
+                'Pyrefiend': {'min':110, 'max':170, 'req':10, 'weight':12, 'id': 433},
+                'Rockslug': {'min':110, 'max':170, 'req':5, 'weight':6, 'id': 421},
+                'Shadowwarrior': {'min':110, 'max':170, 'req':1, 'weight':5, 'id': 2853},
+                'SkeletalWyvern': {'min':110, 'max':170, 'req':77, 'weight':8, 'id': 465},
+                'Spiritualwarrior': {'min':10, 'max':20, 'req':63, 'weight':7, 'id': 2210},
+                'Steeldragon': {'min':110, 'max':170, 'req':65, 'weight':12, 'id': 274},
+                'Icetroll': {'min':10, 'max':20, 'req':1, 'weight':9, 'id': 648},
+                'Turoth': {'min':110, 'max':170, 'req':60, 'weight':11, 'id': 426},
+                'TzHaar-ket': {'min':110, 'max':170, 'req':40, 'weight':10, 'id': 2173},
+                'Wallbeast': {'min':90, 'max':150, 'req':25, 'weight':8, 'id': 476},
+                'Wyrm': {'min':10, 'max':20, 'req':60, 'weight':6, 'id': 8610}
             },
             "points": 10
         },
@@ -481,11 +481,6 @@ class Slayer(commands.Cog):
         return [taskId, count]
 
     async def killMonsters(self, ctx, monsterId, amountLeft):
-
-        taskMonster = None
-        for monster in self.all_db_monsters:
-            if monster.id == monsterId:
-                taskMonster = monster
 
         # Returns an [item, rate] list that can be rolled to receive an item.
         def rollForItem(monsterId, numRolls):
@@ -1016,7 +1011,7 @@ class Slayer(commands.Cog):
             task = await self.getCurrentSlayerTask(ctx.author.id)
 
             # User does not have a task currently/has finished their last task
-            if task[1] == 0:
+            if task[1] <= 0:
                 await ctx.send("You do not have a task. Type *.slay task* to get a new task.")
                 return
             else:
@@ -1087,7 +1082,13 @@ class Slayer(commands.Cog):
                     timeDiff = finishTime - math.floor(time.time())
                     minutes = math.floor(timeDiff/60)
                     if minutes > 0:
-                        await ctx.send(f"You are currently slaying. You will be done in about {minutes} minutes.")
+                        taskMonster = None
+                        for monster in self.all_db_monsters:
+                            if monster.id == monsterId:
+                                taskMonster = monster
+                                break
+
+                        await ctx.send(f"You are currently slaying {taskMonster.name}s. You will be done in about {minutes} minutes.")
                         return
                     else:
                         # Number of monsters 
@@ -1229,13 +1230,16 @@ class Slayer(commands.Cog):
 
                 await ctx.send(f"You are now gaining {style.lower().capitalize()} xp.")
                 return
+        else:
+            await ctx.send("You can only train attack, strength, and defence.")
+            return
 
     @switch.error
     async def switchError(self, ctx):
         await ctx.send("Proper syntax is *.switch [style]* \nYou can currently train Attack, Strength, and Defence.")
 
     @commands.command()
-    async def stats(self, ctx):
+    async def mystats(self, ctx):
 
         await Skilling(self.bot).createSkillTable(ctx.author.id)
 
@@ -1247,6 +1251,7 @@ class Slayer(commands.Cog):
         magic = await Skilling(self.bot).getLevel(ctx.author.id, 'magic')
         herblore = await Skilling(self.bot).getLevel(ctx.author.id, 'herblore')
         prayer = await Skilling(self.bot).getLevel(ctx.author.id, 'prayer')
+        slayer = await Skilling(self.bot).getLevel(ctx.author.id, 'slayer')
 
         skills_column_1 = f"""{ItemEmojis.Skills.hitpoints} {hitpoints}
         {ItemEmojis.Skills.attack} {attack}
@@ -1256,6 +1261,7 @@ class Slayer(commands.Cog):
         {ItemEmojis.Skills.magic} {magic}
         {ItemEmojis.Skills.prayer} {prayer}
         {ItemEmojis.Skills.herblore} {herblore}
+        {ItemEmojis.Skills.slayer} {slayer}
         """
 
         embed = discord.Embed(title=f"DuelBot stats for {ctx.author.nick}", color=discord.Color.blurple())
@@ -1263,6 +1269,79 @@ class Slayer(commands.Cog):
         embed.add_field(name="\u200b", value=skills_column_1)
 
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def fc(self, ctx):
+        hitpoints = await Skilling(self.bot).getLevel(ctx.author.id, 'hitpoints')
+        prayer = await Skilling(self.bot).getLevel(ctx.author.id, 'prayer')
+        herblore = await Skilling(self.bot).getLevel(ctx.author.id, 'herblore')
+        ranged = await Skilling(self.bot).getLevel(ctx.author.id, 'ranged')
+
+        async def hasFirecape(ctx):
+            sql = f"""
+            SELECT
+            fire_cape
+            FROM user_skills
+            WHERE user_id = {ctx.author.id}
+            """
+
+            # Defaults to true to stop the user from getting one
+            hasFirecape = True
+
+            try:
+                conn = psycopg2.connect(DATABASE_URL)
+                cur = conn.cursor()
+                cur.execute(sql)
+                hasFirecape = cur.fetchall()
+                for item in hasFirecape:
+                    hasFirecape = item[0]
+                cur.close()
+                conn.commit()
+            except (Exception, psycopg2.DatabaseError) as error:
+                print("Error beginning task", error)
+            finally:
+                if conn is not None:
+                    conn.close()
+
+                return hasFirecape
+                
+
+        fc = await hasFirecape(ctx)
+
+        if fc == True:
+            await ctx.send(f"You already have a Fire cape {ItemEmojis.Misc.fireCape}")
+            return
+
+        if hitpoints >= 70 and prayer >= 43 and herblore >= 72 and ranged >= 70:
+            await ctx.send(f"You step into the fight caves to take on the TzTok-Jad {ItemEmojis.Bosses.fightCaves} You should be done in about 120 minutes.")
+
+            # Wait 2 hours
+            await asyncio.sleep(10)
+
+            sql = f"""
+            UPDATE user_skills
+            SET fire_cape = TRUE
+            WHERE user_id = {ctx.author.id}
+            """
+
+            try:
+                conn = psycopg2.connect(DATABASE_URL)
+                cur = conn.cursor()
+                cur.execute(sql)
+                cur.close()
+                conn.commit()
+            except (Exception, psycopg2.DatabaseError) as error:
+                print("Error beginning task", error)
+            finally:
+                if conn is not None:
+                    conn.close()
+
+            await ctx.send(f"Congratulations {ctx.author.mention}, you have received a Fire cape {ItemEmojis.Misc.fireCape} giving you a permanent **10%** boost to DPS.")
+            return
+
+        else:
+            await ctx.send(f"You need 70 Ranged {ItemEmojis.Skills.ranged}, 70 Hitpoints {ItemEmojis.Skills.hitpoints}, 72 Herblore {ItemEmojis.Skills.herblore}, and 43 Prayer {ItemEmojis.Skills.prayer} to attempt the Fight Caves.")
+            return
 
 def setup(bot):
     bot.add_cog(Slayer(bot))
