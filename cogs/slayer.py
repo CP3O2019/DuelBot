@@ -482,6 +482,12 @@ class Slayer(commands.Cog):
 
     async def killMonsters(self, ctx, monsterId, amountLeft):
 
+        taskMonster = None
+        for monster in self.all_db_monsters:
+            if monster.id == monsterId:
+                taskMonster = monster
+                break
+
         # Returns an [item, rate] list that can be rolled to receive an item.
         def rollForItem(monsterId, numRolls):
             
