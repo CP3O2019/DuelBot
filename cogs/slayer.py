@@ -1159,7 +1159,7 @@ class Slayer(commands.Cog):
             task = await self.getCurrentSlayerTask(ctx.author.id)
 
             # If the player has nothing left in their current task, give em' a new one
-            if task[1] == 0:
+            if task[1] <= 0:
                 newTask = await self.getNewTask(ctx.author.id)
                 name = None
 
