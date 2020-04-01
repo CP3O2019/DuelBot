@@ -29,11 +29,14 @@ class Referrals(commands.Cog):
 
     @commands.command()
     async def refer(self, ctx, referralUser):
-        print(referralUser)
 
         sanitizedReferral = referralUser.replace('<','').replace('>', '').replace('@', '').replace('!','')
-        print(sanitizedReferral)
-        print(ctx.author.id)
+
+        person = ctx.guild.get_member(sanitizedReferral)
+
+        if person == None:
+            await ctx.send('Please tag an appropriate user using the @ symbol.')
+            return
 
         if sanitizedReferral == str(ctx.author.id):
             await ctx.send('You cannot give your referral to yourself.')
