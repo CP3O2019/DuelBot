@@ -1104,7 +1104,7 @@ class Slayer(commands.Cog):
             # If there was nothing else provided
             if len(args) == 1:
                 currentMaster = await self.getCurrentSlayerMaster(ctx.author.id)
-                await ctx.send(f"""Your current slayer master is **{currentMaster.capitalize()}**.\nTo switch masters, type *.slay master [name]*\nAvailable slayer masters:\n*Turael - 3+ combat\nMazchna - 20+ combat\nVannaka - 40+ combat\nChaeldar - 70+ combat\nKonar - 75+ combat\nNieve - 85+ combat\nDuradel - 100+ combat*""")
+                await ctx.send(f"""Your current slayer master is **{currentMaster.capitalize()}**.\nTo switch masters, type *.slay master [name]*\nAvailable slayer masters:\n{ItemEmojis.SlayerMasters.turael} *Turael - 3+ combat\n{ItemEmojis.SlayerMasters.mazchna} Mazchna - 20+ combat\n{ItemEmojis.SlayerMasters.vannaka} Vannaka - 40+ combat\n{ItemEmojis.SlayerMasters.chaeldar} Chaeldar - 70+ combat\n{ItemEmojis.SlayerMasters.konar} Konar - 75+ combat\n{ItemEmojis.SlayerMasters.nieve} Nieve - 85+ combat\n{ItemEmojis.SlayerMasters.duradel} Duradel - 100+ combat*""")
                 return
 
             #Translate the argument into key for slayerMasters dictionary
