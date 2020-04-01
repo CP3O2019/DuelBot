@@ -26,14 +26,14 @@ class UserCommands(commands.Cog):
     async def on_ready(self):
         print('Bot is ready')
 
-    @commands.command() 
+    @commands.command()
     async def invite(self, ctx):
         await ctx.send("""
         Click the link below to add the DuelBot to your server! \n
         https://discordapp.com/api/oauth2/authorize?client_id=684592148284571670&permissions=388160&scope=bot
         """)
 
-    @commands.command() 
+    @commands.command()
     async def server(self, ctx):
         await ctx.send("""
         **Click the link below to joib our server and get an extra loot roll every kill!**
@@ -60,14 +60,14 @@ class UserCommands(commands.Cog):
             _1053,
             _1050,
             _1959,
-            _1961) 
-        VALUES 
+            _1961)
+        VALUES
         ({user.id}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         ON CONFLICT (user_id) DO NOTHING
         """,
         f"""
-        INSERT INTO duel_users (user_id, nick, wins, losses, gp) 
-        VALUES 
+        INSERT INTO duel_users (user_id, nick, wins, losses, gp)
+        VALUES
         ({user.id}, '{user.nick}', 0, 0, 0)
         ON CONFLICT (user_id) DO NOTHING
         """
@@ -110,6 +110,7 @@ class UserCommands(commands.Cog):
         "**.gp**: See how much GP you have", inline = False)
         embed.add_field(name="Fighting commands", value="**.dds**: Hits twice, max of **18** each hit, uses 25% special, 25% chance to poison \n"
         "**.whip**: Hits once, max of **27** \n"
+        "**.elder**: Hits once, max of **35** \n"
         "**.ags**: Hits once, max of **46**, uses 50% of special \n"
         "**.sgs**: Hits once, max of **39**, uses 50% of special, heals for 50% of damage \n"
         "**.zgs**: Hits once, max of **36**, uses 50% of special, has a 25% chance to freeze enemy \n"
@@ -130,7 +131,7 @@ class UserCommands(commands.Cog):
         await self.createTablesForUser(message.author)
 
         cmds = f"""
-        SELECT 
+        SELECT
             _1038 red_partyhat,
             _1040 yellow_partyhat,
             _1042 blue_partyhat,
@@ -322,17 +323,17 @@ class UserCommands(commands.Cog):
                             itemQuantity = placeholderQuantity
                     except:
                         itemQuantity = None
-                #If the first argument is an integer, 
+                #If the first argument is an integer,
                 if type(itemQuantity) != int:
                     await message.send('Please enter a valid quantity.')
-                    return None            
+                    return None
             except:
                 await message.send('Please enter a quantity to stake.')
                 return None
 
             if len(args) == 1:  # If the user didn't include an item to purchase, but did include a quantity (is staking GP)
                 itemName = "GP"
-            elif len(args) == 2:  # If the args was two values long, including an integer 
+            elif len(args) == 2:  # If the args was two values long, including an integer
                 itemName = args[1]
             else:  # If the args was more than two words long, concatenate
                 for n in range(1, len(args)):
@@ -369,12 +370,12 @@ class UserCommands(commands.Cog):
                     return [stakeType, arguments[0]]
                 except:
                     return None
-            
+
             # If there are two arguments (could be "[quantity] [text]" or "[text] [text]")
             if len(arguments) == 2 or len(arguments) == 3:
                 try:
                     # Try to convert the arguments into a a [name, quantity] array
-                    # This will fail if the 
+                    # This will fail if the
                     stakeVals = await convertArgsToItemString(arguments)
                     if stakeVals == None:
                         return
@@ -479,7 +480,7 @@ class UserCommands(commands.Cog):
             if user1HasItem == False:
                 return
 
-        # Returns an array that details 
+        # Returns an array that details
         # where the user should have their info pulled to/written to
         # i.e. ['gp', 'duel_users'] or ['_1040', 'duel_rares']
         def returnTableColumn():
@@ -537,7 +538,7 @@ class UserCommands(commands.Cog):
                     await message.send("You cannot stake less than 1 of an item.")
                     return
 
-                globals.duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id, table[0], stakeParams[1], table[1], stakeType[1], RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1))  
+                globals.duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id, table[0], stakeParams[1], table[1], stakeType[1], RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1))
                 channelDuel = globals.duels.get(message.channel.id, None)
                 if stakeType[0] == 'gp':
                     globals.lastMessages[message.channel.id] = await message.send(f"**{message.author.nick}** has started a duel for **{args[0][0]} GP**. Type **.fight {args[0][0]}** to duel them.")
@@ -627,6 +628,7 @@ class UserCommands(commands.Cog):
                        ".sgs",
                        ".claws",
                        ".whip",
+                       ".elder",
                        ".zgs",
                        ".dlong",
                        ".dmace",
@@ -645,6 +647,7 @@ class UserCommands(commands.Cog):
                        ".sgs",
                        ".claws",
                        ".whip",
+                       ".elder",
                        ".zgs",
                        ".dlong",
                        ".dmace",
@@ -664,7 +667,7 @@ class UserCommands(commands.Cog):
                 attackTypeCheck = False
 
             return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and duel.turnCount == globals.duels[message.channel.id].turnCount
-        
+
         try:
             msg = await self.bot.wait_for('message', check=checkParameters, timeout=90)
 
@@ -701,19 +704,19 @@ class UserCommands(commands.Cog):
 
         commands = (
             f"""
-        INSERT INTO duel_users (user_id, wins, losses, gp) 
-        VALUES 
-        ({winner.id}, 1, 0, 0) 
-        ON CONFLICT (user_id) DO UPDATE 
-        SET wins = duel_users.wins + 1 
+        INSERT INTO duel_users (user_id, wins, losses, gp)
+        VALUES
+        ({winner.id}, 1, 0, 0)
+        ON CONFLICT (user_id) DO UPDATE
+        SET wins = duel_users.wins + 1
         """,
 
             f"""
-        INSERT INTO duel_users (user_id, wins, losses, gp) 
-        VALUES 
-        ({loser.id}, 0, 1, 0) 
-        ON CONFLICT (user_id) DO UPDATE 
-        SET losses = duel_users.losses + 1 
+        INSERT INTO duel_users (user_id, wins, losses, gp)
+        VALUES
+        ({loser.id}, 0, 1, 0)
+        ON CONFLICT (user_id) DO UPDATE
+        SET losses = duel_users.losses + 1
         """
         )
 
@@ -827,7 +830,7 @@ class UserCommands(commands.Cog):
         await Economy(self.bot).giveItemToUser(person, 'duel_users', 'gp', quantity)
         await ctx.send(f"You gave {shortQuant} to <@!{person}>")
         return
-    
+
     @commands.command()
     async def pay(self, ctx, *args):
         quantity = args[1]
