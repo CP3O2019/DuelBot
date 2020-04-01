@@ -17,11 +17,7 @@ from random import randint
 from discord.ext import commands
 
 DATABASE_URL = os.environ['DATABASE_URL']
- 
-# Todo
-# Add items
 
-# Add emojis for each slayer master
 
 class Slayer(commands.Cog):
 
@@ -1140,13 +1136,13 @@ class Slayer(commands.Cog):
                     currentMaster = await self.getCurrentSlayerMaster(ctx.author.id)
 
                     await ctx.send(f"""Please choose a valid slayer master.
-                    *Turael - 3+ combat
-                    Mazchna - 20+ combat
-                    Vannaka - 40+ combat
-                    Chaeldar - 70+ combat
-                    Konar - 75+ combat
-                    Nieve - 85+ combat
-                    Duradel - 100+ combat
+                    {ItemEmojis.SlayerMasters.turael} *Turael - 3+ combat
+                    {ItemEmojis.SlayerMasters.mazchna} Mazchna - 20+ combat
+                    {ItemEmojis.SlayerMasters.vannaka} Vannaka - 40+ combat
+                    {ItemEmojis.SlayerMasters.chaeldar} Chaeldar - 70+ combat
+                    {ItemEmojis.SlayerMasters.konar} Konar - 75+ combat
+                    {ItemEmojis.SlayerMasters.nieve} Nieve - 85+ combat
+                    {ItemEmojis.SlayerMasters.duradel} Duradel - 100+ combat
 
                     Your current slayer master is **{currentMaster}**""")
                     return
@@ -1253,6 +1249,7 @@ class Slayer(commands.Cog):
         herblore = await Skilling(self.bot).getLevel(ctx.author.id, 'herblore')
         prayer = await Skilling(self.bot).getLevel(ctx.author.id, 'prayer')
         slayer = await Skilling(self.bot).getLevel(ctx.author.id, 'slayer')
+        combat = await Skilling(self.bot).getCombatLevel(ctx.author.id)
 
         skills_column_1 = f"""{ItemEmojis.Skills.hitpoints} {hitpoints}
         {ItemEmojis.Skills.attack} {attack}
@@ -1263,6 +1260,7 @@ class Slayer(commands.Cog):
         {ItemEmojis.Skills.prayer} {prayer}
         {ItemEmojis.Skills.herblore} {herblore}
         {ItemEmojis.Skills.slayer} {slayer}
+        {ItemEmojis.Misc.combat} {combat}
         """
 
         embed = discord.Embed(title=f"DuelBot stats for {ctx.author.nick}", color=discord.Color.blurple())

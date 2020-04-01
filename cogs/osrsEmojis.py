@@ -294,5 +294,14 @@ class ItemEmojis(commands.Cog):
         barrows = '<:verac:692820202806706230>'
         mimic = '<:mimic:692843508180189244>'
 
+    class SlayerMasters:
+        turael = '<:Turael:694794552363581450>'
+        mazchna = '<:Mazchna:694794552397004860>'
+        vannaka = '<:Vannaka:694794552145608736>'
+        konar = '<:Konar:694794552137220119>'
+        nieve = '<:Nieve:694794552405524500>'
+        duradel = '<:Duradel:694794552011259955>'
+        chaeldar = '<:Chaeldar:694794552476696636>'
+
 def setup(bot):
     bot.add_cog(ItemEmojis(bot))
