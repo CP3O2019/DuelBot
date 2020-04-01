@@ -32,9 +32,7 @@ class Referrals(commands.Cog):
 
         sanitizedReferral = referralUser.replace('<','').replace('>', '').replace('@', '').replace('!','')
 
-        person = ctx.guild.get_member(sanitizedReferral)
-
-        if person == None:
+        if int(referralUser) not in ctx.guild.members:
             await ctx.send('Please tag an appropriate user using the @ symbol.')
             return
 
