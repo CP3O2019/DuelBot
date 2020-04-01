@@ -219,6 +219,7 @@ class ItemEmojis(commands.Cog):
         minigames = '<:Minigames:692775913942679842>'
         boss = '<:Boss_icon:690688303183429662>'
         fireCape = '<:Firecape:694263728803151952>'
+        combat = '<:combat:694616668026175669>'
 
 
     class Skills:

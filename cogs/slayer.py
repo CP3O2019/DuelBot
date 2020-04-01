@@ -1246,7 +1246,7 @@ class Slayer(commands.Cog):
 
         attack = await Skilling(self.bot).getLevel(ctx.author.id, 'attack')
         strength = await Skilling(self.bot).getLevel(ctx.author.id, 'strength')
-        defence = await Skilling(self.bot).getLevel(ctx.author.id, 'attack')
+        defence = await Skilling(self.bot).getLevel(ctx.author.id, 'defence')
         hitpoints = await Skilling(self.bot).getLevel(ctx.author.id, 'hitpoints')
         ranged = await Skilling(self.bot).getLevel(ctx.author.id, 'ranged')
         magic = await Skilling(self.bot).getLevel(ctx.author.id, 'magic')
