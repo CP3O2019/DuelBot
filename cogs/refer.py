@@ -32,7 +32,7 @@ class Referrals(commands.Cog):
 
         sanitizedReferral = referralUser.replace('<','').replace('>', '').replace('@', '').replace('!','')
 
-        person = ctx.guild.member(sanitizedReferral)
+        person = ctx.guild.get_member(sanitizedReferral)
         print(person)
         
         if person not in ctx.guild.members:
