@@ -27,6 +27,7 @@ class AttackCommands(commands.Cog):
     # All non-freezing spells pull from 'useAttack()'
     # Freezing spells pull from 'freezeAttack()'
     # Dragon claws are currently an owner-only command
+    # self.useAttack(message, name(string), %special(int), # damage rolls(int), max hit(int), %heal(int), poison(boolean))
     @commands.command()
     async def tickle(self, message):
         await self.useAttack(message, "tickly fingers", 0, 1, 1, 0, 0)
@@ -74,6 +75,10 @@ class AttackCommands(commands.Cog):
     @commands.command()
     async def sgs(self, message):
         await self.useAttack(message, "Saradomin godsword", 50, 1, 37, 50, False)
+
+    @commands.command()
+    async def elder(self, message):
+        await self.useAttack(message, "Elder Maul", 0, 1, 35, 0, False)
 
     @commands.command()
     # @commands.is_owner()
@@ -331,7 +336,7 @@ class AttackCommands(commands.Cog):
             elif receivingUser.poisoned == False and rand == 0: # If the receivingUser is not poisoned and the freeze roll hit
                 self.makeImage(leftoverHitpoints, True, False)
             elif receivingUser.poisoned == False and rand != 0: # If the receivingUser is not poisoned and the freeze roll did not hit
-                self.makeImage(leftoverHitpoints, False, False)    
+                self.makeImage(leftoverHitpoints, False, False)
         else:
             # If the receivingUser has 0 hitpoints left
             self.makeImage(0, False, False)
@@ -381,7 +386,7 @@ class AttackCommands(commands.Cog):
 
         # Send the attack message and image
         await message.send(content=sending, file=discord.File('./hpbar.png'))
-        
+
         os.remove('./hpbar.png')
         channelDuel.turnCount += 1
         await self.turnChecker(message, channelDuel)
@@ -555,8 +560,9 @@ class AttackCommands(commands.Cog):
         attackTypes = [".dds",
                        ".ags",
                        ".sgs",
-                       ".dlaws",
+                       ".dclaws",
                        ".whip",
+                       ".elder",
                        ".zgs",
                        ".dlong",
                        ".dmace",
@@ -580,6 +586,7 @@ class AttackCommands(commands.Cog):
                            ".sgs",
                            ".dclaws",
                            ".whip",
+                           ".elder",
                            ".zgs",
                            ".dlong",
                            ".dmace",
@@ -610,7 +617,7 @@ class AttackCommands(commands.Cog):
             # If the command used is one of the attack commands AND
             # If the duel has the same turn count as when initially called
             return channelDuel != None and message.author.id == savedTurn.user.id and attackTypeCheck == True and savedTurnCount == globals.duels[message.channel.id].turnCount
-        
+
         try:
             # Wait for the person who's turn it is to send a messsage that matches the parameters in checkParameters(), executes after 90 seconds
             msg = await self.bot.wait_for('message', check=checkParameters, timeout=90)
@@ -654,18 +661,18 @@ class AttackCommands(commands.Cog):
         # gp included in case user has never had row created for them
         commands = (
             f"""
-        INSERT INTO duel_users (user_id, nick, wins, losses, gp) 
+        INSERT INTO duel_users (user_id, nick, wins, losses, gp)
         VALUES
-        ({winner.id}, '{str(loser.nick)}', 1, 0, 0) 
-        ON CONFLICT (user_id) DO UPDATE 
+        ({winner.id}, '{str(loser.nick)}', 1, 0, 0)
+        ON CONFLICT (user_id) DO UPDATE
         SET wins = duel_users.wins + 1, nick = '{str(winner.nick)}'
         """,
 
             f"""
-        INSERT INTO duel_users (user_id, nick, wins, losses, gp) 
-        VALUES 
-        ({loser.id}, '{str(loser.nick)}', 0, 1, 0) 
-        ON CONFLICT (user_id) DO UPDATE 
+        INSERT INTO duel_users (user_id, nick, wins, losses, gp)
+        VALUES
+        ({loser.id}, '{str(loser.nick)}', 0, 1, 0)
+        ON CONFLICT (user_id) DO UPDATE
         SET losses = duel_users.losses + 1 , nick = '{str(loser.nick)}'
         """
         )
@@ -793,11 +800,11 @@ class AttackCommands(commands.Cog):
             green_hween_mask,
             santa_hat,
             pumpkin,
-            easter_egg) 
-            VALUES 
-            ({winner.id}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) 
-            ON CONFLICT (user_id) DO UPDATE 
-            SET {item} = duel_rares.{item} + 1 
+            easter_egg)
+            VALUES
+            ({winner.id}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+            ON CONFLICT (user_id) DO UPDATE
+            SET {item} = duel_rares.{item} + 1
             """
         else:
             print(f"{message.author.nick} did not hit the rares table ({tableRoll}/75)")
@@ -831,7 +838,7 @@ class AttackCommands(commands.Cog):
         # Freeze - bool - is the user frozen
         # Poison - bool - is the user poisoned
     def makeImage(self, hitpoints, freeze, poison):
-       
+
         # Red background
         primary = (252, 3, 3)
 
