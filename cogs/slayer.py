@@ -593,7 +593,7 @@ class Slayer(commands.Cog):
             strength = await Skilling(self.bot).getLevel(userId, 'strength')
             defence = await Skilling(self.bot).getLevel(userId, 'defence')
             hitpoints = await Skilling(self.bot).getLevel(userId, 'hitpoints')
-            # ranged = await Skilling(self.bot).getLevel(userId, 'ranged')
+            ranged = await Skilling(self.bot).getLevel(userId, 'ranged')
             # magic = await Skilling(self.bot).getLevel(userId, 'magic')
             prayer = await Skilling(self.bot).getLevel(userId, 'prayer')
 
@@ -602,66 +602,140 @@ class Slayer(commands.Cog):
                 if monster.id == monsterId:
                     taskMonster = monster
 
-            # Give an equipment bonus depending on the attack level of the player
-            # Uses scimitars for reference
-            equipment_bonus = 0
-            if attack < 5:
-                equipment_bonus = 9
-            elif attack < 10:
-                equipment_bonus = 14
-            elif attack < 20:
-                equipment_bonus = 14
-            elif attack < 30:
-                equipment_bonus = 20
-            elif attack < 40:
-                equipment_bonus = 28
-            elif attack < 60:
-                equipment_bonus = 44
-            elif attack >= 60:
-                equipment_bonus = 66
 
-            effective_strength_level = strength + 8
+            currentStyle = await getAttackStyle(userId)
 
-            max_hit = 0.5 + effective_strength_level * (equipment_bonus + 64) / 640
+            if currentStyle == 'attack' or currentStyle == 'strength' or currentStyle == 'defence':
+                # Give an equipment bonus depending on the attack level of the player
+                # Uses scimitars for reference
+                equipment_bonus = 0
+                if attack < 5:
+                    equipment_bonus = 9
+                elif attack < 10:
+                    equipment_bonus = 14
+                elif attack < 20:
+                    equipment_bonus = 14
+                elif attack < 30:
+                    equipment_bonus = 20
+                elif attack < 40:
+                    equipment_bonus = 28
+                elif attack < 60:
+                    equipment_bonus = 44
+                elif attack >= 60:
+                    equipment_bonus = 66
 
-            # Calculate attack bonus depending on attack level
-            # Uses scimitars for reference
-            attack_bonus = 0
-            if attack < 5:
-                equipment_bonus = 10
-            elif attack < 10:
-                equipment_bonus = 15
-            elif attack < 20:
-                equipment_bonus = 19
-            elif attack < 30:
-                equipment_bonus = 21
-            elif attack < 40:
-                equipment_bonus = 29
-            elif attack < 60:
-                equipment_bonus = 45
-            elif attack >= 60:
-                equipment_bonus = 67
+                effective_strength_level = strength + 8
 
-            effective_attack_level = attack + 8
+                max_hit = 0.5 + effective_strength_level * (equipment_bonus + 64) / 640
 
-            max_attack_roll = effective_attack_level * (attack_bonus + 64)      
+                # Calculate attack bonus depending on attack level
+                # Uses scimitars for reference
+                attack_bonus = 0
+                if attack < 5:
+                    equipment_bonus = 10
+                elif attack < 10:
+                    equipment_bonus = 15
+                elif attack < 20:
+                    equipment_bonus = 19
+                elif attack < 30:
+                    equipment_bonus = 21
+                elif attack < 40:
+                    equipment_bonus = 29
+                elif attack < 60:
+                    equipment_bonus = 45
+                elif attack >= 60:
+                    equipment_bonus = 67
 
-            effective_monster_defence = taskMonster.defence_level + 9
+                effective_attack_level = attack + 8
 
-            effective_monster_equipment_bonus = taskMonster.defence_slash
+                max_attack_roll = effective_attack_level * (attack_bonus + 64)      
 
-            max_defence_roll = effective_monster_defence * (effective_monster_equipment_bonus + 64)
+                effective_monster_defence = taskMonster.defence_level + 9
 
-            hit_chance = 0
+                effective_monster_equipment_bonus = taskMonster.defence_slash
 
-            if max_attack_roll > max_defence_roll:
-                hit_chance = 1 - (max_defence_roll + 2) / (2 * (max_attack_roll + 1))
-            else:
-                hit_chance = max_attack_roll / (2 * max_defence_roll + 1)
+                max_defence_roll = effective_monster_defence * (effective_monster_equipment_bonus + 64)
 
-            dps = hit_chance * (max_hit/2) / 2.4
+                hit_chance = 0
 
-            return dps
+                if max_attack_roll > max_defence_roll:
+                    hit_chance = 1 - (max_defence_roll + 2) / (2 * (max_attack_roll + 1))
+                else:
+                    hit_chance = max_attack_roll / (2 * max_defence_roll + 1)
+
+                dps = hit_chance * (max_hit/2) / 2.4
+
+                return dps
+
+            elif currentStyle == 'ranged':
+
+                rangedStrength = 4 
+                equipment = 0
+                interval = 1.2
+
+                if ranged < 5: # Iron knives
+                    rangedStrength = 4
+                    equipment = 30
+                elif ranged < 10: # Steel knives
+                    rangedStrength = 7
+                    equipment = 35
+                elif ranged < 20: # Black knives
+                    rangedStrength = 8
+                    equipment = 40
+                elif ranged < 30: # Mithril knives
+                    rangedStrength = 10
+                    equipment = 45
+                elif ranged < 40: # Adamant knives
+                    rangedStrength = 14
+                    equipment = 50
+                elif ranged < 50: # Rune knives
+                    rangedStrength = 24
+                    equipment = 70
+                elif ranged < 60: # Magic shortbow, blue d'hide
+                    rangedStrength = 49
+                    equipment = 124
+                    interval = 2.4 
+                elif ranged < 70: # Magic shortbow, red d'hide
+                    rangedStrength = 49
+                    equipment = 129
+                    interval = 2.4
+                elif ranged < 75: # Magic shortbow, black d'hide
+                    rangedStrength = 49
+                    equipment = 134
+                    interval = 2.4
+                elif ranged < 85: # Blowpipe with adamant darts
+                    rangedStrength = 50
+                    equipment = 145
+                    interval = 1.2
+                elif ranged < 91: # Blowpipe with rune darts
+                    rangedStrength = 54
+                    equipment = 149
+                    interval = 1.2
+                elif ranged < 97: # Blowpipe with dragon darts
+                    rangedStrength = 60
+                    equipment = 153
+                    interval = 1.2
+
+
+                max_hit = 1.3 + (ranged/10) + (rangedStrength/80) + ((ranged * rangedStrength)/640)
+
+                average_hit = max_hit/2
+                max_attack_roll = ranged * (equipment + 64)
+                max_defence_roll = (taskMonster.defence_level + 9) * (taskMonster.defence_ranged + 64)
+
+                hit_chance = 0
+
+                if max_attack_roll > max_defence_roll:
+                    hit_chance = 1 - (defence + 2) / (2 * (ranged + 1))
+                else:
+                    hit_chance = ranged / (2 * defence + 1)
+
+                dps = hit_chance * average_hit / interval
+
+                if dps < 0.25:
+                    dps = dps + 0.125
+
+                return dps 
 
         # Calculate the user's damage % modifier 
         async def calculateModifier(userId):
@@ -843,6 +917,7 @@ class Slayer(commands.Cog):
 
         if numberKilled < 3:
             numberKilled = 3
+            maxKills = 3
 
         taskMessage = f"You have **{amountLeft - numberKilled} {taskMonster.name}** left on your task."
 
@@ -872,7 +947,7 @@ class Slayer(commands.Cog):
 
         await ctx.send(f"You begin slaying {taskMonster.name}s. You should return in about {math.ceil(30 * (numberKilled/maxKills))} minutes.")
 
-        await asyncio.sleep(math.floor(1800 * (numberKilled/maxKills)))
+        await asyncio.sleep(math.floor(10 * (numberKilled/maxKills)))
 
         # Remove the monsters from the task monster count
         await removeFromTask(ctx.author.id, numberKilled)
@@ -914,6 +989,8 @@ class Slayer(commands.Cog):
             styleEmoji = ItemEmojis.Skills.strength
         elif attackStyle == 'defence':
             styleEmoji = ItemEmojis.Skills.defence
+        elif attackStyle == 'ranged':
+            styleEmoji = ItemEmojis.Skills.ranged
 
         itemMessage = ""
 
@@ -1003,8 +1080,121 @@ class Slayer(commands.Cog):
 
         await endTrip(ctx)
 
+    async def getSlayerPoints(self, ctx):
+        sql = f"""
+        SELECT
+        slayer_points
+        FROM user_skills
+        WHERE user_id = {ctx.author.id}
+        """
+
+        points = None
+
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+            cur.execute(sql)
+            data = cur.fetchall()
+            for row in data:
+                points = row[0]
+            cur.close()
+            conn.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print("SOME ERROR 34567", error)
+        finally:
+            if conn is not None:
+                conn.close()
+            return points
+
+    async def cancelTask(self, ctx):
+        sql = f"""
+        UPDATE user_skills
+        SET slayer_task = 0, slayer_monster_count = 0, currently_slaying = false, slayer_points = slayer_points - 30
+        WHERE user_id = {ctx.author.id}
+        """
+
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
+            cur.execute(sql)
+            cur.close()
+            conn.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print("SOME ERROR 1923", error)
+            return
+        finally:
+            if conn is not None:
+                conn.close()
+            await ctx.send("You have cancelled your slayer task. Type `.slay task` to get a new one")
+            return
+
     @commands.command()
     async def slay(self, ctx, *args):
+
+        async def calculateModifier(userId):
+            sql = f"""
+            SELECT
+            face_mask,
+            nose_peg,
+            spiny_helm,
+            earmuffs,
+            ice_cooler,
+            bag_of_salt,
+            witchwood_icon,
+            insulated_boots,
+            fungicide,
+            slayer_gloves,
+            leaf_bladed_sword,
+            leaf_bladed_battleaxe,
+            rock_hammer,
+            mirror_shield,
+            fire_cape,
+            abyssal_whip,
+            black_mask,
+            slayer_helmet
+            FROM user_skills
+            WHERE user_id = {userId}
+            """
+
+            boostData = None
+
+            try:
+                conn = psycopg2.connect(DATABASE_URL)
+                cur = conn.cursor()
+                cur.execute(sql)
+                data = cur.fetchall()
+                for row in data:
+                    boostData = row
+                cur.close()
+                conn.commit()
+            except (Exception, psycopg2.DatabaseError) as error:
+                print("Error fetching slayer items", error)
+            finally:
+                if conn is not None:
+                    conn.close()
+
+            multiplier = 1
+            # Low items (spiny helm, ear muffs, etc)
+            for n in range(0, 10):
+                if boostData[n] == True:
+                    multiplier = multiplier * 1.01
+            
+            # Leaf bladed sword, battleaxe, rock hammer, and mirror shield
+            for n in range(10, 14):
+                if boostData[n] == True:
+                    multiplier = multiplier * 1.025
+
+            # Fire cape and abyssal whip
+            for n in range(14, 16):
+                if boostData[n] == True:
+                    multiplier = multiplier * 1.05
+
+            # Black mask and slayer helmet
+            for n in range(16, 18):
+                if boostData[n] == True:
+                    multiplier = multiplier * 1.05
+
+            return [boostData, multiplier]
 
         await Skilling(self.bot).createSkillTable(ctx.author.id)
 
@@ -1199,12 +1389,76 @@ class Slayer(commands.Cog):
 
             await ctx.send(embed=embed)
 
+        elif args[0] == 'points':
+            points = await self.getSlayerPoints(ctx)
+            await ctx.send(f"{ItemEmojis.Skills.slayer} You have {points} slayer points.")
+            return
+
+        elif args[0] == 'cancel':
+            points = await self.getSlayerPoints(ctx)
+
+            if points >= 30:
+                await self.cancelTask(ctx)
+            else:
+                await ctx.send(f"You need **30** slayer points to cancel a task. You currently have {points} slayer points.")
+                return
+
+        elif args[0] == 'items':
+
+            boostInfo = await calculateModifier(ctx.author.id)
+
+            modifier = boostInfo[1] - 1
+
+            modifier = modifier * 100
+
+            boostPercent = "{0:.2f}".format(modifier)
+
+            ownedList = []
+
+            for item in boostInfo[0]:
+                if item == True:
+                    ownedList.append('**')
+                elif item == False:
+                    ownedList.append('')
+
+            one_percent = f"""{ItemEmojis.SlayerEquipment.faceMask} {ownedList[0]}Face mask{ownedList[0]}
+            {ItemEmojis.SlayerEquipment.nosePeg} {ownedList[1]}Nose peg{ownedList[1]}
+            {ItemEmojis.SlayerEquipment.spinyHelmet} {ownedList[2]}Spiny helmet{ownedList[2]}
+            {ItemEmojis.SlayerEquipment.earmuffs} {ownedList[3]}Earmuffs{ownedList[3]}
+            {ItemEmojis.SlayerEquipment.iceCooler} {ownedList[4]}Ice cooler{ownedList[4]}
+            {ItemEmojis.SlayerEquipment.witchwoodIcon} {ownedList[6]}Witchwood icon{ownedList[6]}
+            {ItemEmojis.SlayerEquipment.insulatedBoots} {ownedList[7]}Insulated boots{ownedList[7]}
+            {ItemEmojis.SlayerEquipment.fungicide} {ownedList[8]}Fungicide{ownedList[8]}
+            {ItemEmojis.SlayerEquipment.slayerGloves} {ownedList[9]}Slayer gloves{ownedList[9]}"""
+
+            two_point_five_percent = f"""{ItemEmojis.SlayerEquipment.leafBladedSword} {ownedList[10]}Lead-bladed sword{ownedList[10]}
+            {ItemEmojis.SlayerEquipment.leafBladedBattleaxe} {ownedList[11]}Leaf-bladed battleaxe{ownedList[11]}
+            {ItemEmojis.SlayerEquipment.rockHammer} {ownedList[12]}Rock hammer{ownedList[12]}
+            {ItemEmojis.SlayerEquipment.mirrorShield} {ownedList[13]}Mirror shield{ownedList[13]}"""
+
+            five_percent = f"""{ItemEmojis.Misc.fireCape} {ownedList[14]}Fire cape{ownedList[14]}
+            {ItemEmojis.SlayerItems.abyssalWhip} {ownedList[15]}Abyssal whip{ownedList[15]}"""
+
+            ten_percent = f"""{ItemEmojis.SlayerEquipment.blackMask} {ownedList[16]}Black mask{ownedList[16]}
+            {ItemEmojis.SlayerEquipment.slayerHelmet} {ownedList[17]}Slayer helmet{ownedList[17]}"""
+
+            embed = discord.Embed(title="Slayer items", description=f"Total modifier: +{boostPercent}%", color=discord.Color.dark_red())
+            embed.add_field(name='1% boost', value=one_percent, inline=True)
+            embed.add_field(name='2.5% boost', value=two_point_five_percent, inline=True)
+            embed.add_field(name = '\u200b', value = '\u200b', inline=True)
+            embed.add_field(name='5% boost', value=five_percent, inline=True)
+            embed.add_field(name='10% boost', value=ten_percent, inline=True)
+            embed.add_field(name = '\u200b', value = '\u200b', inline=True)
+
+            await ctx.send(embed=embed)
+            return
+            
     @commands.command()
     async def switch(self, ctx, style):
 
         await Skilling(self.bot).createSkillTable(ctx.author.id)
 
-        styles = ["attack", "strength", "defence"]
+        styles = ["attack", "strength", "defence", "ranged"]
 
         if style in styles:
             sql = f"""
@@ -1228,7 +1482,7 @@ class Slayer(commands.Cog):
                 await ctx.send(f"You are now gaining {style.lower().capitalize()} xp.")
                 return
         else:
-            await ctx.send("You can only train attack, strength, and defence.")
+            await ctx.send("You can only train Attack, Strength, Defence, and Ranged.")
             return
 
     @switch.error
@@ -1270,12 +1524,9 @@ class Slayer(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
+    @commands.cooldown(1, 60*120, commands.BucketType.user)
     async def fc(self, ctx):
-        hitpoints = await Skilling(self.bot).getLevel(ctx.author.id, 'hitpoints')
-        prayer = await Skilling(self.bot).getLevel(ctx.author.id, 'prayer')
-        herblore = await Skilling(self.bot).getLevel(ctx.author.id, 'herblore')
-        ranged = await Skilling(self.bot).getLevel(ctx.author.id, 'ranged')
-
+        
         async def hasFirecape(ctx):
             sql = f"""
             SELECT
@@ -1304,18 +1555,26 @@ class Slayer(commands.Cog):
 
                 return hasFirecape
                 
-
         fc = await hasFirecape(ctx)
 
         if fc == True:
             await ctx.send(f"You already have a Fire cape {ItemEmojis.Misc.fireCape}")
             return
 
-        if hitpoints >= 70 and prayer >= 43 and herblore >= 72 and ranged >= 70:
-            await ctx.send(f"You step into the fight caves to take on the TzTok-Jad {ItemEmojis.Bosses.fightCaves} You should be done in about 120 minutes.")
+        hitpoints = await Skilling(self.bot).getLevel(ctx.author.id, 'hitpoints')
+        prayer = await Skilling(self.bot).getLevel(ctx.author.id, 'prayer')
+        herblore = await Skilling(self.bot).getLevel(ctx.author.id, 'herblore')
+        ranged = await Skilling(self.bot).getLevel(ctx.author.id, 'ranged')
 
-            # Wait 2 hours
-            await asyncio.sleep(10)
+        cavesTime = 120
+
+        await ctx.send(f"You step into the fight caves to take on the TzTok-Jad {ItemEmojis.Bosses.fightCaves} You should be done in about 120 minutes.")
+
+
+        # Wait 2 hours
+        await asyncio.sleep(60 * cavesTime)
+
+        if hitpoints >= 70 and prayer >= 43 and herblore >= 72 and ranged >= 70:
 
             sql = f"""
             UPDATE user_skills
@@ -1335,12 +1594,23 @@ class Slayer(commands.Cog):
                 if conn is not None:
                     conn.close()
 
-            await ctx.send(f"Congratulations {ctx.author.mention}, you have received a Fire cape {ItemEmojis.Misc.fireCape} giving you a permanent **10%** boost to DPS.")
-            return
+            # Only give them one firecape, lol. Don't want to spam them if they used .fc a bunch of times 
+            hasFCmidTrip = await hasFirecape(ctx)
+
+            if hasFCmidTrip == False:
+                await ctx.send(f"Congratulations {ctx.author.mention}, you have received a Fire cape {ItemEmojis.Misc.fireCape} giving you a permanent **10%** boost to DPS.")
+                return
 
         else:
-            await ctx.send(f"You need 70 Ranged {ItemEmojis.Skills.ranged}, 70 Hitpoints {ItemEmojis.Skills.hitpoints}, 72 Herblore {ItemEmojis.Skills.herblore}, and 43 Prayer {ItemEmojis.Skills.prayer} to attempt the Fight Caves.")
+            await ctx.send(f"Oh no! You died to the TzTok-Jad {ItemEmojis.Bosses.fightCaves}. You should get 70 Ranged {ItemEmojis.Skills.ranged}, 70 Hitpoints {ItemEmojis.Skills.hitpoints}, 72 Herblore {ItemEmojis.Skills.herblore}, and 43 Prayer {ItemEmojis.Skills.prayer} if you want to complete the Fight Caves.")
             return
+
+    @fc.error
+    async def fcError(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(f"You are already in the Fight Caves. There are {math.ceil(error.retry_after / 60)} minutes left in your attempt.") 
+            
+
 
 def setup(bot):
     bot.add_cog(Slayer(bot))
