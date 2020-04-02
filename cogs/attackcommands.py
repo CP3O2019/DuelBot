@@ -718,59 +718,59 @@ class AttackCommands(commands.Cog):
         if tableRoll == 0:
             raresRoll = randint(0, 99)
             if raresRoll == 0:  # hit table for cracker
-                item = "christmas_cracker"
+                item = "_962"
                 itemText = "Christmas cracker"
                 itemEmoji = ItemEmojis.Rares.christmasCracker
             elif raresRoll <= 17:  # hit table for a partyhat
                 phatRoll = randint(0, 5)
                 if phatRoll == 0:
-                    item = "red_partyhat"
+                    item = "_1038"
                     itemText = "a Red partyhat"
                     itemEmoji = ItemEmojis.Rares.redPartyhat
                 elif phatRoll == 1:
-                    item = "blue_partyhat"
+                    item = "_1042"
                     itemText = "a Blue partyhat"
                     itemEmoji = ItemEmojis.Rares.bluePartyhat
                 elif phatRoll == 2:
-                    item = "yellow_partyhat"
+                    item = "_1040"
                     itemText = "a Yellow partyhat"
                     itemEmoji = ItemEmojis.Rares.yellowPartyhat
                 elif phatRoll == 3:
-                    item = "green_partyhat"
+                    item = "_1044"
                     itemText = "a Green partyhat"
                     itemEmoji = ItemEmojis.Rares.greenPartyhat
                 elif phatRoll == 4:
-                    item = "purple_partyhat"
+                    item = "_1046"
                     itemText = "a Purple partyhat"
                     itemEmoji = ItemEmojis.Rares.purplePartyhat
                 elif phatRoll == 5:
-                    item = "white_partyhat"
+                    item = "_1048"
                     itemText = "a White partyhat"
                     itemEmoji = ItemEmojis.Rares.whitePartyhat
             elif raresRoll <= 38:  # hit table for a mask
                 maskRoll = randint(0, 2)
                 if maskRoll == 0:
-                    item = "red_hween_mask"
+                    item = "_1057"
                     itemText = "a Red h'ween mask"
                     itemEmoji = ItemEmojis.Rares.redHween
                 elif maskRoll == 1:
-                    item = "blue_hween_mask"
+                    item = "_1055"
                     itemText = "a Blue h'ween mask"
                     itemEmoji = ItemEmojis.Rares.blueHween
                 elif maskRoll == 2:
-                    item = "green_hween_mask"
+                    item = "_1053"
                     itemText = "a Green h'ween mask"
                     itemEmoji = ItemEmojis.Rares.greenHween
             elif raresRoll <= 49:  # hit table for a santa hat
-                item = "santa_hat"
+                item = "_1050"
                 itemText = "a Santa hat"
                 itemEmoji = ItemEmojis.Rares.santaHat
             elif raresRoll <= 74:  # hit table for a pumpkin
-                item = "pumpkin"
+                item = "_1959"
                 itemText = "a Pumpkin"
                 itemEmoji = ItemEmojis.Rares.pumpkin
             elif raresRoll <= 99:  # hit table for an easter egg
-                item = "easter_egg"
+                item = "_1961"
                 itemText = "an Easter egg"
                 itemEmoji = ItemEmojis.Rares.easterEgg
 
