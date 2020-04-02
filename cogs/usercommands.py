@@ -36,8 +36,8 @@ class UserCommands(commands.Cog):
     @commands.command()
     async def server(self, ctx):
         await ctx.send("""
-        **Click the link below to joib our server and get an extra loot roll every kill!**
-        https://discord.gg/qQPFt3
+        **Click the link below to join our server and get an extra loot roll every kill!**
+        https://discord.gg/cA7Cejz
         """)
 
     async def createTablesForUser(self, user):
