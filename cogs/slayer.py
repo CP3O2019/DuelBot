@@ -17,7 +17,7 @@ from random import randint
 from discord.ext import commands
 
 DATABASE_URL = os.environ['DATABASE_URL']
- 
+
 # Todo
 # Add items
 
@@ -347,8 +347,39 @@ class Slayer(commands.Cog):
                 "Wyrms": {"min": 100, "max": 160, "req": 62, "weight": 8, "id": 8610 }
             },
             "points": 15
+        },
+        "krystilia": {
+            "req": 1,
+            "tasks": { # https://www.osrsbox.com/tools/npc-search/
+                "Ankou": {"min": 50, "max": 80, "req": 1, "weight": 6, "id": 2514 },
+                "Aviansies": {"min": 120, "max": 200, "req": 1, "weight": 7, "id": 3169 },
+                "Bandits": {"min": 75, "max": 125, "req": 1, "weight": 4, "id": 526 },
+                "Bear": {"min": 50, "max": 100, "req": 1, "weight": 6, "id": 2838 },
+                "Black Demons": {"min": 100, "max": 150, "req": 1, "weight": 7, "id": 240 },
+                "Black Dragons": {"min": 5, "max": 20, "req": 1, "weight": 4, "id": 252 },
+                "Chaos Druid": {"min": 50, "max": 85, "req": 1, "weight": 5, "id": 2878 },
+                "Dark Warrior": {"min": 70, "max": 145, "req": 1, "weight": 4, "id": 6606 },
+                "Earth Warrior": {"min": 75, "max": 130, "req": 1, "weight": 6, "id": 2840 },
+                "Ent": {"min": 35, "max": 60, "req": 1, "weight": 5, "id": 7234 },
+                "Fire Giants": {"min": 100, "max": 150, "req": 1, "weight": 7, "id": 2075 },
+                "Greater Demons": {"min": 100, "max": 150, "req": 1, "weight": 8, "id": 2025 },
+                "Green Dragons": {"min": 60, "max": 100, "req": 1, "weight": 4, "id": 260 },
+                "Hellhounds": {"min": 70, "max": 123, "req": 1, "weight": 7, "id": 104 },
+                "Ice Giant": {"min": 100, "max": 160, "req": 1, "weight": 6, "id": 2085 },
+                "Ice Warrior": {"min": 100, "max": 150, "req": 1, "weight": 7, "id": 2841 },
+                "Lava Dragon": {"min": 35, "max": 60, "req": 1, "weight": 3, "id": 6593 },
+                "Lesser Demon": {"min": 80, "max": 120, "req": 1, "weight": 6, "id": 2005 },
+                "Magic Axe": {"min": 70, "max": 125, "req": 1, "weight": 7, "id": 2844 },
+                "Mammoth": {"min": 75, "max": 125, "req": 1, "weight": 6, "id": 2850 },
+                "Revenant": {"min": 40, "max": 100, "req": 1, "weight": 5, "id": 7881 },
+                "Rogue": {"min": 75, "max": 125, "req": 1, "weight": 5, "id": 2884 },
+                "Scorpion": {"min": 60, "max": 100, "req": 1, "weight": 6, "id": 2479 },
+                "Skeleton": {"min": 60, "max": 100, "req": 1, "weight": 5, "id": 70 },
+                "Spider": {"min": 60, "max": 100, "req": 1, "weight": 6, "id": 2478 },
+                "Spirital Creatures": {"min": 100, "max": 150, "req": 1, "weight": 6, "id": 2212 }
+            },
+            "points": 25
         }
-
     }
 
     all_db_monsters = monsters_api.load()
@@ -417,7 +448,7 @@ class Slayer(commands.Cog):
             return
         else:
             sql = F"""
-            UPDATE user_skills 
+            UPDATE user_skills
             SET slayer_master = '{master.lower()}'
             WHERE user_id = {ctx.author.id}
             """
@@ -451,7 +482,7 @@ class Slayer(commands.Cog):
         ticker = 0
         while taskId == None and ticker < 1000:
             ticker = ticker + 1
-            
+
             rolledTask = random.choice(list(self.slayerMasters[currentMaster]["tasks"]))
 
             if currentLevel >= self.slayerMasters[currentMaster]["tasks"][rolledTask]["req"]:
@@ -490,7 +521,7 @@ class Slayer(commands.Cog):
 
         # Returns an [item, rate] list that can be rolled to receive an item.
         def rollForItem(monsterId, numRolls):
-            
+
             roll = None
             if monsterId == 423 or monsterId == 498: # Dust devils and smoke devils
                 roll = ['face_mask', 1/256, '1%']
@@ -524,7 +555,7 @@ class Slayer(commands.Cog):
                     rand = randint(0, 5)
                     if rand > 1:
                         roll = ['leaf_bladed_sword', 2/442, '2.5%']
-                    else: 
+                    else:
                         roll = ['leaf_bladed_battleaxe', 3/1026, '2.5%']
             elif monsterId == 412: # Gargoyles
                 roll = ['rock_hammer', 1/256, '2.5%']
@@ -648,7 +679,7 @@ class Slayer(commands.Cog):
 
             effective_attack_level = attack + 8
 
-            max_attack_roll = effective_attack_level * (attack_bonus + 64)      
+            max_attack_roll = effective_attack_level * (attack_bonus + 64)
 
             effective_monster_defence = taskMonster.defence_level + 9
 
@@ -667,7 +698,7 @@ class Slayer(commands.Cog):
 
             return dps
 
-        # Calculate the user's damage % modifier 
+        # Calculate the user's damage % modifier
         async def calculateModifier(userId):
             sql = f"""
             SELECT
@@ -715,7 +746,7 @@ class Slayer(commands.Cog):
             for n in range(0, 10):
                 if boostData[n] == True:
                     multiplier = multiplier * 1.01
-            
+
             # Leaf bladed sword, battleaxe, rock hammer, and mirror shield
             for n in range(10, 14):
                 if boostData[n] == True:
@@ -773,7 +804,7 @@ class Slayer(commands.Cog):
                     modifier = 1.8
                 elif herblore_level < 99: # Divine super combat
                     modifier = 1.9
-                elif herblore_level == 99: # User has 99 
+                elif herblore_level == 99: # User has 99
                     modifier = 2.0
 
                 return modifier
@@ -880,7 +911,7 @@ class Slayer(commands.Cog):
 
         # Remove the monsters from the task monster count
         await removeFromTask(ctx.author.id, numberKilled)
-            
+
         timeModifier = math.floor(amountLeft/maxKills * 1800)
 
         # Calculate experience for the player
@@ -982,10 +1013,10 @@ class Slayer(commands.Cog):
 
 
         message = f"{ItemEmojis.Skills.slayer} {ctx.author.mention} you have killed **{numberKilled} {taskMonster.name}**.{taskMessage}\nYou have gained:\n{commaCombatXP} {attackStyle.capitalize()} XP {styleEmoji} {combatLevelUp}\n{commaHitpointsXP} Hitpoints XP {ItemEmojis.Skills.hitpoints} {hitpointsLevelUp}\n{commaSlayerXP} Slayer XP {ItemEmojis.Skills.slayer} {slayerLevelUp}\n\n{itemMessage}"
-        
+
         # Send a message with task info
         await ctx.send(message)
-        
+
         async def endTrip(ctx):
             sql = f"""
             UPDATE user_skills
@@ -1021,7 +1052,7 @@ class Slayer(commands.Cog):
                 await ctx.send("You do not have a task. Type *.slay task* to get a new task.")
                 return
             else:
-                
+
                 async def checkIfActive(ctx):
                     sql = f"""
                     SELECT
@@ -1092,13 +1123,13 @@ class Slayer(commands.Cog):
                         await ctx.send(f"You are currently slaying. You will be done in about {minutes} minutes.")
                         return
                     else:
-                        # Number of monsters 
+                        # Number of monsters
                         numLeft = task[1]
 
                         await self.killMonsters(ctx, task[0], task[1])
 
                 elif status == False:
-                    # Number of monsters 
+                    # Number of monsters
                     numLeft = task[1]
 
                     await self.killMonsters(ctx, task[0], task[1])
@@ -1129,7 +1160,7 @@ class Slayer(commands.Cog):
                 else:
                     # User has the combat requirement
                     choice = choice.capitalize()
-                    await self.setSlayerMaster(ctx, choice)                    
+                    await self.setSlayerMaster(ctx, choice)
                     return
 
             # If the user did not enter a valid slayer master
@@ -1305,7 +1336,7 @@ class Slayer(commands.Cog):
                     conn.close()
 
                 return hasFirecape
-                
+
 
         fc = await hasFirecape(ctx)
 
