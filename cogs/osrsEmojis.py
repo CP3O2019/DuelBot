@@ -108,6 +108,24 @@ class ItemEmojis(commands.Cog):
         graniteMaul = '<:granitemaul:688087564581863453>'
         darkBow = '<:darkbow:688096972665913366>'
 
+    class SlayerEquipment:
+        faceMask = '<:Facemask:694816516989779998>'
+        nosePeg = '<:Nosepeg:694816516541251595>'
+        witchwoodIcon = '<:Witchwoodicon:694816516792909834>'
+        leafBladedSword = '<:Leafbladedsword:694816516729864272>'
+        leafBladedBattleaxe = '<:Leafbladedbattleaxe:694816516897636352> '
+        slayerHelmet = '<:Slayerhelmet:694816516721475605>'
+        spinyHelmet = '<:Spinyhelmet:694816516746510336>'
+        mirrorShield = '<:Mirrorshield:694816516788715540>'
+        rockHammer = '<:Rockhammer:694816516406902827>'
+        slayerGloves = '<:Slayergloves:694816516490657823>'
+        earmuffs = '<:Earmuffs:694816516381605920>'
+        blackMask = '<:Blackmask:694816516620681227>'
+        insulatedBoots = '<:Insulatedboots:694816516734058616>'
+        fungicide = '<:Fungicidespray:694816516763287552>'
+        iceCooler = '<:Icecooler:694816516759355392>'
+        bagOfSalt = '<:Bagofsalt:694816516855693353>'
+
     class Jewelry:
         amuletOfGlory = '<:amuletofglory:688088003469770768>'
         ringOfSuffering = '<:ringofsuffering:687878177296744489>'
@@ -144,7 +162,6 @@ class ItemEmojis(commands.Cog):
         chivalry = '<:Chivalry:693810076825288735>'
         piety = '<:Piety:693810076779151461>'
 
-
     class RawMaterials:
         uncutOnyx = '<:uncutonyx:688088003469639728>'
 
@@ -167,7 +184,6 @@ class ItemEmojis(commands.Cog):
         armadylChestplate = '<:armadylchestplate:687878177179303966>'
         armadylChainskirt = '<:armadylchainskirt:687878177355333655>'
         armadylGodsword = '<:armadylgodsword:687878177510522895>'
-
 
     class Bandos:
         bandosBoots = '<:bandosboots:687878177338556425>'
@@ -211,7 +227,6 @@ class ItemEmojis(commands.Cog):
     class Coins:
         coins = '<:coins:688107815365378051>'
 
-
     class Misc:
         skull = '<:pkskull:689309885359194150>'
         ticket = '<:Castlewarsticket:691371392037552178>'
@@ -219,7 +234,7 @@ class ItemEmojis(commands.Cog):
         minigames = '<:Minigames:692775913942679842>'
         boss = '<:Boss_icon:690688303183429662>'
         fireCape = '<:Firecape:694263728803151952>'
-
+        combat = '<:combat:694616668026175669>'
 
     class Skills:
         total = '<:totallevel:692667090540298270>'
@@ -292,6 +307,15 @@ class ItemEmojis(commands.Cog):
         abyssalSire = '<:sire:692820203238719578>'
         barrows = '<:verac:692820202806706230>'
         mimic = '<:mimic:692843508180189244>'
+
+    class SlayerMasters:
+        turael = '<:Turael:694794552363581450>'
+        mazchna = '<:Mazchna:694794552397004860>'
+        vannaka = '<:Vannaka:694794552145608736>'
+        konar = '<:Konar:694794552137220119>'
+        nieve = '<:Nieve:694794552405524500>'
+        duradel = '<:Duradel:694794552011259955>'
+        chaeldar = '<:Chaeldar:694794552476696636>'
 
 def setup(bot):
     bot.add_cog(ItemEmojis(bot))
