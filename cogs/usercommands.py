@@ -946,17 +946,25 @@ class UserCommands(commands.Cog):
 
             topPlayerCount = 0
 
-            for person in levelHighscores:
+            topScorers = []
 
-                topPlayerCount = topPlayerCount + 1
+            for person in levelHighscores:
 
                 # Row contains user id, stat, nick in that order
                 level = Skilling(self.bot).xpToLevel(person[1])
 
-                highscoresMessage = highscoresMessage + f"{topPlayerCount} - **{person[2]}:** {level}\n"
+                topScorers.append([person[2], level])
+
+
+            def returnTotal(elem):
+                return elem[1]
+
+            topScorers.sort(key=returnTotal, reverse=True)
+
+            for n in range(0, 10):
+                if n < len(topScorers):
+                    highscoresMessage = highscoresMessage + f"{n+1} - **{topScorers[n][0]}:** {topScorers[n][1]}\n"
                 
-                if topPlayerCount == 10:
-                    break
 
             embed = discord.Embed(title=f"{args[0].lower().capitalize()} Highscores", description=highscoresMessage, color=discord.Color.gold())
             embed.set_thumbnail(url=iconDict[args[0].lower()])
