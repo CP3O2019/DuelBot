@@ -794,12 +794,10 @@ class UserCommands(commands.Cog):
 
                 rows = cur.fetchall()
 
-                counter = 0
                 for row in rows:
                     leaderboard.append(row)
-                    counter += 1
-                    if counter == 10:
-                        return leaderboard
+
+                return leaderboard
 
                 cur.close()
                 conn.commit()
@@ -828,12 +826,10 @@ class UserCommands(commands.Cog):
 
                 rows = cur.fetchall()
 
-                counter = 0
                 for row in rows:
                     leaderboard.append(row)
-                    counter += 1
-                    if counter == 10:
-                        return leaderboard
+
+                return leaderboard
 
                 cur.close()
                 conn.commit()
