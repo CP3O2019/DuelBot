@@ -163,6 +163,10 @@ class Skilling(commands.Cog):
                     level = experienceTable[mid][0]
                     break
                     # return level
+
+                elif experienceTable[mid+1][1] == experience:
+                    level = experienceTable[mid+1][0]
+                    break
         
                 # If x is greater, ignore left half 
                 elif experienceTable[mid][1] < experience and experienceTable[mid+1][1] < experience: 
