@@ -10,6 +10,7 @@ from cogs.osrsEmojis import ItemEmojis
 from cogs.loots import PotentialItems
 import globals
 from globals import Duel, DuelUser
+from cogs.skilling import Skilling
 from cogs.mathHelpers import RSMathHelpers
 from cogs.economy import Economy
 from discord.ext import commands
