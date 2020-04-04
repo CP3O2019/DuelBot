@@ -854,6 +854,8 @@ class UserCommands(commands.Cog):
 
             for person in totalLevelHighscores:
 
+                print(person)
+
                 # Row contains user id, attack, strength, defence, ranged, magic, hitpoints, prayer, herblore, slayer, nick in that order
                 totalLevel = 0
 
