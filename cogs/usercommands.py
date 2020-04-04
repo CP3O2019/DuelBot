@@ -860,7 +860,7 @@ class UserCommands(commands.Cog):
                 for n in range(1, 10):
                     totalLevel = totalLevel + Skilling(self.bot).xpToLevel(person[n])
 
-                    print(totalLevel)
+                    print(person[0], totalLevel, n)
 
                 topScorers.append([person[10], totalLevel])
 
