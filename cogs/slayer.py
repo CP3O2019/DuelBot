@@ -1489,23 +1489,23 @@ class Slayer(commands.Cog):
 
             status = await checkIfActive(ctx)
 
-                if status == None:
-                    await ctx.send("Something went wrong, please try again.")
-                    return
-                elif status == True:
-                    finishTime = await checkTripTime(ctx)
-                    timeDiff = finishTime - math.floor(time.time())
-                    minutes = math.floor(timeDiff/60)
-                    if minutes > 0:
+            if status == None:
+                await ctx.send("Something went wrong, please try again.")
+                return
+            elif status == True:
+                finishTime = await checkTripTime(ctx)
+                timeDiff = finishTime - math.floor(time.time())
+                minutes = math.floor(timeDiff/60)
+                if minutes > 0:
 
-                        await ctx.send(f"You cannot cancel a task while you are currently slaying. You will be done in about {minutes} minutes.")
-                        return
+                    await ctx.send(f"You cannot cancel a task while you are currently slaying. You will be done in about {minutes} minutes.")
+                    return
+                else:
+                    if points >= 30:
+                        await self.cancelTask(ctx)
                     else:
-                        if points >= 30:
-                            await self.cancelTask(ctx)
-                        else:
-                            await ctx.send(f"You need **30** slayer points to cancel a task. You currently have {points} slayer points.")
-                            return
+                        await ctx.send(f"You need **30** slayer points to cancel a task. You currently have {points} slayer points.")
+                        return
 
         elif args[0] == 'items':
 
