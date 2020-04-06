@@ -1267,22 +1267,22 @@ class Slayer(commands.Cog):
             # Low items (spiny helm, ear muffs, etc)
             for n in range(0, 10):
                 if boostData[n] == True:
-                    multiplier = multiplier * 1.01
+                    multiplier = multiplier + 0.01
 
             # Leaf bladed sword, battleaxe, rock hammer, and mirror shield
             for n in range(10, 14):
                 if boostData[n] == True:
-                    multiplier = multiplier * 1.025
+                    multiplier = multiplier + 0.025
 
             # Fire cape and abyssal whip
             for n in range(14, 16):
                 if boostData[n] == True:
-                    multiplier = multiplier * 1.05
+                    multiplier = multiplier + 0.05
 
             # Black mask and slayer helmet
             for n in range(16, 18):
                 if boostData[n] == True:
-                    multiplier = multiplier * 1.05
+                    multiplier = multiplier + 0.10
 
             return [boostData, multiplier]
 
@@ -1466,7 +1466,7 @@ class Slayer(commands.Cog):
             **.slay** - kill monsters in current task
             **.slay master** - view current slayer master
             **.slay master (new master)** - switch to a new slayer master. Requires appropriate combat level.
-            **.switch** (attack/strength/defence) - switch to training a different skill
+            **.switch** (attack/strength/defence/ranged) - switch to training a different skill
             **.stats** - view current stats
             **.buyherb** (GP amount) - buy {ItemEmojis.Skills.herblore} Herblore XP for 350 gp/xp
             **.buyherb info** - shows bonuses from Herblore

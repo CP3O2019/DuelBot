@@ -286,6 +286,13 @@ class AttackCommands(commands.Cog):
             await message.send("It's not your turn.")
             return
 
+                # if the user does not have enough special attack
+        if special == 0:
+            pass
+        elif sendingUser.special < special:
+            await message.send(f"Using the {weapon} requires {special}% special attack energy.")
+            return
+
         # Records last attack to prevent using spamming
         # Notable exceptions include the DDS and Abyssal whip
         # TODO: Might be a good idea to just convert this into a bool parameter
