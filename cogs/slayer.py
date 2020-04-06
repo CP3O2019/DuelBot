@@ -1286,6 +1286,32 @@ class Slayer(commands.Cog):
 
             return [boostData, multiplier]
 
+        async def checkIfActive(ctx):
+            sql = f"""
+            SELECT
+            currently_slaying
+            FROM user_skills
+            WHERE user_id = {ctx.author.id}
+            """
+
+            status = None
+            try:
+                conn = psycopg2.connect(DATABASE_URL)
+                cur = conn.cursor()
+                cur.execute(sql)
+                data = cur.fetchall()
+                for item in data:
+                    status = item[0]
+                cur.close()
+                conn.commit()
+            except (Exception, psycopg2.DatabaseError) as error:
+                print("SOME ERROR 9001", error)
+            finally:
+                if conn is not None:
+                    conn.close()
+                return status
+
+
         await Skilling(self.bot).createSkillTable(ctx.author.id)
 
         if len(args) == 0:
@@ -1297,31 +1323,6 @@ class Slayer(commands.Cog):
                 await ctx.send("You do not have a task. Type *.slay task* to get a new task.")
                 return
             else:
-
-                async def checkIfActive(ctx):
-                    sql = f"""
-                    SELECT
-                    currently_slaying
-                    FROM user_skills
-                    WHERE user_id = {ctx.author.id}
-                    """
-
-                    status = None
-                    try:
-                        conn = psycopg2.connect(DATABASE_URL)
-                        cur = conn.cursor()
-                        cur.execute(sql)
-                        data = cur.fetchall()
-                        for item in data:
-                            status = item[0]
-                        cur.close()
-                        conn.commit()
-                    except (Exception, psycopg2.DatabaseError) as error:
-                        print("SOME ERROR 9001", error)
-                    finally:
-                        if conn is not None:
-                            conn.close()
-                        return status
 
                 async def checkTripTime(ctx):
 
