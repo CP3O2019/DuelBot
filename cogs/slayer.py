@@ -1311,6 +1311,36 @@ class Slayer(commands.Cog):
                     conn.close()
                 return status
 
+        async def checkTripTime(ctx):
+
+            sql = f"""
+            SELECT
+            finishtime
+            FROM user_skills
+            WHERE user_id = {ctx.author.id}
+            """
+
+            conn = None
+            activityInfo = None
+
+            try:
+                conn = psycopg2.connect(DATABASE_URL)
+                cur = conn.cursor()
+                cur.execute(sql)
+                rows = cur.fetchall()
+                for row in rows:
+                    activityInfo = row
+                cur.close()
+                conn.commit()
+            except (Exception, psycopg2.DatabaseError) as error:
+                print("SOME ERROR 90", error)
+            finally:
+                if conn is not None:
+                    conn.close()
+            if row[0] == None:
+                return time.time()
+            else:
+                return row[0]
 
         await Skilling(self.bot).createSkillTable(ctx.author.id)
 
@@ -1323,37 +1353,6 @@ class Slayer(commands.Cog):
                 await ctx.send("You do not have a task. Type *.slay task* to get a new task.")
                 return
             else:
-
-                async def checkTripTime(ctx):
-
-                    sql = f"""
-                    SELECT
-                    finishtime
-                    FROM user_skills
-                    WHERE user_id = {ctx.author.id}
-                    """
-
-                    conn = None
-                    activityInfo = None
-
-                    try:
-                        conn = psycopg2.connect(DATABASE_URL)
-                        cur = conn.cursor()
-                        cur.execute(sql)
-                        rows = cur.fetchall()
-                        for row in rows:
-                            activityInfo = row
-                        cur.close()
-                        conn.commit()
-                    except (Exception, psycopg2.DatabaseError) as error:
-                        print("SOME ERROR 90", error)
-                    finally:
-                        if conn is not None:
-                            conn.close()
-                    if row[0] == None:
-                        return time.time()
-                    else:
-                        return row[0]
 
                 status = await checkIfActive(ctx)
 
