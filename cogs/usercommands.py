@@ -69,7 +69,7 @@ class UserCommands(commands.Cog):
         f"""
         INSERT INTO duel_users (user_id, nick, wins, losses, gp)
         VALUES
-        ({user.id}, '{user.nick}', 0, 0, 0)
+        ({user.id}, '{user.id}', 0, 0, 0)
         ON CONFLICT (user_id) DO NOTHING
         """
         )
@@ -103,26 +103,26 @@ class UserCommands(commands.Cog):
     @commands.command(name='commands')
     async def cmds(self, message):
         embed = discord.Embed(title="Duel bot commands", color = discord.Color.orange())
-        embed.add_field(name="Server commands", value="**.server**: Links to our server. Members get +1 loot roll for pking and fighting!\n"
-        "**.invite**: Gives an invite link to add the DuelBot to your server.", inline=False)
-        embed.add_field(name="General commands", value="**.fight**: Begins a duel \n"
-        "**.kd**: View your kill/death ratio \n"
-        "**.rares**: See all of the rares you've won \n"
-        "**.gp**: See how much GP you have", inline = False)
-        embed.add_field(name="Fighting commands", value="**.dds**: Hits twice, max of **18** each hit, uses 25% special, 25% chance to poison \n"
-        "**.whip**: Hits once, max of **27** \n"
-        "**.elder**: Hits once, max of **35** \n"
-        "**.ags**: Hits once, max of **46**, uses 50% of special \n"
-        "**.sgs**: Hits once, max of **39**, uses 50% of special, heals for 50% of damage \n"
-        "**.zgs**: Hits once, max of **36**, uses 50% of special, has a 25% chance to freeze enemy \n"
-        "**.dclaws**: Hits four times, max of **21** on any hit, each consecutive hit does 50% damage \n"
-        "**.dwh**: Hits once, max of **39**, uses 50% special \n"
-        "**.ss**: Hits twice, max of **27** each hit, uses 100% special \n"
-        "**.gmaul**: Hits three times, max of **24** each hit, uses 100% special \n"
-        "**.bp**: Hits once, max of **27**, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
-        "**.ice**: Hits once, max of **30**, has a 12.5% chance to freeze enemy\n"
-        "**.blood**: Hits once, max of **28**, heals for 25% of damage \n"
-        "**.smoke**: Hits once, max of **27**, 25% chance to poison"
+        embed.add_field(name="Server commands", value="**=server**: Links to our server. Members get +1 loot roll for pking and fighting!\n"
+        "**=invite**: Gives an invite link to add the DuelBot to your server.", inline=False)
+        embed.add_field(name="General commands", value="**=fight**: Begins a duel \n"
+        "**=kd**: View your kill/death ratio \n"
+        "**=rares**: See all of the rares you've won \n"
+        "**=gp**: See how much GP you have", inline = False)
+        embed.add_field(name="Fighting commands", value="**=dds**: Hits twice, max of **18** each hit, uses 25% special, 25% chance to poison \n"
+        "**=whip**: Hits once, max of **27** \n"
+        "**=elder**: Hits once, max of **35** \n"
+        "**=ags**: Hits once, max of **46**, uses 50% of special \n"
+        "**=sgs**: Hits once, max of **39**, uses 50% of special, heals for 50% of damage \n"
+        "**=zgs**: Hits once, max of **36**, uses 50% of special, has a 25% chance to freeze enemy \n"
+        "**=dclaws**: Hits four times, max of **21** on any hit, each consecutive hit does 50% damage \n"
+        "**=dwh**: Hits once, max of **39**, uses 50% special \n"
+        "**=ss**: Hits twice, max of **27** each hit, uses 100% special \n"
+        "**=gmaul**: Hits three times, max of **24** each hit, uses 100% special \n"
+        "**=bp**: Hits once, max of **27**, uses 50% special, heals for 50% of damage, 25% chance to poison \n"
+        "**=ice**: Hits once, max of **30**, has a 12.5% chance to freeze enemy\n"
+        "**=blood**: Hits once, max of **28**, heals for 25% of damage \n"
+        "**=smoke**: Hits once, max of **27**, 25% chance to poison"
         , inline=False)
         await message.send(embed=embed)
 
@@ -160,7 +160,7 @@ class UserCommands(commands.Cog):
             rows = cur.fetchall()
 
             for row in rows:
-                embed = discord.Embed(title=f"{message.author.nick}'s rares", color = discord.Color.blurple())
+                embed = discord.Embed(title=f"{message.author.id}'s rares", color = discord.Color.blurple())
                 embed.add_field(name=f"**Red partyhat** {ItemEmojis.Rares.redPartyhat}", value=row[0])
                 embed.add_field(name=f"**Yellow partyhat** {ItemEmojis.Rares.yellowPartyhat}", value=row[1])
                 embed.add_field(name=f"**Blue partyhat** {ItemEmojis.Rares.bluePartyhat}", value=row[2])
@@ -211,7 +211,7 @@ class UserCommands(commands.Cog):
 
             for row in rows:
 
-                embed = discord.Embed(title=f"K/D for {message.author.nick}", color = discord.Color.green())
+                embed = discord.Embed(title=f"K/D for {message.author.id}", color = discord.Color.green())
                 embed.add_field(name="**Wins**", value=row[1])
                 embed.add_field(name="**Losses**", value=row[2])
                 embed.add_field(name="**KDA**", value=round((row[1]/row[2]), 2))
@@ -304,7 +304,7 @@ class UserCommands(commands.Cog):
         # If over 100M is diced, send it to the global notifications channel
         if diceAmount >= 500000000:
                 notifChannel = self.bot.get_channel(689313376286802026)
-                await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.nick} has just diced **{helper.shortNumify(diceAmount, 1)}** and **{winStatus}**.")
+                await notifChannel.send(f"{ItemEmojis.Coins.coins} {message.author.id} has just diced **{helper.shortNumify(diceAmount, 1)}** and **{winStatus}**.")
 
     async def createDuel(self, message, *args):
 
@@ -431,7 +431,7 @@ class UserCommands(commands.Cog):
                         return True
                     else:
                         if stakeParams[0] != channelDuel.itemLongName.replace(' ', '').lower():
-                            await message.send(f'Please type **.fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
+                            await message.send(f'Please type **=fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
                         elif stakeParams[0] == channelDuel.itemLongName.replace(' ', '').lower():
                             await message.send(f"You don't have {channelDuel.shortQuantity} {channelDuel.itemLongName} to stake.")
                 return False
@@ -461,14 +461,14 @@ class UserCommands(commands.Cog):
                     if message.author.id == user.id:
                         await message.send(f"You don't have {_shortItemName} to stake.")
                     else:
-                        await message.send(f"{user.nick} does not {_shortItemName} to stake.")
+                        await message.send(f"{user.id} does not {_shortItemName} to stake.")
                 else:
                     shortQuantity = RSMathHelpers(self.bot).shortNumify(_itemQuantity, 1)
 
                     if message.author.id == user.id:
                         await message.send(f"You don't have {shortQuantity} {_fullItemName} to stake.")
                     else:
-                        await message.send(f"{user.nick} does not have {shortQuantity} {_fullItemName} to stake")
+                        await message.send(f"{user.id} does not have {shortQuantity} {_fullItemName} to stake")
                 return False
             elif _userQuantity >= _itemQuantity:
                 return True
@@ -508,10 +508,10 @@ class UserCommands(commands.Cog):
         if channelDuel != None:
             if len(args[0]) > 0:
                 if str(args[0][0]).lower() != str(channelDuel.shortQuantity).lower() and channelDuel.stakeItem == 'gp':
-                    await message.send(f'Please type **.fight {channelDuel.shortQuantity}** to enter this duel.')
+                    await message.send(f'Please type **=fight {channelDuel.shortQuantity}** to enter this duel.')
                     return
                 elif str(args[0][0]).lower() != str(channelDuel.shortQuantity).lower() and channelDuel.stakeItem != 'gp' and stakeParams[0] != channelDuel.itemLongName.replace(' ', '').lower():
-                    await message.send(f'Please type **.fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
+                    await message.send(f'Please type **=fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
                     return
                 else:
                     pass
@@ -528,7 +528,7 @@ class UserCommands(commands.Cog):
                 # If the duel is not for any particular amount of money
                 globals.duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id, None, None, None, None, None)
                 channelDuel = globals.duels.get(message.channel.id, None)
-                globals.lastMessages[message.channel.id] = await message.send(f"{message.author.nick} has started a duel. Type **.fight** to duel them.")
+                globals.lastMessages[message.channel.id] = await message.send(f"{message.author.id} has started a duel. Type **=fight** to duel them.")
                 await self.startCancelCountdown(message, channelDuel.uuid)
                 return
             elif args != None:
@@ -542,9 +542,9 @@ class UserCommands(commands.Cog):
                 globals.duels[message.channel.id] = globals.Duel(globals.DuelUser(message.author), uuid.uuid4(), message.channel.id, table[0], stakeParams[1], table[1], stakeType[1], RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1))
                 channelDuel = globals.duels.get(message.channel.id, None)
                 if stakeType[0] == 'gp':
-                    globals.lastMessages[message.channel.id] = await message.send(f"**{message.author.nick}** has started a duel for **{args[0][0]} GP**. Type **.fight {args[0][0]}** to duel them.")
+                    globals.lastMessages[message.channel.id] = await message.send(f"**{message.author.id}** has started a duel for **{args[0][0]} GP**. Type **=fight {args[0][0]}** to duel them.")
                 else:
-                    globals.lastMessages[message.channel.id] = await message.send(f"**{message.author.nick}** has started a duel for **{args[0][0]} {stakeType[1]}**. Type **.fight {RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1)} {stakeType[1]}** to duel them.")
+                    globals.lastMessages[message.channel.id] = await message.send(f"**{message.author.id}** has started a duel for **{args[0][0]} {stakeType[1]}**. Type **=fight {RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1)} {stakeType[1]}** to duel them.")
 
                 await self.startCancelCountdown(message, channelDuel.uuid)
                 return
@@ -577,12 +577,12 @@ class UserCommands(commands.Cog):
             tableValues = returnTableColumn()
 
             if len(args[0]) == 0:
-                await message.send(f'Please type **.fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
+                await message.send(f'Please type **=fight {channelDuel.shortQuantity} {channelDuel.itemLongName}** to enter this duel.')
                 return
             if stakeType[1].replace(' ', '').lower() == channelDuel.itemLongName.replace(' ', '').lower():
                 player1HasQuantityStill = await checkUsersItemQuantity(channelDuel.user_1.user)
                 if player1HasQuantityStill == False:
-                    await message.send(f"Cancelling the duel because {channelDuel.user_1.user.nick} no longer has {RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1)} {stakeType[1]}.")
+                    await message.send(f"Cancelling the duel because {channelDuel.user_1.user.id} no longer has {RSMathHelpers(self.bot).shortNumify(stakeParams[1], 1)} {stakeType[1]}.")
                     del globals.duels[message.channel.id]
                     return
             elif stakeType[1].replace(' ', '').lower() != channelDuel.itemLongName.replace(' ', '').lower():
@@ -612,7 +612,7 @@ class UserCommands(commands.Cog):
         except:
             pass
 
-        await message.send(f"Beginning duel between {channelDuel.user_1.user.nick} and {channelDuel.user_2.user.nick} \n**{startingUser.user.nick}** goes first.")
+        await message.send(f"Beginning duel between {channelDuel.user_1.user.id} and {channelDuel.user_2.user.id} \n**{startingUser.user.id}** goes first.")
 
         if channelDuel.user_1 != None and channelDuel.user_2 != None:
             await self.beginFightTurnChecker(message, channelDuel)
@@ -624,41 +624,41 @@ class UserCommands(commands.Cog):
         # switches who's turn it is
         savedTurn = channelDuel.turn
 
-        attackTypes = [".dds",
-                       ".ags",
-                       ".sgs",
-                       ".claws",
-                       ".whip",
-                       ".elder",
-                       ".zgs",
-                       ".dlong",
-                       ".dmace",
-                       ".dwh",
-                       ".ss",
-                       ".gmaul",
-                       ".ice",
-                       ".blood",
-                       ".smoke",
-                       ".bp"]
+        attackTypes = ["=dds",
+                       "=ags",
+                       "=sgs",
+                       "=dclaws",
+                       "=whip",
+                       "=elder",
+                       "=zgs",
+                       "=dlong",
+                       "=dmace",
+                       "=dwh",
+                       "=ss",
+                       "=gmaul",
+                       "=ice",
+                       "=blood",
+                       "=smoke",
+                       "=bp"]
 
         def checkParameters(message):
             channelDuel = globals.duels.get(message.channel.id, None)
-            attackTypes = [".dds",
-                       ".ags",
-                       ".sgs",
-                       ".claws",
-                       ".whip",
-                       ".elder",
-                       ".zgs",
-                       ".dlong",
-                       ".dmace",
-                       ".dwh",
-                       ".ss",
-                       ".gmaul",
-                       ".ice",
-                       ".blood",
-                       ".smoke",
-                       ".bp"]
+            attackTypes = ["=dds",
+                       "=ags",
+                       "=sgs",
+                       "=dclaws",
+                       "=whip",
+                       "=elder",
+                       "=zgs",
+                       "=dlong",
+                       "=dmace",
+                       "=dwh",
+                       "=ss",
+                       "=gmaul",
+                       "=ice",
+                       "=blood",
+                       "=smoke",
+                       "=bp"]
 
             attackTypeCheck = None
 
@@ -689,7 +689,7 @@ class UserCommands(commands.Cog):
             elif channelDuel.uuid == duel.uuid and channelDuel.turnCount == duel.turnCount:
                 turnUser = channelDuel.user_2
                 notTurn = channelDuel.user_1
-            await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
+            await message.channel.send(f'{turnUser.user.id} took too long to take their turn. {notTurn.user.id} wins the duel.')
             await self.updateDB(notTurn.user, turnUser.user)
             globals.duels[message.channel.id] = None
 
@@ -779,7 +779,7 @@ class UserCommands(commands.Cog):
         # Retrieve the total level highscores
         async def getTotalLevelHighscores():
             sql = f"""
-            SELECT US.user_id, US.attack_xp, US.strength_xp, US.defence_xp, US.ranged_xp, US.magic_xp, US.hitpoints_xp, US.prayer_xp, US.herblore_xp, US.slayer_xp, DU.nick
+            SELECT US.user_id, US.attack_xp, US.strength_xp, US.defence_xp, US.ranged_xp, US.magic_xp, US.hitpoints_xp, US.prayer_xp, US.herblore_xp, US.slayer_xp, DU.id
             FROM (user_skills US
             LEFT JOIN duel_users DU ON US.user_id = DU.user_id)
             """
@@ -811,7 +811,7 @@ class UserCommands(commands.Cog):
 
         async def getLevelHighscores(stat):
             sql = f"""
-            SELECT US.user_id, US.{stat}_xp, DU.nick
+            SELECT US.user_id, US.{stat}_xp, DU.id
             FROM (user_skills US
             LEFT JOIN duel_users DU ON US.user_id = DU.user_id)
             """
@@ -1022,9 +1022,9 @@ class UserCommands(commands.Cog):
 
 
         else:
-            embed = discord.Embed(title="DuelBot highscores", description = "Could not find those hiscores. To view a specific hiscore, use .hs [type]", color=discord.Color.gold())
+            embed = discord.Embed(title="DuelBot highscores", description = "Could not find those hiscores. To view a specific hiscore, use =hs [type]", color=discord.Color.gold())
             embed.set_thumbnail(url='https://oldschool.runescape.wiki/images/8/8c/HiScores_icon.png?99743')
-            embed.add_field(name='Options', value = '**Attack\nStrength\nDefence\nRanged\nMagic\nHitpoints\nPrayer\nHerblore\nSlayer\nTotal\nGP**')
+            embed.add_field(name='Options', value = '**Attack\nStrength\nDefence\nRanged\nMagic\nHitpoints\nPrayer\nHerblore\nSlayer\nTotal\nGP\nWins**')
 
             await msg.edit(embed=embed)
             return

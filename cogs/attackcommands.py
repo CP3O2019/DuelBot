@@ -187,14 +187,14 @@ class AttackCommands(commands.Cog):
 
         sending = ""
 
-        sending += f'{message.author.nick} uses their **Dragon claws** and hits **{hitArray[0]}-{hitArray[1]}-{hitArray[2]}-{hitArray[3]}** on {receivingUser.user.nick}.'
+        sending += f'{message.author.id} uses their **Dragon claws** and hits **{hitArray[0]}-{hitArray[1]}-{hitArray[2]}-{hitArray[3]}** on {receivingUser.user.id}.'
 
         if poisonRoll == 0 and receivingUser.poisoned == True:
-            sending += f' {receivingUser.user.nick} is hit for **6** poison damage.'
+            sending += f' {receivingUser.user.id} is hit for **6** poison damage.'
 
         # winning message
         if leftoverHitpoints <= 0:
-            await message.send(content=f'{sending} \n**{message.author.nick}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
+            await message.send(content=f'{sending} \n**{message.author.id}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
             del globals.duels[message.channel.id]
 
@@ -206,14 +206,14 @@ class AttackCommands(commands.Cog):
                 numberToWin = channelDuel.stakeQuantity * 2
                 table = channelDuel.table
                 if channelDuel.stakeItem == 'gp':
-                    await message.send(f"**{message.author.nick}** has won {channelDuel.shortQuantity} GP.")
+                    await message.send(f"**{message.author.id}** has won {channelDuel.shortQuantity} GP.")
                 else:
-                    await message.send(f"**{message.author.nick}** has won {numberToWin} {channelDuel.itemLongName}.")
+                    await message.send(f"**{message.author.id}** has won {numberToWin} {channelDuel.itemLongName}.")
                 await Economy(self.bot).giveItemToUser(message.author.id, table, itemToWin, numberToWin)
             return
 
         # calculates special energy remaining and adds to message
-        sending += f' {message.author.nick} has {sendingUser.special}% special attack energy left.'
+        sending += f' {message.author.id} has {sendingUser.special}% special attack energy left.'
 
         # send message and add image below
         await message.send(content=sending, file=discord.File('./hpbar.png'))
@@ -353,11 +353,11 @@ class AttackCommands(commands.Cog):
 
         # If the weapon only hit once (no freeze attacks currently hit more than once)
         if len(hitArray) == 1:
-            sending += f'{message.author.nick} uses **{weapon}** and hits a **{hitArray[0]}** on {receivingUser.user.nick}.'
+            sending += f'{message.author.id} uses **{weapon}** and hits a **{hitArray[0]}** on {receivingUser.user.id}.'
 
         # winning message
         if leftoverHitpoints <= 0:
-            await message.send(content=f'{sending} \n**{message.author.nick}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
+            await message.send(content=f'{sending} \n**{message.author.id}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
             del globals.duels[message.channel.id]
 
@@ -369,23 +369,23 @@ class AttackCommands(commands.Cog):
                 numberToWin = channelDuel.stakeQuantity * 2
                 table = channelDuel.table
                 if channelDuel.stakeItem == 'gp':
-                    await message.send(f"**{message.author.nick}** has won {channelDuel.shortQuantity} GP.")
+                    await message.send(f"**{message.author.id}** has won {channelDuel.shortQuantity} GP.")
                 else:
-                    await message.send(f"**{message.author.nick}** has won {numberToWin} {channelDuel.itemLongName}.")
+                    await message.send(f"**{message.author.id}** has won {numberToWin} {channelDuel.itemLongName}.")
                 await Economy(self.bot).giveItemToUser(message.author.id, table, itemToWin, numberToWin)
             return
 
         # Calculates special energy remaining and adds to message
         if special != 0:
-            sending += f' {message.author.nick} has {sendingUser.special}% special attack energy left.'
+            sending += f' {message.author.id} has {sendingUser.special}% special attack energy left.'
 
         # If the user got hit by poison and they're poisoned (both will be true if the user was poisoned this turn) append the message to send
         if poisonRoll == 0 and receivingUser.poisoned == True:
-            sending += f' {receivingUser.user.nick} is hit for **6** poison damage.'
+            sending += f' {receivingUser.user.id} is hit for **6** poison damage.'
 
         # If the user is frozen, send the message and return early to avoid switching who the turnChecker is looking for
         if rand == 0:
-            sending += f' {receivingUser.user.nick} is **frozen** and loses their turn.'
+            sending += f' {receivingUser.user.id} is **frozen** and loses their turn.'
             channelDuel.turnCount += 1
             await message.send(sending)
             await message.send(file=discord.File('./hpbar.png'))
@@ -496,26 +496,26 @@ class AttackCommands(commands.Cog):
 
         # 1 attack roll
         if len(hitArray) == 1:
-            sending += f'{message.author.nick} uses their **{weapon}** and hits **{hitArray[0]}** on {receivingUser.user.nick}.'
+            sending += f'{message.author.id} uses their **{weapon}** and hits **{hitArray[0]}** on {receivingUser.user.id}.'
 
         # 2 attack rolls
         if len(hitArray) == 2:
-            sending += f'{message.author.nick} uses their **{weapon}** and hits **{hitArray[0]}-{hitArray[1]}** on {receivingUser.user.nick}.'
+            sending += f'{message.author.id} uses their **{weapon}** and hits **{hitArray[0]}-{hitArray[1]}** on {receivingUser.user.id}.'
 
         # 3 attack rolls
         if len(hitArray) == 3:
-            sending += f'{message.author.nick} uses their **{weapon}** and hits **{hitArray[0]}-{hitArray[1]}-{hitArray[2]}** on {receivingUser.user.nick}.'
+            sending += f'{message.author.id} uses their **{weapon}** and hits **{hitArray[0]}-{hitArray[1]}-{hitArray[2]}** on {receivingUser.user.id}.'
 
         if poisonRoll == 0 and receivingUser.poisoned == True:
-            sending += f' {receivingUser.user.nick} is hit for **6** poison damage.'
+            sending += f' {receivingUser.user.id} is hit for **6** poison damage.'
 
         # healing message
         if healpercent > 0:
-            sending = f'{message.author.nick} uses their **{weapon}** and hits **{hitArray[0]}**, healing for **{healAmount}**. {sendingUser.user.nick} now has **{sendingUser.hitpoints}** HP.'
+            sending = f'{message.author.id} uses their **{weapon}** and hits **{hitArray[0]}**, healing for **{healAmount}**. {sendingUser.user.id} now has **{sendingUser.hitpoints}** HP.'
 
         # winning message
         if leftoverHitpoints <= 0:
-            await message.send(content=f'{sending} \n**{message.author.nick}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
+            await message.send(content=f'{sending} \n**{message.author.id}** has won the duel with **{sendingUser.hitpoints}** HP left!', file=discord.File('./hpbar.png'))
             await self.updateDB(sendingUser.user, receivingUser.user)
             del globals.duels[message.channel.id]
 
@@ -527,15 +527,15 @@ class AttackCommands(commands.Cog):
                 numberToWin = channelDuel.stakeQuantity * 2
                 table = channelDuel.table
                 if channelDuel.stakeItem == 'gp':
-                    await message.send(f"**{message.author.nick}** has won {channelDuel.shortQuantity} GP.")
+                    await message.send(f"**{message.author.id}** has won {channelDuel.shortQuantity} GP.")
                 else:
-                    await message.send(f"**{message.author.nick}** has won {numberToWin} {channelDuel.itemLongName}.")
+                    await message.send(f"**{message.author.id}** has won {numberToWin} {channelDuel.itemLongName}.")
                 await Economy(self.bot).giveItemToUser(message.author.id, table, itemToWin, numberToWin)
             return
 
         # calculates special energy remaining and adds to message
         if special != 0:
-            sending += f' {message.author.nick} has {sendingUser.special}% special attack energy left.'
+            sending += f' {message.author.id} has {sendingUser.special}% special attack energy left.'
 
         # send message and add image below
         await message.send(content=sending, file=discord.File('./hpbar.png'))
@@ -564,22 +564,22 @@ class AttackCommands(commands.Cog):
             channelDuel.turn = channelDuel.user_1
 
         # Array of attack command strings
-        attackTypes = [".dds",
-                       ".ags",
-                       ".sgs",
-                       ".dclaws",
-                       ".whip",
-                       ".elder",
-                       ".zgs",
-                       ".dlong",
-                       ".dmace",
-                       ".dwh",
-                       ".ss",
-                       ".gmaul",
-                       ".ice",
-                       ".blood",
-                       ".smoke",
-                       ".bp"]
+        attackTypes = ["=dds",
+                       "=ags",
+                       "=sgs",
+                       "=dclaws",
+                       "=whip",
+                       "=elder",
+                       "=zgs",
+                       "=dlong",
+                       "=dmace",
+                       "=dwh",
+                       "=ss",
+                       "=gmaul",
+                       "=ice",
+                       "=blood",
+                       "=smoke",
+                       "=bp"]
 
         # Nested discord 'check' function for checking to see if the duel has been altered
         def checkParameters(message):
@@ -588,22 +588,22 @@ class AttackCommands(commands.Cog):
             channelDuel = globals.duels.get(message.channel.id, None)
 
             # Array of attack command strings
-            attackTypes = [".dds",
-                           ".ags",
-                           ".sgs",
-                           ".dclaws",
-                           ".whip",
-                           ".elder",
-                           ".zgs",
-                           ".dlong",
-                           ".dmace",
-                           ".dwh",
-                           ".ss",
-                           ".gmaul",
-                           ".ice",
-                           ".blood",
-                           ".smoke",
-                           ".bp"]
+            attackTypes = ["=dds",
+                           "=ags",
+                           "=sgs",
+                           "=dclaws",
+                           "=whip",
+                           "=elder",
+                           "=zgs",
+                           "=dlong",
+                           "=dmace",
+                           "=dwh",
+                           "=ss",
+                           "=gmaul",
+                           "=ice",
+                           "=blood",
+                           "=smoke",
+                           "=bp"]
 
             attackTypeCheck = None
 
@@ -653,7 +653,7 @@ class AttackCommands(commands.Cog):
                     notTurn = channelDuel.user_1
 
                 # Send a message to the discord channel stating the winner and loser based on their nicknames in the channel
-                await message.channel.send(f'{turnUser.user.nick} took too long to take their turn. {notTurn.user.nick} wins the duel.')
+                await message.channel.send(f'{turnUser.user.id} took too long to take their turn. {notTurn.user.id} wins the duel.')
 
                 # Log the timeout to the console, useful for debugging
                 print(f'Duel in channel {message.channel.id} timed out.')
@@ -670,17 +670,17 @@ class AttackCommands(commands.Cog):
             f"""
         INSERT INTO duel_users (user_id, nick, wins, losses, gp)
         VALUES
-        ({winner.id}, '{str(loser.nick)}', 1, 0, 0)
+        ({winner.id}, '{str(loser.id)}', 1, 0, 0)
         ON CONFLICT (user_id) DO UPDATE
-        SET wins = duel_users.wins + 1, nick = '{str(winner.nick)}'
+        SET wins = duel_users.wins + 1, nick = '{str(winner.id)}'
         """,
 
             f"""
         INSERT INTO duel_users (user_id, nick, wins, losses, gp)
         VALUES
-        ({loser.id}, '{str(loser.nick)}', 0, 1, 0)
+        ({loser.id}, '{str(loser.id)}', 0, 1, 0)
         ON CONFLICT (user_id) DO UPDATE
-        SET losses = duel_users.losses + 1 , nick = '{str(loser.nick)}'
+        SET losses = duel_users.losses + 1 , nick = '{str(loser.id)}'
         """
         )
 
@@ -791,7 +791,7 @@ class AttackCommands(commands.Cog):
         sql = None
 
         if tableRoll == 0:
-            print(f"{message.author.nick} hit the rares table")
+            print(f"{message.author.id} hit the rares table")
             sql = f"""
             INSERT INTO duel_rares (
             user_id,
@@ -814,7 +814,7 @@ class AttackCommands(commands.Cog):
             SET {item} = duel_rares.{item} + 1
             """
         else:
-            print(f"{message.author.nick} did not hit the rares table ({tableRoll}/75)")
+            print(f"{message.author.id} did not hit the rares table ({tableRoll}/75)")
             return
 
         conn = None
@@ -833,10 +833,10 @@ class AttackCommands(commands.Cog):
                 conn.close()
 
         # Send the message with info about hitting the rares table to the winner
-        await message.send(f"**{message.author.nick} received {itemText} {itemEmoji} for winning!**")
+        await message.send(f"**{message.author.id} received {itemText} {itemEmoji} for winning!**")
 
         notifChannel = self.bot.get_channel(689313376286802026)
-        await notifChannel.send(f"{message.author.nick} has received {itemText} {itemEmoji} for winning a duel!")
+        await notifChannel.send(f"{message.author.id} has received {itemText} {itemEmoji} for winning a duel!")
 
 
     # Creates the hitpoints image

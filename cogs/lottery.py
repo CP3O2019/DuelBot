@@ -219,7 +219,7 @@ class Lottery(commands.Cog):
             sql = f"""
             INSERT INTO lottery (user_id, nick, numTickets) 
             VALUES 
-            ({ctx.author.id}, '{ctx.author.nick}', {numTicks}) 
+            ({ctx.author.id}, '{ctx.author.id}', {numTicks}) 
             ON CONFLICT (user_id) DO UPDATE 
             SET numTickets = lottery.numTickets + {numTicks}
             """
@@ -275,8 +275,8 @@ class Lottery(commands.Cog):
         elif args[0] == 'help':
             message = """
             ```Lottery commands
-            .lottery buy (number) - buys lottery tickets for 5m gp each
-            .lottery or .lottery info - shows information about the current lottery```
+            =lottery buy (number) - buys lottery tickets for 5m gp each
+            =lottery or .lottery info - shows information about the current lottery```
             """
 
             await ctx.send(message)

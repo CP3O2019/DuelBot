@@ -426,7 +426,7 @@ class Highscores(commands.Cog):
     @search.error
     async def stats_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('To look up a player, type *.search [playerName]*')
+            await ctx.send('To look up a player, type *=search [playerName]*')
 
 def setup(bot):
     bot.add_cog(Highscores(bot))

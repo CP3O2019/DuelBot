@@ -367,7 +367,7 @@ class Economy(commands.Cog):
         elif itemName in self.itemList.values():
             # if the item is a regular item
             itemId = get_key(itemName, self.itemList)
-            itemPrice = await self.getItemValue(itemId)
+            itemPrice = await self.getItemValue(itemId
             itemString = getFullItemName(itemId)
             table = "pking_items"
         else:
@@ -376,7 +376,7 @@ class Economy(commands.Cog):
 
         if itemPrice == None:
             await ctx.send("There was an error fetching the item price. Please try again.")
-            return
+            retur
 
         playerQuantity = await self.getNumberOfItem(ctx.author.id, table, f"_{itemId}")
 
@@ -385,7 +385,7 @@ class Economy(commands.Cog):
             return
 
         totalSalePrice = math.floor(itemPrice * itemQuantity * 0.8)
-        commaMoney = "{:,d}".format(totalSalePrice)
+        commaMoney = "{:,d}".format(totalSalePrice
 
         await self.removeItemFromUser(ctx.author.id, table, f"_{itemId}", itemQuantity)
         await self.giveItemToUser(ctx.author.id, "duel_users", "gp", totalSalePrice)

@@ -516,14 +516,14 @@ class Wilderness(commands.Cog):
         commandList = ['wests', 'easts', 'mb', 'edge', 'lavas', 'revs', 'scry']
 
         if len(args) == 0 or args[0].lower() not in commandList:
-            description = """Use .pk (region) to select a region to PK in.
+            description = """Use =pk (region) to select a region to PK in.
             If there are other players in your region, there is a chance to pk them for their items, rares, or GP.
             You receive **extra loot** for pking at revs, lavas, and the mage bank, and for being a part of our server.
-            *example: ".pk revs"*"""
+            *example: "=pk revs"*"""
             embed = discord.Embed(title='PKing commands', description=description, color=discord.Color.greyple())
             embed.set_thumbnail(url='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8')
             embed.add_field(name='Regions', value= '**wests** | **easts** | **mb** | **edge** | **lavas** | **revs**', inline=False)
-            embed.add_field(name ='Utility', value='**scry** - view how many players in each region \n**hs** - view .pk leaderboards (COMING SOON) \n**kd** - view your pk stats (COMING SOON)', inline=False)
+            embed.add_field(name ='Utility', value='**scry** - view how many players in each region \n**kd** - view your pk stats (COMING SOON)', inline=False)
             await ctx.send(embed=embed)
             return
         if args[0].lower() == 'scry':
@@ -645,7 +645,7 @@ class Wilderness(commands.Cog):
 
             # Async timeout check
             try:
-                await self.bot.wait_for('message', check=timeoutCheck, timeout=60)
+                await self.bot.wait_for('message', check=timeoutCheck, timeout=200)
                 await self.pk(ctx, args[0])
             except Exception as e:
                 pass
