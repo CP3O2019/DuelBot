@@ -279,7 +279,7 @@ class Skilling(commands.Cog):
             """
 
             description_3 = f"""Prayer experience costs **200 GP** per 1 experience
-            To buy Prayer experience, use .buybones (GP amount)
+            To buy Prayer experience, use =buybones (GP amount)
 
             Your effective multiplier grows by ~0.5% per level, with a 10% bonus at 99.
             Even if your level is between upgrades, you will get a bonus. *(e.g. 80 prayer for +40%)*
@@ -333,7 +333,7 @@ class Skilling(commands.Cog):
 
     @buybones.error
     async def buyBonesError(self, ctx, error):
-        await ctx.send("Proper syntax is *.buybones [GP amount]*. Prayer experience can be bought for 200 GP each.")
+        await ctx.send("Proper syntax is *=buybones [GP amount]*. Prayer experience can be bought for 200 GP each.")
 
     @commands.command()
     async def buyherb(self, ctx, amount):
@@ -362,7 +362,7 @@ class Skilling(commands.Cog):
             """
 
             description_3 = """Herblore experience costs **350 GP** per 1 experience
-            To buy Herblore experience, use .buyherb (GP amount)
+            To buy Herblore experience, use =buyherb (GP amount)
             """
 
             embed.add_field(name='\u200b', value=description_1, inline=True)
@@ -415,7 +415,7 @@ class Skilling(commands.Cog):
     @buyherb.error
     async def buyBonesError(self, ctx, error):
         print(error)
-        await ctx.send("Proper syntax is *.buyherb [GP amount]*. Herblore experience can be bought for 350 GP each.")
+        await ctx.send("Proper syntax is */buyherb [GP amount]*. Herblore experience can be bought for 350 GP each.")
 
 def setup(bot):
     bot.add_cog(Skilling(bot))
