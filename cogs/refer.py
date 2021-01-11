@@ -88,9 +88,9 @@ class Referrals(commands.Cog):
                 if conn is not None:
                     conn.close()
 
-                await Economy(self.bot).giveItemToUser(toUserId, 'duel_users', 'gp', 25000000)
-                await Economy(self.bot).giveItemToUser(ctx.author.id, 'duel_users', 'gp', 25000000)
-                await ctx.send(f'You have given your one-time referral to <@!{toUserId}> and both of you receive 25m gp')
+                await Economy(self.bot).giveItemToUser(toUserId, 'duel_users', 'gp', 100000000)
+                await Economy(self.bot).giveItemToUser(ctx.author.id, 'duel_users', 'gp', 100000000)
+                await ctx.send(f'You have given your one-time referral to <@!{toUserId}> and both of you receive 100m gp')
                 return
 
         previousReferral = await getReferral()
