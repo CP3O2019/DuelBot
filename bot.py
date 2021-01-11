@@ -14,7 +14,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-bot = discord.ext.commands.Bot(command_prefix = '.')
+bot = discord.ext.commands.Bot(command_prefix = '=')
 duels = {}
 lastMessages = {}
 DATABASE_URL = os.environ['DATABASE_URL']
@@ -120,7 +120,7 @@ class DuelUser:
         self.user = user
 
         if user.nick == None:
-            user.nick = user.display_name
+            user.nick = user.id
 
 class Duel:
     user_1 = None
