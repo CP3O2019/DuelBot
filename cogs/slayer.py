@@ -628,7 +628,7 @@ class Slayer(commands.Cog):
             defence = await Skilling(self.bot).getLevel(userId, 'defence')
             hitpoints = await Skilling(self.bot).getLevel(userId, 'hitpoints')
             ranged = await Skilling(self.bot).getLevel(userId, 'ranged')
-            # magic = await Skilling(self.bot).getLevel(userId, 'magic')
+            magic = await Skilling(self.bot).getLevel(userId, 'magic')
             prayer = await Skilling(self.bot).getLevel(userId, 'prayer')
 
             taskMonster = None
@@ -1029,7 +1029,7 @@ class Slayer(commands.Cog):
             if points != 0:
                 pointMessage = f"and gained **{points}** slayer points"
 
-            taskMessage = f"You have finished your task {pointMessage}. Type *.slay task* to get a new one."
+            taskMessage = f"You have finished your task {pointMessage}. Type *=slay task* to get a new one."
         print("Num", numberKilled/maxKills, 1800 * (numberKilled/maxKills))
         await addTripTime(ctx, math.floor(1800 * (numberKilled/maxKills)))
 
@@ -1215,7 +1215,7 @@ class Slayer(commands.Cog):
         finally:
             if conn is not None:
                 conn.close()
-            await ctx.send("You have cancelled your slayer task. Type `.slay task` to get a new one")
+            await ctx.send("You have cancelled your slayer task. Type `=slay task` to get a new one")
             return
 
     @commands.command()
@@ -1350,7 +1350,7 @@ class Slayer(commands.Cog):
 
             # User does not have a task currently/has finished their last task
             if task[1] <= 0:
-                await ctx.send("You do not have a task. Type *.slay task* to get a new task.")
+                await ctx.send("You do not have a task. Type *=slay task* to get a new task.")
                 return
             else:
 
@@ -1384,7 +1384,7 @@ class Slayer(commands.Cog):
             # If there was nothing else provided
             if len(args) == 1:
                 currentMaster = await self.getCurrentSlayerMaster(ctx.author.id)
-                await ctx.send(f"""Your current slayer master is **{currentMaster.capitalize()}**.\nTo switch masters, type *.slay master [name]*\nAvailable slayer masters:\n{ItemEmojis.SlayerMasters.turael} *Turael - 3+ combat\n{ItemEmojis.SlayerMasters.mazchna} Mazchna - 20+ combat\n{ItemEmojis.SlayerMasters.vannaka} Vannaka - 40+ combat\n{ItemEmojis.SlayerMasters.chaeldar} Chaeldar - 70+ combat\n{ItemEmojis.SlayerMasters.konar} Konar - 75+ combat\n{ItemEmojis.SlayerMasters.nieve} Nieve - 85+ combat\n{ItemEmojis.SlayerMasters.duradel} Duradel - 100+ combat*""")
+                await ctx.send(f"""Your current slayer master is **{currentMaster.capitalize()}**.\nTo switch masters, type *=slay master [name]*\nAvailable slayer masters:\n{ItemEmojis.SlayerMasters.turael} *Turael - 3+ combat\n{ItemEmojis.SlayerMasters.mazchna} Mazchna - 20+ combat\n{ItemEmojis.SlayerMasters.vannaka} Vannaka - 40+ combat\n{ItemEmojis.SlayerMasters.chaeldar} Chaeldar - 70+ combat\n{ItemEmojis.SlayerMasters.konar} Konar - 75+ combat\n{ItemEmojis.SlayerMasters.nieve} Nieve - 85+ combat\n{ItemEmojis.SlayerMasters.duradel} Duradel - 100+ combat*""")
                 return
 
             #Translate the argument into key for slayerMasters dictionary
@@ -1444,7 +1444,7 @@ class Slayer(commands.Cog):
                         name = monster.name
                         break
 
-                await ctx.send(f"You have been assigned to kill **{newTask[1]} {name}**. Type *.slay* to begin your task.")
+                await ctx.send(f"You have been assigned to kill **{newTask[1]} {name}**. Type *=slay* to begin your task.")
 
 
             # If they already have a task
@@ -1462,19 +1462,21 @@ class Slayer(commands.Cog):
             embed = discord.Embed(title=f"Slayer information", color=discord.Color.dark_red())
             embed.set_thumbnail(url='https://oldschool.runescape.wiki/images/2/28/Slayer_icon.png?cd34f')
 
-            description = f"""**.slay task** - pick up a new slayer task
-            **.slay** - kill monsters in current task
-            **.slay master** - view current slayer master
-            **.slay master (new master)** - switch to a new slayer master. Requires appropriate combat level.
-            **.switch** (attack/strength/defence/ranged) - switch to training a different skill
-            **.stats** - view current stats
-            **.buyherb** (GP amount) - buy {ItemEmojis.Skills.herblore} Herblore XP for 350 gp/xp
-            **.buyherb info** - shows bonuses from Herblore
-            **.buybones** (GP amount) - buy {ItemEmojis.Skills.prayer} Prayer XP for 200 gp/xp
-            **.buybones info** - shows bonuses from Prayer
+            description = f"""**=slay task** - pick up a new slayer task
+            **=slay** - kill monsters in current task
+            **=slay cancel** - cancels current task, (cannot cancel once task is accepted via =slay)
+            **=slay points** - displays users current points
+            **=slay master** - view current slayer master
+            **=slay master (new master)** - switch to a new slayer master. Requires appropriate combat level.
+            **=switch (attack/strength/defence/ranged/magic)** - switch to training a different skill
+            **=mystats** - view current stats
+            **=buyherb** (GP amount) - buy {ItemEmojis.Skills.herblore} Herblore XP for 350 gp/xp
+            **=buyherb info** - shows bonuses from Herblore
+            **=buybones** (GP amount) - buy {ItemEmojis.Skills.prayer} Prayer XP for 200 gp/xp
+            **=buybones info** - shows bonuses from Prayer
             """
 
-            embed.add_field(name='\u200b', value="**Slayer is now here! Get tasks, train stats, and upgrade buyable levels**\n-Monsters will randomly drop items that upgrade your kills per hour\n-Training Herblore and Prayer increases kills per hour\n-Increasing your combat stats increases your kills per hour", inline=False)
+            embed.add_field(name='\u200b', value="**Slayer - Get tasks, train stats**\n-Monsters will randomly drop items that upgrade your kills per hour\n-Training Herblore and Prayer increases kills per hour\n-Increasing your combat stats increases your kills per hour", inline=False)
             embed.add_field(name="Commands",value=description, inline=False)
 
             await ctx.send(embed=embed)
@@ -1500,12 +1502,7 @@ class Slayer(commands.Cog):
 
                     await ctx.send(f"You cannot cancel a task while you are currently slaying. You will be done in about {minutes} minutes.")
                     return
-                else:
-                    if points >= 30:
-                        await self.cancelTask(ctx)
-                    else:
-                        await ctx.send(f"You need **30** slayer points to cancel a task. You currently have {points} slayer points.")
-                        return
+
 
         elif args[0] == 'items':
 
@@ -1563,7 +1560,7 @@ class Slayer(commands.Cog):
 
         await Skilling(self.bot).createSkillTable(ctx.author.id)
 
-        styles = ["attack", "strength", "defence", "ranged"]
+        styles = ["attack", "strength", "defence", "ranged", "magic"]
 
         if style in styles:
             sql = f"""
@@ -1587,18 +1584,20 @@ class Slayer(commands.Cog):
                 await ctx.send(f"You are now gaining {style.lower().capitalize()} xp.")
                 return
         else:
-            await ctx.send("You can only train Attack, Strength, Defence, and Ranged.")
+            await ctx.send("You can only train Attack, Strength, Defence, Ranged and magic. ")
             return
 
     @switch.error
     async def switchError(self, ctx):
-        await ctx.send("Proper syntax is *.switch [style]* \nYou can currently train Attack, Strength, and Defence.")
+        await ctx.send("Proper syntax is *=switch [style]* \nYou can currently train Attack, Strength, Defence, Ranged and Magic.")
 
     @commands.command()
     async def mystats(self, ctx):
 
         await Skilling(self.bot).createSkillTable(ctx.author.id)
 
+        
+        combat = await Skilling(self.bot).getCombatLevel(ctx.author.id)
         attack = await Skilling(self.bot).getLevel(ctx.author.id, 'attack')
         strength = await Skilling(self.bot).getLevel(ctx.author.id, 'strength')
         defence = await Skilling(self.bot).getLevel(ctx.author.id, 'defence')
@@ -1608,9 +1607,9 @@ class Slayer(commands.Cog):
         herblore = await Skilling(self.bot).getLevel(ctx.author.id, 'herblore')
         prayer = await Skilling(self.bot).getLevel(ctx.author.id, 'prayer')
         slayer = await Skilling(self.bot).getLevel(ctx.author.id, 'slayer')
-        combat = await Skilling(self.bot).getCombatLevel(ctx.author.id)
 
         skills_column_1 = f"""{ItemEmojis.Skills.hitpoints} {hitpoints}
+        {ItemEmojis.Misc.combat} {combat}
         {ItemEmojis.Skills.attack} {attack}
         {ItemEmojis.Skills.strength} {strength}
         {ItemEmojis.Skills.defence} {defence}
@@ -1619,10 +1618,9 @@ class Slayer(commands.Cog):
         {ItemEmojis.Skills.prayer} {prayer}
         {ItemEmojis.Skills.herblore} {herblore}
         {ItemEmojis.Skills.slayer} {slayer}
-        {ItemEmojis.Misc.combat} {combat}
         """
 
-        embed = discord.Embed(title=f"DuelBot stats for {ctx.author.nick}", color=discord.Color.blurple())
+        embed = discord.Embed(title=f"DuelBot stats for {ctx.author.mention}", color=discord.Color.blurple())
         embed.set_thumbnail(url='https://oldschool.runescape.wiki/images/8/8c/HiScores_icon.png?99743')
         embed.add_field(name="\u200b", value=skills_column_1)
 
@@ -1708,7 +1706,7 @@ class Slayer(commands.Cog):
                 return
 
         else:
-            await ctx.send(f"Oh no! You died to the TzTok-Jad {ItemEmojis.Bosses.fightCaves}. You should get 70 Ranged {ItemEmojis.Skills.ranged}, 70 Hitpoints {ItemEmojis.Skills.hitpoints}, 72 Herblore {ItemEmojis.Skills.herblore}, and 43 Prayer {ItemEmojis.Skills.prayer} if you want to complete the Fight Caves.")
+            await ctx.send(f"{ctx.author.mention} Oh no! You died to the TzTok-Jad {ItemEmojis.Bosses.fightCaves}. You NEED get 70 Ranged {ItemEmojis.Skills.ranged}, 70 Hitpoints {ItemEmojis.Skills.hitpoints}, 72 Herblore {ItemEmojis.Skills.herblore}, and 43 Prayer {ItemEmojis.Skills.prayer} if you want to complete the Fight Caves.")
             return
 
     @fc.error
