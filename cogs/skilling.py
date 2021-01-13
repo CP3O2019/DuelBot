@@ -415,7 +415,8 @@ class Skilling(commands.Cog):
     @buyherb.error
     async def buyBonesError(self, ctx, error):
         print(error)
-        await ctx.send("Proper syntax is */buyherb [GP amount]*. Herblore experience can be bought for 350 GP each.")
+        await ctx.send("Proper syntax is *=buyherb [GP amount]*. Herblore experience can be bought for 350 GP each.")
 
 def setup(bot):
     bot.add_cog(Skilling(bot))
+    
