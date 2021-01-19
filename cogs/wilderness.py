@@ -517,16 +517,13 @@ class Wilderness(commands.Cog):
 
         if len(args) == 0 or args[0].lower() not in commandList:
             description = """Use =pk (region) to select a region to PK in.
-            You want to make sure you go to a region that has players currently for a chance to pk them for items, rares (if they have any), snd gp.
-            
-            If nobody is in any region, pick one and somebody will see and more than likely join to pk.
-            
-            You receive **extra loot** for pking at __revs__, __lavas__, and the __mage bank__, and for being a member of our server (=server).
+            If there are other players in your region, there is a chance to pk them for their items, rares, or GP.
+            You receive **extra loot** for pking at revs, lavas, and the mage bank, and for being a part of our server.
             *example: "=pk revs"*"""
             embed = discord.Embed(title='PKing commands', description=description, color=discord.Color.greyple())
             embed.set_thumbnail(url='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8')
             embed.add_field(name='Regions', value= '**wests** | **easts** | **mb** | **edge** | **lavas** | **revs**', inline=False)
-            embed.add_field(name ='Utility', value='**scry** - view how many players in each region', inline=False)
+            embed.add_field(name ='Utility', value='**scry** - view how many players in each region \n**kd** - view your pk stats (COMING SOON)', inline=False)
             await ctx.send(embed=embed)
             return
         if args[0].lower() == 'scry':
@@ -631,7 +628,7 @@ class Wilderness(commands.Cog):
 
             commaMoney = "{:,d}".format(loot[995][1])
             lootMessage += f"Total pking trip loot value: **{commaMoney} GP** {ItemEmojis.Coins.coins}"
-            embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.id}:**", description=lootMessage,
+            embed = discord.Embed(title=f"**Pking trip loot for {ctx.author.nick}:**", description=lootMessage,
                                   thumbnail='https://oldschool.runescape.wiki/images/a/a1/Skull_%28status%29_icon.png?fa6d8')
 
             # End the user's trip in the database
@@ -656,4 +653,3 @@ class Wilderness(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Wilderness(bot))
-    

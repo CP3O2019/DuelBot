@@ -37,7 +37,7 @@ class UserCommands(commands.Cog):
     @commands.command()
     async def server(self, ctx):
         await ctx.send("""
-        **Click the link below to join our server and get an extra loot roll every kill! (as long as youre a member of our server you will gain the extra loot role on sny server**
+        **Click the link below to join our server and get an extra loot roll every kill!**
         https://discord.gg/TNaj6CG
         """)
 
@@ -1073,4 +1073,3 @@ class UserCommands(commands.Cog):
 
 def setup(bot):
     bot.add_cog(UserCommands(bot))
-    
